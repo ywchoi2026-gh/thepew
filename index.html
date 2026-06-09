@@ -104,7 +104,6 @@ body{
     color:var(--sage);
 }
 
-/* 修正：優化雙欄排版，預設單欄，桌機版雙欄 */
 .book-section{
     display:grid;
     grid-template-columns:1fr;
@@ -238,28 +237,36 @@ body{
     background:#9B2D30;
 }
 
+/* 🛠️ 修正：優化輪播文字容器與定位，防止破圖隱藏 */
 .rotatingText{
     font-size:2rem;
     font-style:italic;
-    margin-top:30px;
+    margin-top:20px;
+    margin-bottom:20px;
     color:white;
-    height:60px;
+    height:50px;
     position:relative;
     overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 .rotatingText span{
     position:absolute;
     width:100%;
+    left:0;
+    top:0;
     opacity:0;
-    transition:1.5s;
+    transform:translateY(20px);
+    transition:transform 0.8s ease, opacity 0.8s ease;
 }
 
 .rotatingText span.active{
     opacity:1;
+    transform:translateY(0);
 }
 
-/* 修正：補齊花瓣（Petal）動畫樣式與定位 */
 .petal{
     position:fixed;
     top:-20px;
@@ -292,7 +299,6 @@ body{
     transform:none;
 }
 
-/* 修正：將靜態寬高改為百分比與等比例，防止卡片破圖 */
 .rainbow{
     width:100%;
     aspect-ratio:2 / 1;
@@ -320,7 +326,6 @@ body{
     }
 }
 
-/* 修正：正確閉合 RWD 媒體查詢大括號 */
 @media(max-width:768px){
     .hero h1{
         font-size:3.5rem;
@@ -330,7 +335,7 @@ body{
     }
     .rotatingText{
         font-size:1.3rem;
-        height:80px;
+        height:40px;
     }
     #musicPlayer{
         bottom:15px;
@@ -349,7 +354,7 @@ body{
 
 <div id="musicPlayer">
     <button id="musicToggle">🎵 Listen While You Read</button>
-    <audio id="pewTheme" loop>
+    <audio id="pewTheme" loop preload="auto">
         <source src="the-pew-theme.mp3" type="audio/mpeg">
     </audio>
 </div>
@@ -460,11 +465,20 @@ const music = document.getElementById("pewTheme");
 const toggle = document.getElementById("musicToggle");
 let playing = false;
 
+// 🛠️ 修正：優化電腦版網頁音訊播放解鎖邏輯
 toggle.addEventListener("click", () => {
     if(!playing){
-        music.play();
-        toggle.innerHTML = "❚❚ Pause Soundtrack";
-        playing = true;
+        music.play().then(() => {
+            toggle.innerHTML = "❚❚ Pause Soundtrack";
+            playing = true;
+        }).catch((error) => {
+            console.log("Audio play blocked by browser:", error);
+            // 如果被瀏覽器攔截，嘗試再次強制播放
+            music.muted = false; 
+            music.play();
+            toggle.innerHTML = "❚❚ Pause Soundtrack";
+            playing = true;
+        });
     } else {
         music.pause();
         toggle.innerHTML = "🎵 Listen While You Read";
@@ -481,13 +495,11 @@ setInterval(() => {
     texts[current].classList.add("active");
 }, 4000);
 
-// 修正：落花（櫻花瓣）特效生成機制配合補齊的 CSS 動畫
 setInterval(() => {
     const petal = document.createElement("div");
     petal.className = "petal";
     petal.innerHTML = "❀";
     petal.style.left = Math.random() * 100 + "vw";
-    // 隨機大小與半透明度增加層次感
     petal.style.fontSize = (12 + Math.random() * 12) + "px";
     petal.style.opacity = 0.5 + Math.random() * 0.5;
     petal.style.animationDuration = (10 + Math.random() * 10) + "s";
