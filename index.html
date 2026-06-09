@@ -237,29 +237,33 @@ body{
     background:#9B2D30;
 }
 
-/* 🛠️ 修正：優化輪播文字容器與定位，防止破圖隱藏 */
+/* 🛠️ 修正：重新打造完美置中的輪播文字容器 */
 .rotatingText{
     font-size:2rem;
     font-style:italic;
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top:25px;
+    margin-bottom:25px;
     color:white;
-    height:50px;
+    height:60px; /* 稍微拉高，給優雅的襯線體留足空間 */
     position:relative;
     overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
 }
 
+/* 🛠️ 修正：讓每個單句獨立填滿容器並垂直置中，徹底解決隱形裁切 bug */
 .rotatingText span{
     position:absolute;
-    width:100%;
-    left:0;
     top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    line-height:1.2; /* 縮減內部行高，防止文字被逼出邊框 */
     opacity:0;
-    transform:translateY(20px);
-    transition:transform 0.8s ease, opacity 0.8s ease;
+    transform:translateY(25px); /* 改為平滑從下方浮現 */
+    transition:transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
 }
 
 .rotatingText span.active{
@@ -333,9 +337,10 @@ body{
     .hero p{
         font-size:1.1rem;
     }
+    /* 🛠️ 修正：手機響應式容器高度同步調整 */
     .rotatingText{
         font-size:1.3rem;
-        height:40px;
+        height:45px;
     }
     #musicPlayer{
         bottom:15px;
@@ -465,7 +470,6 @@ const music = document.getElementById("pewTheme");
 const toggle = document.getElementById("musicToggle");
 let playing = false;
 
-// 🛠️ 修正：優化電腦版網頁音訊播放解鎖邏輯
 toggle.addEventListener("click", () => {
     if(!playing){
         music.play().then(() => {
@@ -473,7 +477,6 @@ toggle.addEventListener("click", () => {
             playing = true;
         }).catch((error) => {
             console.log("Audio play blocked by browser:", error);
-            // 如果被瀏覽器攔截，嘗試再次強制播放
             music.muted = false; 
             music.play();
             toggle.innerHTML = "❚❚ Pause Soundtrack";
