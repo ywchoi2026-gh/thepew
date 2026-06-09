@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Pew | K C CHARIS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --sage:#8A9A7B;
+    --cream:#F5F0E6;
+    --gold:#B79A5B;
+    --dark:#3D3D3D;
+    --poppy:#A52A2A;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Libre Baskerville', serif;
+    background:var(--cream);
+    color:var(--dark);
+    line-height:1.8;
+}
+
+.hero{
+    min-height:100vh;
+    background:
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+    url('hero-garden.jpg');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px;
+}
+
+.hero-content{
+    max-width:900px;
+    color:white;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond', serif;
+    font-size:5rem;
+    letter-spacing:2px;
+    margin-bottom:15px;
+}
+
+.hero h2{
+    font-weight:400;
+    font-size:1.4rem;
+    margin-bottom:35px;
+}
+
+.hero p{
+    font-size:1.3rem;
+    font-style:italic;
+    max-width:700px;
+    margin:auto;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:40px;
+    padding:16px 40px;
+    background:var(--gold);
+    color:white;
+    text-decoration:none;
+    border-radius:40px;
+    font-size:1rem;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:var(--poppy);
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 30px;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:3rem;
+    color:var(--sage);
+}
+
+.book-section{
+    display:grid;
+    grid-template-columns:400px 1fr;
+    gap:60px;
+    align-items:center;
+}
+
+.book-cover{
+    width:100%;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.quote{
+    font-size:1.4rem;
+    color:var(--sage);
+    font-style:italic;
+    margin-bottom:30px;
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    margin-top:50px;
+}
+
+.feature{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.feature h3{
+    color:var(--sage);
+    margin-bottom:10px;
+}
+
+.seasons{
+    background:white;
+}
+
+.season-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.season-card{
+    overflow:hidden;
+    border-radius:10px;
+    background:white;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.season-card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.season-card h3{
+    padding:20px 20px 10px;
+    color:var(--sage);
+}
+
+.season-card p{
+    padding:0 20px 20px;
+}
+
+.cta{
+    background:var(--sage);
+    color:white;
+    text-align:center;
+    padding:100px 30px;
+}
+
+.cta h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:3.5rem;
+    margin-bottom:20px;
+}
+
+.cta p{
+    max-width:800px;
+    margin:auto;
+    margin-bottom:35px;
+}
+
+.footer{
+    text-align:center;
+    padding:50px;
+    background:#eee7d8;
+}
+
+.footer h3{
+    font-family:'Cormorant Garamond', serif;
+    color:var(--sage);
+    margin-bottom:15px;
+}
+
+@media(max-width:900px){
+
+.book-section{
+    grid-template-columns:1fr;
+}
+
+.hero h1{
+    font-size:3.5rem;
+}
+
+.hero p{
+    font-size:1.1rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>THE PEW</h1>
+
+<h2>A Story of Home, Memory and Finding Light</h2>
+
+<p>
+“A church pew should not be able to tell stories.
+Yet this one remembers everything.”
+</p>
+
+<a href="#buy" class="btn">
+Step Into the Story
+</a>
+
+</div>
+</section>
+
+<!-- BOOK INTRO -->
+
+<section class="container">
+
+<div class="book-section">
+
+<img src="book-cover.jpg" alt="The Pew Book Cover" class="book-cover">
+
+<div>
+
+<div class="quote">
+For years, an old church pew has rested quietly beneath a staircase in a country home.
+</div>
+
+<p>
+It has witnessed seasons come and go.
+It has watched children grow.
+It has listened to laughter around the dinner table, comforting words in difficult times, and the countless moments that make a family a family.
+</p>
+
+<br>
+
+<p>
+When a new family moves into the house, the pew becomes an unlikely observer of their lives — and through them, discovers the enduring beauty of courage, kindness, resilience, and love.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="container">
+
+<div class="section-title">
+<h2>Why Readers Love The Pew</h2>
+</div>
+
+<div class="features">
+
+<div class="feature">
+<h3>Family & Belonging</h3>
+<p>A moving portrait of family life and the bonds that sustain us.</p>
+</div>
+
+<div class="feature">
+<h3>English Countryside Charm</h3>
+<p>Gardens, seasons, wildlife and the quiet beauty of rural England.</p>
+</div>
+
+<div class="feature">
+<h3>Hope & Courage</h3>
+<p>An uplifting story about resilience, disability, and unconditional love.</p>
+</div>
+
+<div class="feature">
+<h3>Memories Through Time</h3>
+<p>A gentle reflection on history, remembrance, and the lives we touch.</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- SEASONS -->
+
+<section class="container seasons">
+
+<div class="section-title">
+<h2>A Journey Through the Seasons</h2>
+</div>
+
+<div class="season-grid">
+
+<div class="season-card">
+<img src="august.jpg">
+<h3>August</h3>
+<p>A new family arrives and life begins again.</p>
+</div>
+
+<div class="season-card">
+<img src="october.jpg">
+<h3>October</h3>
+<p>Red poppies awaken memories of sacrifice and remembrance.</p>
+</div>
+
+<div class="season-card">
+<img src="december.jpg">
+<h3>December</h3>
+<p>Winter brings challenges, celebrations and quiet courage.</p>
+</div>
+
+<div class="season-card">
+<img src="february.jpg">
+<h3>February</h3>
+<p>Lessons of bravery emerge from stories and music.</p>
+</div>
+
+<div class="season-card">
+<img src="april.jpg">
+<h3>April</h3>
+<p>Nature reveals wonder, discovery and renewal.</p>
+</div>
+
+<div class="season-card">
+<img src="june.jpg">
+<h3>June</h3>
+<p>Rainbows, farewells and gratitude mark the end of a treasured year.</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section id="buy" class="cta">
+
+<h2>Begin the Journey</h2>
+
+<p>
+A heartwarming novel about home, memory, family, and the extraordinary beauty hidden within ordinary days.
+</p>
+
+<a href="YOUR-AMAZON-LINK-HERE" class="btn">
+Buy on Amazon
+</a>
+
+</section>
+
+<!-- AUTHOR -->
+
+<section class="footer">
+
+<h3>About K C CHARIS</h3>
+
+<p>
+K C CHARIS writes uplifting stories celebrating family, resilience, memory, and the beauty of everyday life. Her work explores the connections that bind generations together and the quiet grace found in ordinary moments.
+</p>
+
+</section>
+
+</body>
+</html>
