@@ -43,6 +43,7 @@ body{
     justify-content:center;
     text-align:center;
     padding:40px;
+    animation:slowZoom 40s infinite alternate;
 }
 
 .hero-content{
@@ -103,11 +104,19 @@ body{
     color:var(--sage);
 }
 
+/* 修正：優化雙欄排版，預設單欄，桌機版雙欄 */
 .book-section{
     display:grid;
-    grid-template-columns:400px 1fr;
-    gap:60px;
+    grid-template-columns:1fr;
+    gap:40px;
     align-items:center;
+}
+
+@media(min-width:768px){
+    .book-section{
+        grid-template-columns:400px 1fr;
+        gap:60px;
+    }
 }
 
 .book-cover{
@@ -157,6 +166,7 @@ body{
     border-radius:10px;
     background:white;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
+    position:relative;
 }
 
 .season-card img{
@@ -205,20 +215,131 @@ body{
     margin-bottom:15px;
 }
 
-@media(max-width:900px){
-
-.book-section{
-    grid-template-columns:1fr;
+#musicPlayer{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    z-index:9999;
 }
 
-.hero h1{
-    font-size:3.5rem;
+#musicToggle{
+    background:#8A9A7B;
+    color:white;
+    border:none;
+    padding:14px 24px;
+    border-radius:40px;
+    cursor:pointer;
+    font-size:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.15);
+    transition:.3s;
 }
 
-.hero p{
-    font-size:1.1rem;
+#musicToggle:hover{
+    background:#9B2D30;
 }
 
+.rotatingText{
+    font-size:2rem;
+    font-style:italic;
+    margin-top:30px;
+    color:white;
+    height:60px;
+    position:relative;
+    overflow:hidden;
+}
+
+.rotatingText span{
+    position:absolute;
+    width:100%;
+    opacity:0;
+    transition:1.5s;
+}
+
+.rotatingText span.active{
+    opacity:1;
+}
+
+/* 修正：補齊花瓣（Petal）動畫樣式與定位 */
+.petal{
+    position:fixed;
+    top:-20px;
+    z-index:5;
+    pointer-events:none;
+    color:#ffb7c5;
+    font-size:20px;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    0% {
+        transform:translateY(0) rotate(0deg);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(115vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+.fade{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1.2s;
+}
+
+.fade.show{
+    opacity:1;
+    transform:none;
+}
+
+/* 修正：將靜態寬高改為百分比與等比例，防止卡片破圖 */
+.rainbow{
+    width:100%;
+    aspect-ratio:2 / 1;
+    background:
+    linear-gradient(
+    90deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet
+    );
+    border-radius:500px 500px 0 0;
+    opacity:.3;
+}
+
+@keyframes slowZoom{
+    from{
+        background-size:100%;
+    }
+    to{
+        background-size:110%;
+    }
+}
+
+/* 修正：正確閉合 RWD 媒體查詢大括號 */
+@media(max-width:768px){
+    .hero h1{
+        font-size:3.5rem;
+    }
+    .hero p{
+        font-size:1.1rem;
+    }
+    .rotatingText{
+        font-size:1.3rem;
+        height:80px;
+    }
+    #musicPlayer{
+        bottom:15px;
+        right:15px;
+    }
+    #musicToggle{
+        padding:10px 18px;
+        font-size:12px;
+    }
 }
 
 </style>
@@ -226,171 +347,169 @@ body{
 
 <body>
 
-<!-- HERO -->
+<div id="musicPlayer">
+    <button id="musicToggle">🎵 Listen While You Read</button>
+    <audio id="pewTheme" loop>
+        <source src="the-pew-theme.mp3" type="audio/mpeg">
+    </audio>
+</div>
 
 <section class="hero">
-
-<div class="hero-content">
-
-<h1>THE PEW</h1>
-
-<h2>A Story of Home, Memory and Finding Light</h2>
-
-<p>
-“A church pew should not be able to tell stories.
-Yet this one remembers everything.”
-</p>
-
-<a href="#buy" class="btn">
-Step Into the Story
-</a>
-
-</div>
+    <div class="hero-content">
+        <h1>THE PEW</h1>
+        <h2>by K C CHARIS</h2>
+        <div class="rotatingText">
+            <span class="active">A Year of Seasons</span>
+            <span>A House Full of Memories</span>
+            <span>A Story That Stays</span>
+        </div>
+        <p>“A church pew should not be able to tell stories. Yet this one remembers everything.”</p>
+        <a href="#buy" class="btn">Step Into The Story</a>
+    </div>
 </section>
 
-<!-- BOOK INTRO -->
-
-<section class="container">
-
-<div class="book-section">
-
-<img src="book-cover.jpg" alt="The Pew Book Cover" class="book-cover">
-
-<div>
-
-<div class="quote">
-For years, an old church pew has rested quietly beneath a staircase in a country home.
-</div>
-
-<p>
-It has witnessed seasons come and go.
-It has watched children grow.
-It has listened to laughter around the dinner table, comforting words in difficult times, and the countless moments that make a family a family.
-</p>
-
-<br>
-
-<p>
-When a new family moves into the house, the pew becomes an unlikely observer of their lives — and through them, discovers the enduring beauty of courage, kindness, resilience, and love.
-</p>
-
-</div>
-
-</div>
-
+<section class="container fade">
+    <div class="book-section">
+        <img src="book-cover.jpg" alt="The Pew Book Cover" class="book-cover">
+        <div>
+            <div class="quote">For years, an old church pew has rested quietly beneath a staircase in a country home.</div>
+            <p>It has witnessed seasons come and go. It has watched children grow. It has listened to laughter around the dinner table, comforting words in difficult times, and the countless moments that make a family a family.</p>
+            <br>
+            <p>When a new family moves into the house, the pew becomes an unlikely observer of their lives — and through them, discovers the enduring beauty of courage, kindness, resilience, and love.</p>
+        </div>
+    </div>
 </section>
 
-<!-- FEATURES -->
-
-<section class="container">
-
-<div class="section-title">
-<h2>Why Readers Love The Pew</h2>
-</div>
-
-<div class="features">
-
-<div class="feature">
-<h3>Family & Belonging</h3>
-<p>A moving portrait of family life and the bonds that sustain us.</p>
-</div>
-
-<div class="feature">
-<h3>English Countryside Charm</h3>
-<p>Gardens, seasons, wildlife and the quiet beauty of rural England.</p>
-</div>
-
-<div class="feature">
-<h3>Hope & Courage</h3>
-<p>An uplifting story about resilience, disability, and unconditional love.</p>
-</div>
-
-<div class="feature">
-<h3>Memories Through Time</h3>
-<p>A gentle reflection on history, remembrance, and the lives we touch.</p>
-</div>
-
-</div>
-
+<section class="container fade">
+    <div class="section-title">
+        <h2>Why Readers Love The Pew</h2>
+    </div>
+    <div class="features">
+        <div class="feature">
+            <h3>Family & Belonging</h3>
+            <p>A moving portrait of family life and the bonds that sustain us.</p>
+        </div>
+        <div class="feature">
+            <h3>English Countryside Charm</h3>
+            <p>Gardens, seasons, wildlife and the quiet beauty of rural England.</p>
+        </div>
+        <div class="feature">
+            <h3>Hope & Courage</h3>
+            <p>An uplifting story about resilience, disability, and unconditional love.</p>
+        </div>
+        <div class="feature">
+            <h3>Memories Through Time</h3>
+            <p>A gentle reflection on history, remembrance, and the lives we touch.</p>
+        </div>
+    </div>
 </section>
 
-<!-- SEASONS -->
-
-<section class="container seasons">
-
-<div class="section-title">
-<h2>A Journey Through the Seasons</h2>
-</div>
-
-<div class="season-grid">
-
-<div class="season-card">
-<img src="august.jpg">
-<h3>August</h3>
-<p>A new family arrives and life begins again.</p>
-</div>
-
-<div class="season-card">
-<img src="october.jpg">
-<h3>October</h3>
-<p>Red poppies awaken memories of sacrifice and remembrance.</p>
-</div>
-
-<div class="season-card">
-<img src="december.jpg">
-<h3>December</h3>
-<p>Winter brings challenges, celebrations and quiet courage.</p>
-</div>
-
-<div class="season-card">
-<img src="february.jpg">
-<h3>February</h3>
-<p>Lessons of bravery emerge from stories and music.</p>
-</div>
-
-<div class="season-card">
-<img src="april.jpg">
-<h3>April</h3>
-<p>Nature reveals wonder, discovery and renewal.</p>
-</div>
-
-<div class="season-card">
-<img src="june.jpg">
-<h3>June</h3>
-<p>Rainbows, farewells and gratitude mark the end of a treasured year.</p>
-</div>
-
-</div>
-
+<section class="container seasons fade">
+    <div class="section-title">
+        <h2>A Journey Through the Seasons</h2>
+    </div>
+    <div class="season-grid">
+        <div class="season-card">
+            <img src="august.jpg" alt="August season scene">
+            <h3>August</h3>
+            <p>A new family arrives and life begins again.</p>
+        </div>
+        <div class="season-card">
+            <img src="october.jpg" alt="October season scene">
+            <h3>October</h3>
+            <p>Red poppies awaken memories of sacrifice and remembrance.</p>
+        </div>
+        <div class="season-card">
+            <img src="december.jpg" alt="December season scene">
+            <h3>December</h3>
+            <p>Winter brings challenges, celebrations and quiet courage.</p>
+        </div>
+        <div class="season-card">
+            <img src="february.jpg" alt="February season scene">
+            <h3>February</h3>
+            <p>Lessons of bravery emerge from stories and music.</p>
+        </div>
+        <div class="season-card">
+            <img src="april.jpg" alt="April season scene">
+            <h3>April</h3>
+            <p>Nature reveals wonder, discovery and renewal.</p>
+        </div>
+        <div class="season-card">
+            <img src="june.jpg" alt="June season scene">
+            <div class="rainbow" style="position: absolute; top: 0; left: 0; pointer-events: none;"></div>
+            <h3>June</h3>
+            <p>Rainbows, farewells and gratitude mark the end of a treasured year.</p>
+        </div>
+    </div>
 </section>
 
-<!-- CTA -->
-
-<section id="buy" class="cta">
-
-<h2>Begin the Journey</h2>
-
-<p>
-A heartwarming novel about home, memory, family, and the extraordinary beauty hidden within ordinary days.
-</p>
-
-<a href="YOUR-AMAZON-LINK-HERE" class="btn">
-Buy on Amazon
-</a>
-
+<section id="buy" class="cta fade">
+    <h2>Begin the Journey</h2>
+    <p>A heartwarming novel about home, memory, family, and the extraordinary beauty hidden within ordinary days.</p>
+    <a href="YOUR-AMAZON-LINK-HERE" class="btn">Buy on Amazon</a>
 </section>
 
-<!-- AUTHOR -->
-
-<section class="footer">
-
-<h3>About K C CHARIS</h3>
-
-<p>
-K C CHARIS writes uplifting stories celebrating family, resilience, memory, and the beauty of everyday life. Her work explores the connections that bind generations together and the quiet grace found in ordinary moments.
-</p>
-
+<section class="footer fade">
+    <h3>About K C CHARIS</h3>
+    <p>K C CHARIS writes uplifting stories celebrating family, resilience, memory, and the beauty of everyday life. Her work explores the connections that bind generations together and the quiet grace found in ordinary moments.</p>
 </section>
+
+<script>
+
+const music = document.getElementById("pewTheme");
+const toggle = document.getElementById("musicToggle");
+let playing = false;
+
+toggle.addEventListener("click", () => {
+    if(!playing){
+        music.play();
+        toggle.innerHTML = "❚❚ Pause Soundtrack";
+        playing = true;
+    } else {
+        music.pause();
+        toggle.innerHTML = "🎵 Listen While You Read";
+        playing = false;
+    }
+});
+
+const texts = document.querySelectorAll(".rotatingText span");
+let current = 0;
+
+setInterval(() => {
+    texts[current].classList.remove("active");
+    current = (current + 1) % texts.length;
+    texts[current].classList.add("active");
+}, 4000);
+
+// 修正：落花（櫻花瓣）特效生成機制配合補齊的 CSS 動畫
+setInterval(() => {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+    petal.innerHTML = "❀";
+    petal.style.left = Math.random() * 100 + "vw";
+    // 隨機大小與半透明度增加層次感
+    petal.style.fontSize = (12 + Math.random() * 12) + "px";
+    petal.style.opacity = 0.5 + Math.random() * 0.5;
+    petal.style.animationDuration = (10 + Math.random() * 10) + "s";
+    
+    document.body.appendChild(petal);
+    
+    setTimeout(() => {
+        petal.remove();
+    }, 20000);
+}, 3000);
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("show");
+        }
+    });
+});
+
+document.querySelectorAll(".fade").forEach(el => observer.observe(el));
+
+</script>
 
 </body>
 </html>
