@@ -569,7 +569,7 @@ body{
     
     <div class="custom-player-container">
         <iframe id="scPlayer" 
-                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen&color=%238a9a7b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&download=false&sharing=false" 
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen/s-vfvcSBQ88a0&color=%238a9a7b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&download=false&sharing=false" 
                 style="display: none;" 
                 allow="autoplay">
         </iframe>
@@ -710,24 +710,6 @@ body{
 <script src="https://w.soundcloud.com/player/api.js"></script>
 
 <script>
-
-scWidget.bind(SC.Widget.Events.READY, () => {
-    console.log("READY");
-});
-
-scWidget.bind(SC.Widget.Events.PLAY, () => {
-    console.log("PLAY");
-});
-
-scWidget.bind(SC.Widget.Events.ERROR, (e) => {
-    console.log("ERROR", e);
-});
-
-customPlayBtn.addEventListener("click", () => {
-    console.log("CLICK");
-    scWidget.play();
-});
-
 
 /* 🚀 檢查是否處於 file:// 本地環境並發出提示 */
 if (window.location.protocol === 'file:') {
