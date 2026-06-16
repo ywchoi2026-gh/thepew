@@ -31,7 +31,6 @@ body{
     line-height:1.8;
 }
 
-/* 🛠️ 修正：將 Hero 改為相對定位與溢出隱藏，為優化後的背景做準備 */
 .hero{
     min-height:100vh;
     position:relative;
@@ -43,7 +42,6 @@ body{
     padding:40px;
 }
 
-/* 🛠️ 修正：利用偽元素承載背景與 slowZoom 動畫，並改用 GPU 硬件加速的 scale() 縮放 */
 .hero::before {
     content: '';
     position:absolute;
@@ -61,7 +59,6 @@ body{
     pointer-events:none;
 }
 
-/* 🛠️ 修正：確保內容文字層級在優化後的背景之上 */
 .hero-content{
     max-width:900px;
     color:white;
@@ -168,8 +165,131 @@ body{
     margin-bottom:10px;
 }
 
+.soundtrack-section {
+    background: white;
+}
+
+/* 鼠尾草綠精緻自訂播放器外觀 */
+.custom-player-container {
+    max-width: 650px;
+    margin: 30px auto;
+    background: #fcfbfa;
+    border: 1px solid rgba(138, 154, 123, 0.2);
+    border-radius: 16px;
+    padding: 20px 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+}
+
+.player-main-btn {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--sage);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(138, 154, 123, 0.3);
+    flex-shrink: 0;
+    padding-left: 4px;
+}
+
+.player-main-btn.playing {
+    padding-left: 0;
+}
+
+.player-main-btn:hover {
+    background: var(--poppy);
+    box-shadow: 0 4px 12px rgba(165, 42, 42, 0.3);
+}
+
+.player-info-meta {
+    flex-grow: 1;
+}
+
+.player-track-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 2px;
+}
+
+.player-track-sub {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 8px;
+    font-family: sans-serif;
+}
+
+.player-progress-bar-wrapper {
+    width: 100%;
+    height: 6px;
+    background: #e6e2da;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.player-progress-current {
+    width: 0%;
+    height: 100%;
+    background: var(--gold);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.1s linear;
+}
+
+.player-time-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 6px;
+    font-family: sans-serif;
+}
+
+.lyrics-container {
+    max-width: 650px;
+    margin: 40px auto 0;
+    padding: 40px;
+    background: var(--cream);
+    border-radius: 12px;
+    border-left: 4px solid var(--gold);
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+}
+
+.lyric-verse {
+    margin-bottom: 35px;
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 2;
+    color: var(--dark);
+}
+
+.lyric-verse:last-child {
+    margin-bottom: 0;
+}
+
+.lyric-chorus {
+    font-weight: bold;
+    color: var(--poppy);
+    border-top: 1px dashed rgba(183, 154, 91, 0.3);
+    border-bottom: 1px dashed rgba(183, 154, 91, 0.3);
+    padding: 20px 0;
+}
+
 .seasons{
-    background:white;
+    background:var(--cream);
 }
 
 .season-grid{
@@ -266,7 +386,6 @@ body{
     overflow:hidden;
 }
 
-/* 🛠️ 修正：為輪播文字顯式注入 GPU 硬件渲染加速（will-change），防止電腦瀏覽器偷懶不渲染 */
 .rotatingText span{
     position:absolute;
     top:0;
@@ -340,7 +459,6 @@ body{
     opacity:.3;
 }
 
-/* 🛠️ 修正：優化後的 scale 動畫，流暢度提升 10 倍且絕不卡頓 */
 @keyframes slowZoom{
     from{
         transform:scale(1);
@@ -368,6 +486,16 @@ body{
     #musicToggle{
         padding:10px 18px;
         font-size:12px;
+    }
+    .lyrics-container {
+        padding: 25px 15px;
+    }
+    .lyric-verse {
+        font-size: 1rem;
+    }
+    .custom-player-container {
+        margin: 20px 10px;
+        padding: 15px;
     }
 }
 
@@ -433,6 +561,102 @@ body{
     </div>
 </section>
 
+<section class="soundtrack-section container fade">
+    <div class="section-title">
+        <h2>The Voice of The Pew</h2>
+        <p style="font-style: italic; color: var(--dark); margin-top: 10px;">Listen to the novel's official character theme song</p>
+    </div>
+    
+    <div class="custom-player-container">
+        <iframe id="scPlayer" 
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen/s-vfvcSBQ88a0&color=%238a9a7b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&download=false&sharing=false" 
+                style="display: none;" 
+                allow="autoplay">
+        </iframe>
+        
+        <button id="customPlayBtn" class="player-main-btn">▶</button>
+        
+        <div class="player-info-meta">
+            <div class="player-track-title">The Pew in the Kitchen</div>
+            <div class="player-track-sub">Official Character Soundtrack</div>
+            
+            <div id="playerProgressWrapper" class="player-progress-bar-wrapper">
+                <div id="playerProgressCurrent" class="player-progress-current"></div>
+            </div>
+            
+            <div class="player-time-row">
+                <span id="playerCurrentTime">0:00</span>
+                <span id="playerDuration">0:00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="lyrics-container">
+        <div class="lyric-verse">
+            I used to sit in a village lane<br>
+            Under the glass, listening to the rain<br>
+            They auctioned me off, a wooden pew<br>
+            Into a house that felt brand new<br>
+            Then you marched right in with your heavy bags<br>
+            Wiped down the counters with kitchen rags<br>
+            You dragged me over to the fireplace<br>
+            And turned this pew into your dining space
+        </div>
+
+        <div class="lyric-verse lyric-chorus">
+            Oh, I’m just a pew, but I’ve got a heart<br>
+            Watching your messy, beautiful life start<br>
+            From sticky fingers to the midnight tears<br>
+            I became the anchor for your hopes and fears<br>
+            You didn’t know, but while you sat on me<br>
+            I was holding you close, like a family
+        </div>
+
+        <div class="lyric-verse">
+            Autumn came with a crimson breeze<br>
+            You sat on this pew with your knitting needles<br>
+            Making red poppies for the ones who fell<br>
+            Stirring up stories that I know too well<br>
+            And little Alice with her quiet grace<br>
+            Found a safe haven in this crowded place<br>
+            When Ora wanted to run from the fight<br>
+            We whispered together: Be a brave knight
+        </div>
+
+        <div class="lyric-verse lyric-chorus">
+            Oh, I’m just a pew, but I’ve got a heart<br>
+            Watching your messy, beautiful life start<br>
+            From sticky fingers to the midnight tears<br>
+            I became the anchor for your hopes and fears<br>
+            You didn’t know, but while you sat on me<br>
+            I was holding you close, like a family
+        </div>
+
+        <div class="lyric-verse">
+            I watched the seasons change through the glass<br>
+            The wild geese coming, the cold winters pass<br>
+            I thought you’d stay, oh, I hoped you’d stay<br>
+            But boxes get packed, and cars drive away
+        </div>
+
+        <div class="lyric-verse">
+            Now the house is empty, back under the stairs<br>
+            The old pew is home, but nobody’s there<br>
+            No more piano, no noise in the hall<br>
+            Just the afternoon sun leaning on the wall
+        </div>
+
+        <div class="lyric-verse" style="color: var(--gold); font-weight: 500;">
+            But I still feel your hand, giving me a stroke<br>
+            Saying "God bless," before the silence broke<br>
+            I’ll stay in my corner, through the rain and the snow<br>
+            Thankful for the sweetest year I’ll ever know<br>
+            Goodbye, my family...<br>
+            Take care on the road.
+        </div>
+    </div>
+</section>
+
 <section class="container seasons fade">
     <div class="section-title">
         <h2>A Journey Through the Seasons</h2>
@@ -483,19 +707,31 @@ body{
     <p>K C CHARIS writes uplifting stories celebrating family, resilience, memory, and the beauty of everyday life. Her work explores the connections that bind generations together and the quiet grace found in ordinary moments.</p>
 </section>
 
+<script src="https://w.soundcloud.com/player/api.js"></script>
+
 <script>
 
+/* 🚀 檢查是否處於 file:// 本地環境並發出提示 */
+if (window.location.protocol === 'file:') {
+    alert("📢 注意：您目前是用「直接雙擊檔案」的方式打開網頁（網址開頭為 file://）。\n\n由於瀏覽器的跨網域安全防禦機制（CORS），SoundCloud API 無法在此本地環境下運作。\n\n請務必將網頁【上傳到網頁伺服器（例如 GitHub Pages / Netlify）】或【使用 VS Code Live Server 開啟】，才能順利操作播放按鈕！");
+}
+
+/* 1. 右下角背景音樂控制 */
 const music = document.getElementById("pewTheme");
 const toggle = document.getElementById("musicToggle");
 let playing = false;
 
 toggle.addEventListener("click", () => {
+    // 智慧互斥：如果正播放主歌，先暫停主歌
+    if (scWidget) {
+        scWidget.pause();
+    }
+
     if(!playing){
         music.play().then(() => {
             toggle.innerHTML = "❚❚ Pause Soundtrack";
             playing = true;
         }).catch((error) => {
-            console.log("Audio play blocked by browser:", error);
             music.muted = false; 
             music.play();
             toggle.innerHTML = "❚❚ Pause Soundtrack";
@@ -508,6 +744,113 @@ toggle.addEventListener("click", () => {
     }
 });
 
+
+/* 2. SoundCloud 串流 API 核心控制 */
+const scPlayerIframe = document.getElementById("scPlayer");
+let scWidget = null;
+
+try {
+    scWidget = SC.Widget(scPlayerIframe);
+} catch(e) {
+    console.error("SoundCloud Widget 初始化失敗：", e);
+}
+
+const customPlayBtn = document.getElementById("customPlayBtn");
+const progressWrapper = document.getElementById("playerProgressWrapper");
+const progressCurrent = document.getElementById("playerProgressCurrent");
+const textCurrentTime = document.getElementById("playerCurrentTime");
+const textDuration = document.getElementById("playerDuration");
+
+// 時間轉換函式 (毫秒 -> 分:秒)
+function formatTimeFromMs(ms) {
+    if (isNaN(ms) || !isFinite(ms)) return "0:00";
+    let seconds = Math.floor(ms / 1000);
+    let min = Math.floor(seconds / 60);
+    let sec = Math.floor(seconds % 60);
+    if (sec < 10) sec = "0" + sec;
+    return min + ":" + sec;
+}
+
+if (scWidget) {
+    // 監聽：SoundCloud 串流準備就緒（自動讀取歌曲時間總長度）
+    scWidget.bind(SC.Widget.Events.READY, () => {
+        console.log("SoundCloud 雲端串流通道已建立成功！");
+        scWidget.getDuration((duration) => {
+            textDuration.innerText = formatTimeFromMs(duration);
+        });
+    });
+
+    // 監聽：播放進度更新，同步網頁上的金色進度條
+    scWidget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
+        progressCurrent.style.width = (data.relativePosition * 100) + "%";
+        textCurrentTime.innerText = formatTimeFromMs(data.currentPosition);
+    });
+
+    // 監聽：開始播放（變更網頁按鈕圖示）
+    scWidget.bind(SC.Widget.Events.PLAY, () => {
+        customPlayBtn.innerText = "❚❚";
+        customPlayBtn.classList.add("playing");
+    });
+
+    // 監聽：暫停
+    scWidget.bind(SC.Widget.Events.PAUSE, () => {
+        customPlayBtn.innerText = "▶";
+        customPlayBtn.classList.remove("playing");
+    });
+
+    // 監聽：播放結束自動重置進度條
+    scWidget.bind(SC.Widget.Events.FINISH, () => {
+        customPlayBtn.innerText = "▶";
+        customPlayBtn.classList.remove("playing");
+        progressCurrent.style.width = "0%";
+        textCurrentTime.innerText = "0:00";
+    });
+}
+
+// 點擊金色進度條：計算百分比並精確控制後台跳轉播放
+progressWrapper.addEventListener("click", (e) => {
+    if (!scWidget || window.location.protocol === 'file:') return;
+    const rect = progressWrapper.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const ratio = clickX / width;
+    
+    scWidget.getDuration((duration) => {
+        if (duration) {
+            scWidget.seekTo(duration * ratio);
+        }
+    });
+});
+
+// 自訂鼠尾草綠主播放按鈕點擊事件
+customPlayBtn.addEventListener("click", () => {
+    if (window.location.protocol === 'file:') {
+        alert("目前網頁處於本地檔案環境 (file://)，瀏覽器封鎖了與 SoundCloud 的 API 連線。\n\n請將網頁檔案部署至伺服器（例如 GitHub Pages）或者在 VS Code 中使用 Live Server 開啟測試！");
+        return;
+    }
+    
+    if (!scWidget) {
+        alert("串流尚未就緒，請檢查您的網路連線。");
+        return;
+    }
+
+    scWidget.isPaused((isPaused) => {
+        if (isPaused) {
+            // 智慧互斥：若右下角背景音樂在響，先關掉它
+            if (playing) {
+                music.pause();
+                toggle.innerHTML = "🎵 Listen While You Read";
+                playing = false;
+            }
+            scWidget.play();
+        } else {
+            scWidget.pause();
+        }
+    });
+});
+
+
+/* 3. 文字輪播邏輯 */
 const texts = document.querySelectorAll(".rotatingText span");
 let current = 0;
 
@@ -517,6 +860,7 @@ setInterval(() => {
     texts[current].classList.add("active");
 }, 4000);
 
+/* 4. 落花邏輯 */
 setInterval(() => {
     const petal = document.createElement("div");
     petal.className = "petal";
@@ -533,6 +877,7 @@ setInterval(() => {
     }, 20000);
 }, 3000);
 
+/* 5. 滾動淡入邏輯 */
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if(entry.isIntersecting){
