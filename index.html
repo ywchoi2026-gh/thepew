@@ -468,6 +468,16 @@ body{
     }
 }
 
+/* ✅ 修正：使用定位隱藏而非 display: none */
+#scPlayer {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
 @media(max-width:768px){
     .hero h1{
         font-size:3.5rem;
@@ -569,17 +579,9 @@ body{
     
     <div class="custom-player-container">
         
-        <!-- <iframe id="scPlayer" 
-                // src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen/s-vfvcSBQ88a0&color=%238a9a7b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&download=false&sharing=false" 
-               // style="display: none;" 
-                // allow="autoplay">
-        // </iframe>
-        -->
-        
-
+        <!-- ✅ 修正：移除 inline style="display: none;"，改用 CSS 隱藏 -->
         <iframe id="scPlayer" 
                 src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen&color=%238a9a7b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&download=false&sharing=false" 
-                style="display: none;" 
                 allow="autoplay">
         </iframe>
         
@@ -720,7 +722,6 @@ body{
 
 <script>
 
-
 /* 🚀 檢查是否處於 file:// 本地環境並發出提示 */
 if (window.location.protocol === 'file:') {
     alert("📢 注意：您目前是用「直接雙擊檔案」的方式打開網頁（網址開頭為 file://）。\n\n由於瀏覽器的跨網域安全防禦機制（CORS），SoundCloud API 無法在此本地環境下運作。\n\n請務必將網頁【上傳到網頁伺服器（例如 GitHub Pages / Netlify）】或【使用 VS Code Live Server 開啟】，才能順利操作播放按鈕！");
@@ -732,7 +733,6 @@ const toggle = document.getElementById("musicToggle");
 let playing = false;
 
 toggle.addEventListener("click", () => {
-    // 智慧互斥：如果正播放主歌，先暫停主歌
     if (scWidget) {
         scWidget.pause();
     }
@@ -759,17 +759,21 @@ toggle.addEventListener("click", () => {
 const scPlayerIframe = document.getElementById("scPlayer");
 let scWidget = null;
 
-// 安全初始化：檢查 SC 物件是否存在
-try {
-    if (typeof SC !== 'undefined' && SC.Widget) {
-        scWidget = SC.Widget(scPlayerIframe);
-        console.log("✅ SoundCloud Widget 初始化成功");
-    } else {
-        console.warn("⚠️ SoundCloud API (api.js) 尚未載入或被封鎖");
+// 等待 api.js 載入完成
+function initSoundCloud() {
+    try {
+        if (typeof SC !== 'undefined' && SC.Widget) {
+            scWidget = SC.Widget(scPlayerIframe);
+            console.log("✅ SoundCloud Widget 初始化成功");
+            setupSoundCloudEvents();
+        } else {
+            console.warn("⚠️ SoundCloud API 尚未載入，重試中...");
+            setTimeout(initSoundCloud, 500);
+        }
+    } catch(e) {
+        console.error("❌ SoundCloud Widget 初始化失敗：", e);
+        scWidget = null;
     }
-} catch(e) {
-    console.error("❌ SoundCloud Widget 初始化失敗：", e);
-    scWidget = null;
 }
 
 const customPlayBtn = document.getElementById("customPlayBtn");
@@ -778,7 +782,6 @@ const progressCurrent = document.getElementById("playerProgressCurrent");
 const textCurrentTime = document.getElementById("playerCurrentTime");
 const textDuration = document.getElementById("playerDuration");
 
-// 時間轉換函式 (毫秒 -> 分:秒)
 function formatTimeFromMs(ms) {
     if (isNaN(ms) || !isFinite(ms)) return "0:00";
     let seconds = Math.floor(ms / 1000);
@@ -788,9 +791,9 @@ function formatTimeFromMs(ms) {
     return min + ":" + sec;
 }
 
-// ✅ 修正：所有 scWidget 操作都包在 if (scWidget) 內，避免 null 導致整個 script 崩潰
-if (scWidget) {
-    // 監聽：SoundCloud 串流準備就緒（自動讀取歌曲時間總長度）
+function setupSoundCloudEvents() {
+    if (!scWidget) return;
+
     scWidget.bind(SC.Widget.Events.READY, () => {
         console.log("✅ SoundCloud 雲端串流通道已建立成功！");
         scWidget.getDuration((duration) => {
@@ -798,25 +801,21 @@ if (scWidget) {
         });
     });
 
-    // 監聽：播放進度更新，同步網頁上的金色進度條
     scWidget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
         progressCurrent.style.width = (data.relativePosition * 100) + "%";
         textCurrentTime.innerText = formatTimeFromMs(data.currentPosition);
     });
 
-    // 監聽：開始播放（變更網頁按鈕圖示）
     scWidget.bind(SC.Widget.Events.PLAY, () => {
         customPlayBtn.innerText = "❚❚";
         customPlayBtn.classList.add("playing");
     });
 
-    // 監聽：暫停
     scWidget.bind(SC.Widget.Events.PAUSE, () => {
         customPlayBtn.innerText = "▶";
         customPlayBtn.classList.remove("playing");
     });
 
-    // 監聽：播放結束自動重置進度條
     scWidget.bind(SC.Widget.Events.FINISH, () => {
         customPlayBtn.innerText = "▶";
         customPlayBtn.classList.remove("playing");
@@ -824,12 +823,10 @@ if (scWidget) {
         textCurrentTime.innerText = "0:00";
     });
 
-    // 監聽：錯誤事件
     scWidget.bind(SC.Widget.Events.ERROR, (e) => {
         console.error("❌ SoundCloud 播放錯誤：", e);
     });
 
-    // ✅ 修正：只保留一個完整的 click handler（移除重複的簡陋版本）
     customPlayBtn.addEventListener("click", () => {
         console.log("🎵 播放按鈕點擊");
         
@@ -845,7 +842,6 @@ if (scWidget) {
 
         scWidget.isPaused((isPaused) => {
             if (isPaused) {
-                // 智慧互斥：若右下角背景音樂在響，先關掉它
                 if (playing) {
                     music.pause();
                     toggle.innerHTML = "🎵 Listen While You Read";
@@ -858,7 +854,6 @@ if (scWidget) {
         });
     });
 
-    // 點擊金色進度條：計算百分比並精確控制後台跳轉播放
     progressWrapper.addEventListener("click", (e) => {
         if (!scWidget || window.location.protocol === 'file:') return;
         const rect = progressWrapper.getBoundingClientRect();
@@ -872,11 +867,10 @@ if (scWidget) {
             }
         });
     });
+}
 
-} else {
-    // ✅ 修正：如果 scWidget 初始化失敗，仍然讓按鈕能顯示提示
-    console.warn("⚠️ SoundCloud Widget 未初始化，播放功能將無法使用");
-    
+// 如果 scWidget 初始化失敗，顯示錯誤提示
+function setupFallbackButton() {
     customPlayBtn.addEventListener("click", () => {
         if (window.location.protocol === 'file:') {
             alert("目前網頁處於本地檔案環境 (file://)，瀏覽器封鎖了與 SoundCloud 的 API 連線。\n\n請將網頁檔案部署至伺服器（例如 GitHub Pages）或者在 VS Code 中使用 Live Server 開啟測試！");
@@ -884,6 +878,27 @@ if (scWidget) {
             alert("SoundCloud 播放器載入失敗。\n\n可能的原因：\n1. 網路連線問題\n2. 廣告攔截器封鎖了 SoundCloud API\n3. 網頁未部署至伺服器\n\n請檢查網路連線，或暫時關閉廣告攔截器。");
         }
     });
+}
+
+// 啟動初始化
+if (typeof SC !== 'undefined') {
+    initSoundCloud();
+} else {
+    // api.js 還沒載入，等待載入
+    const checkInterval = setInterval(() => {
+        if (typeof SC !== 'undefined') {
+            clearInterval(checkInterval);
+            initSoundCloud();
+        }
+    }, 100);
+    
+    // 5秒後如果還沒載入，顯示錯誤
+    setTimeout(() => {
+        if (!scWidget) {
+            console.warn("⚠️ SoundCloud API 載入超時");
+            setupFallbackButton();
+        }
+    }, 5000);
 }
 
 
@@ -924,7 +939,6 @@ const observer = new IntersectionObserver(entries => {
 });
 
 document.querySelectorAll(".fade").forEach(el => observer.observe(el));
-
 
 </script>
 
