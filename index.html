@@ -520,7 +520,7 @@ body{
             <span>A House Full of Memories</span>
             <span>A Story That Stays</span>
         </div>
-        <p>“A church pew should not be able to tell stories. Yet this one remembers everything.”</p>
+        <p>"A church pew should not be able to tell stories. Yet this one remembers everything."</p>
         <a href="#buy" class="btn">Step Into The Story</a>
     </div>
 </section>
@@ -613,11 +613,11 @@ body{
         </div>
 
         <div class="lyric-verse lyric-chorus">
-            Oh, I’m just a pew, but I’ve got a heart<br>
+            Oh, I'm just a pew, but I've got a heart<br>
             Watching your messy, beautiful life start<br>
             From sticky fingers to the midnight tears<br>
             I became the anchor for your hopes and fears<br>
-            You didn’t know, but while you sat on me<br>
+            You didn't know, but while you sat on me<br>
             I was holding you close, like a family
         </div>
 
@@ -633,24 +633,24 @@ body{
         </div>
 
         <div class="lyric-verse lyric-chorus">
-            Oh, I’m just a pew, but I’ve got a heart<br>
+            Oh, I'm just a pew, but I've got a heart<br>
             Watching your messy, beautiful life start<br>
             From sticky fingers to the midnight tears<br>
             I became the anchor for your hopes and fears<br>
-            You didn’t know, but while you sat on me<br>
+            You didn't know, but while you sat on me<br>
             I was holding you close, like a family
         </div>
 
         <div class="lyric-verse">
             I watched the seasons change through the glass<br>
             The wild geese coming, the cold winters pass<br>
-            I thought you’d stay, oh, I hoped you’d stay<br>
+            I thought you'd stay, oh, I hoped you'd stay<br>
             But boxes get packed, and cars drive away
         </div>
 
         <div class="lyric-verse">
             Now the house is empty, back under the stairs<br>
-            The old pew is home, but nobody’s there<br>
+            The old pew is home, but nobody's there<br>
             No more piano, no noise in the hall<br>
             Just the afternoon sun leaning on the wall
         </div>
@@ -658,8 +658,8 @@ body{
         <div class="lyric-verse" style="color: var(--gold); font-weight: 500;">
             But I still feel your hand, giving me a stroke<br>
             Saying "God bless," before the silence broke<br>
-            I’ll stay in my corner, through the rain and the snow<br>
-            Thankful for the sweetest year I’ll ever know<br>
+            I'll stay in my corner, through the rain and the snow<br>
+            Thankful for the sweetest year I'll ever know<br>
             Goodbye, my family...<br>
             Take care on the road.
         </div>
@@ -759,10 +759,17 @@ toggle.addEventListener("click", () => {
 const scPlayerIframe = document.getElementById("scPlayer");
 let scWidget = null;
 
+// 安全初始化：檢查 SC 物件是否存在
 try {
-    scWidget = SC.Widget(scPlayerIframe);
+    if (typeof SC !== 'undefined' && SC.Widget) {
+        scWidget = SC.Widget(scPlayerIframe);
+        console.log("✅ SoundCloud Widget 初始化成功");
+    } else {
+        console.warn("⚠️ SoundCloud API (api.js) 尚未載入或被封鎖");
+    }
 } catch(e) {
-    console.error("SoundCloud Widget 初始化失敗：", e);
+    console.error("❌ SoundCloud Widget 初始化失敗：", e);
+    scWidget = null;
 }
 
 const customPlayBtn = document.getElementById("customPlayBtn");
@@ -781,10 +788,11 @@ function formatTimeFromMs(ms) {
     return min + ":" + sec;
 }
 
+// ✅ 修正：所有 scWidget 操作都包在 if (scWidget) 內，避免 null 導致整個 script 崩潰
 if (scWidget) {
     // 監聽：SoundCloud 串流準備就緒（自動讀取歌曲時間總長度）
     scWidget.bind(SC.Widget.Events.READY, () => {
-        console.log("SoundCloud 雲端串流通道已建立成功！");
+        console.log("✅ SoundCloud 雲端串流通道已建立成功！");
         scWidget.getDuration((duration) => {
             textDuration.innerText = formatTimeFromMs(duration);
         });
@@ -815,68 +823,68 @@ if (scWidget) {
         progressCurrent.style.width = "0%";
         textCurrentTime.innerText = "0:00";
     });
-}
 
-
-scWidget.bind(SC.Widget.Events.READY, () => {
-    console.log("READY");
-});
-
-scWidget.bind(SC.Widget.Events.PLAY, () => {
-    console.log("PLAY");
-});
-
-scWidget.bind(SC.Widget.Events.ERROR, (e) => {
-    console.log("ERROR", e);
-});
-
-customPlayBtn.addEventListener("click", () => {
-    console.log("CLICK");
-    scWidget.play();
-});
-
-
-// 點擊金色進度條：計算百分比並精確控制後台跳轉播放
-progressWrapper.addEventListener("click", (e) => {
-    if (!scWidget || window.location.protocol === 'file:') return;
-    const rect = progressWrapper.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const ratio = clickX / width;
-    
-    scWidget.getDuration((duration) => {
-        if (duration) {
-            scWidget.seekTo(duration * ratio);
-        }
+    // 監聽：錯誤事件
+    scWidget.bind(SC.Widget.Events.ERROR, (e) => {
+        console.error("❌ SoundCloud 播放錯誤：", e);
     });
-});
 
-// 自訂鼠尾草綠主播放按鈕點擊事件
-customPlayBtn.addEventListener("click", () => {
-    if (window.location.protocol === 'file:') {
-        alert("目前網頁處於本地檔案環境 (file://)，瀏覽器封鎖了與 SoundCloud 的 API 連線。\n\n請將網頁檔案部署至伺服器（例如 GitHub Pages）或者在 VS Code 中使用 Live Server 開啟測試！");
-        return;
-    }
-    
-    if (!scWidget) {
-        alert("串流尚未就緒，請檢查您的網路連線。");
-        return;
-    }
+    // ✅ 修正：只保留一個完整的 click handler（移除重複的簡陋版本）
+    customPlayBtn.addEventListener("click", () => {
+        console.log("🎵 播放按鈕點擊");
+        
+        if (window.location.protocol === 'file:') {
+            alert("目前網頁處於本地檔案環境 (file://)，瀏覽器封鎖了與 SoundCloud 的 API 連線。\n\n請將網頁檔案部署至伺服器（例如 GitHub Pages）或者在 VS Code 中使用 Live Server 開啟測試！");
+            return;
+        }
+        
+        if (!scWidget) {
+            alert("串流尚未就緒，請檢查您的網路連線。");
+            return;
+        }
 
-    scWidget.isPaused((isPaused) => {
-        if (isPaused) {
-            // 智慧互斥：若右下角背景音樂在響，先關掉它
-            if (playing) {
-                music.pause();
-                toggle.innerHTML = "🎵 Listen While You Read";
-                playing = false;
+        scWidget.isPaused((isPaused) => {
+            if (isPaused) {
+                // 智慧互斥：若右下角背景音樂在響，先關掉它
+                if (playing) {
+                    music.pause();
+                    toggle.innerHTML = "🎵 Listen While You Read";
+                    playing = false;
+                }
+                scWidget.play();
+            } else {
+                scWidget.pause();
             }
-            scWidget.play();
+        });
+    });
+
+    // 點擊金色進度條：計算百分比並精確控制後台跳轉播放
+    progressWrapper.addEventListener("click", (e) => {
+        if (!scWidget || window.location.protocol === 'file:') return;
+        const rect = progressWrapper.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const width = rect.width;
+        const ratio = clickX / width;
+        
+        scWidget.getDuration((duration) => {
+            if (duration) {
+                scWidget.seekTo(duration * ratio);
+            }
+        });
+    });
+
+} else {
+    // ✅ 修正：如果 scWidget 初始化失敗，仍然讓按鈕能顯示提示
+    console.warn("⚠️ SoundCloud Widget 未初始化，播放功能將無法使用");
+    
+    customPlayBtn.addEventListener("click", () => {
+        if (window.location.protocol === 'file:') {
+            alert("目前網頁處於本地檔案環境 (file://)，瀏覽器封鎖了與 SoundCloud 的 API 連線。\n\n請將網頁檔案部署至伺服器（例如 GitHub Pages）或者在 VS Code 中使用 Live Server 開啟測試！");
         } else {
-            scWidget.pause();
+            alert("SoundCloud 播放器載入失敗。\n\n可能的原因：\n1. 網路連線問題\n2. 廣告攔截器封鎖了 SoundCloud API\n3. 網頁未部署至伺服器\n\n請檢查網路連線，或暫時關閉廣告攔截器。");
         }
     });
-});
+}
 
 
 /* 3. 文字輪播邏輯 */
