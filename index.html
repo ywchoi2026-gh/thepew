@@ -711,6 +711,25 @@ body{
 
 <script>
 
+scWidget.bind(SC.Widget.Events.READY, () => {
+    console.log("READY");
+});
+
+scWidget.bind(SC.Widget.Events.PLAY, () => {
+    console.log("PLAY");
+});
+
+scWidget.bind(SC.Widget.Events.ERROR, (e) => {
+    console.log("ERROR", e);
+});
+
+customPlayBtn.addEventListener("click", () => {
+    console.log("CLICK");
+    scWidget.play();
+});
+
+    
+
 /* 🚀 檢查是否處於 file:// 本地環境並發出提示 */
 if (window.location.protocol === 'file:') {
     alert("📢 注意：您目前是用「直接雙擊檔案」的方式打開網頁（網址開頭為 file://）。\n\n由於瀏覽器的跨網域安全防禦機制（CORS），SoundCloud API 無法在此本地環境下運作。\n\n請務必將網頁【上傳到網頁伺服器（例如 GitHub Pages / Netlify）】或【使用 VS Code Live Server 開啟】，才能順利操作播放按鈕！");
