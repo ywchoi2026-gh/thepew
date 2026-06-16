@@ -888,6 +888,25 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll(".fade").forEach(el => observer.observe(el));
 
+
+
+scWidget.bind(SC.Widget.Events.READY, () => {
+    console.log("READY");
+});
+
+scWidget.bind(SC.Widget.Events.PLAY, () => {
+    console.log("PLAY");
+});
+
+scWidget.bind(SC.Widget.Events.ERROR, (e) => {
+    console.log("ERROR", e);
+});
+
+customPlayBtn.addEventListener("click", () => {
+    console.log("CLICK");
+    scWidget.play();
+});
+
 </script>
 
 </body>
