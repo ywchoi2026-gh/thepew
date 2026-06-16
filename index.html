@@ -720,23 +720,6 @@ body{
 
 <script>
 
-scWidget.bind(SC.Widget.Events.READY, () => {
-    console.log("READY");
-});
-
-scWidget.bind(SC.Widget.Events.PLAY, () => {
-    console.log("PLAY");
-});
-
-scWidget.bind(SC.Widget.Events.ERROR, (e) => {
-    console.log("ERROR", e);
-});
-
-customPlayBtn.addEventListener("click", () => {
-    console.log("CLICK");
-    scWidget.play();
-});
-
 
 /* 🚀 檢查是否處於 file:// 本地環境並發出提示 */
 if (window.location.protocol === 'file:') {
@@ -833,6 +816,25 @@ if (scWidget) {
         textCurrentTime.innerText = "0:00";
     });
 }
+
+
+scWidget.bind(SC.Widget.Events.READY, () => {
+    console.log("READY");
+});
+
+scWidget.bind(SC.Widget.Events.PLAY, () => {
+    console.log("PLAY");
+});
+
+scWidget.bind(SC.Widget.Events.ERROR, (e) => {
+    console.log("ERROR", e);
+});
+
+customPlayBtn.addEventListener("click", () => {
+    console.log("CLICK");
+    scWidget.play();
+});
+
 
 // 點擊金色進度條：計算百分比並精確控制後台跳轉播放
 progressWrapper.addEventListener("click", (e) => {
