@@ -10,6 +10,11 @@
 
 <style>
 
+/* ✅ 新增：確保頁面錨點跳轉時有平滑滾動效果 */
+html {
+    scroll-behavior: smooth;
+}
+
 :root{
     --sage:#8A9A7B;
     --cream:#F5F0E6;
@@ -468,7 +473,7 @@ body{
     }
 }
 
-/* ✅ 修正：使用定位隱藏而非 display: none */
+/* ✅ 修正：使用定位隱藏而非 display: none，確保 SoundCloud iframe 能正常載入 */
 #scPlayer {
     position: absolute;
     left: -9999px;
@@ -530,12 +535,14 @@ body{
             <span>A House Full of Memories</span>
             <span>A Story That Stays</span>
         </div>
-        <p>"A church pew should not be able to tell stories. Yet this one remembers everything."</p>
-        <a href="#buy" class="btn">Step Into The Story</a>
+        <p>“A church pew should not be able to tell stories. Yet this one remembers everything.”</p>
+        <!-- ✅ 修改 1：將 href 改為 #book-intro，指向封面介紹區 -->
+        <a href="#book-intro" class="btn">Step Into The Story</a>
     </div>
 </section>
 
-<section class="container fade">
+<!-- ✅ 修改 1：加上 id="book-intro" 作為滾動目標 -->
+<section id="book-intro" class="container fade">
     <div class="book-section">
         <img src="book-cover.jpg" alt="The Pew Book Cover" class="book-cover">
         <div>
@@ -579,7 +586,7 @@ body{
     
     <div class="custom-player-container">
         
-        <!-- ✅ 修正：移除 inline style="display: none;"，改用 CSS 隱藏 -->
+        <!-- ✅ 保持使用 CSS 隱藏，確保 SoundCloud API 正常運作 -->
         <iframe id="scPlayer" 
                 src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen&color=%238a9a7b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&download=false&sharing=false" 
                 allow="autoplay">
@@ -710,7 +717,8 @@ body{
 <section id="buy" class="cta fade">
     <h2>Begin the Journey</h2>
     <p>A heartwarming novel about home, memory, family, and the extraordinary beauty hidden within ordinary days.</p>
-    <a href="YOUR-AMAZON-LINK-HERE" class="btn">Buy on Amazon</a>
+    <!-- ✅ 修改 2：更新 Amazon 連結，並加上 target="_blank" 讓其在分頁開啟，不中斷音樂 -->
+    <a href="https://a.co/d/05r2wJ2j" class="btn" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
 </section>
 
 <section class="footer fade">
