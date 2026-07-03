@@ -1,58 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Pew - Book Soundtrack Official Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #f7f4ef;
+            --wood-dark: #3e2723;
+            --wood-warm: #8d6e63;
+            --accent-poppy: #b71c1c;
+            --text-main: #2d2421;
+            --lavender-soft: #eae4f2;
+            --card-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Playfair Display', 'Noto Serif TC', serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 30px 20px;
+            background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0);
+            background-size: 24px 24px;
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 1300px; margin: 0 auto; }
+        
+        header { 
+            text-align: center; 
+            margin-bottom: 50px; 
+            padding-bottom: 20px; 
+            border-bottom: 1px dashed var(--wood-warm); 
+        }
+        header h1 { font-family: 'Cinzel', serif; font-size: 2.8rem; color: var(--wood-dark); letter-spacing: 3px; }
+        header p { font-style: italic; color: var(--wood-warm); font-size: 1.1rem; margin-top: 10px; }
+
+        /* 隱藏 SoundCloud Iframe (關鍵：不能用 display:none，否則 API 會失效) */
+        #scPlayer {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .main-layout { 
+            display: grid; 
+            grid-template-columns: 1fr 1.5fr; 
+            gap: 50px; 
+            align-items: start;
+        }
+
+        /* 左側：封面、控制、列表 */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .cover-and-info {
+            text-align: center;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .song-art-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            cursor: pointer;
+            margin-bottom: 24px;
+            background: #f0ebe4;
+        }
+
+        .song-art-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .song-art-container:hover img { transform: scale(1.05); }
+
+        .cover-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .song-art-container:hover .cover-overlay,
+        .cover-overlay.active { opacity: 1; }
+
+        .play-pause-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            color: var(--wood-dark);
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s, background 0.2s;
+            padding-left: 6px; /* 視覺居中 */
+        }
+
+        .play-pause-btn.playing { padding-left: 0; }
+        .play-pause-btn:hover { transform: scale(1.1); background: #fff; }
+
+        .current-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: var(--wood-dark);
+            margin-bottom: 8px;
+        }
+
+        .current-chapter {
+            font-size: 0.9rem;
+            color: var(--accent-poppy);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* 自訂進度條 */
+        .custom-controls {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #e0dacf;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-poppy);
+            border-radius: 3px;
+            width: 0%;
+            position: relative;
+            transition: width 0.1s linear;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: var(--accent-poppy);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 2px 6px rgba(183,28,28,0.3);
+        }
+
+        .progress-container:hover .progress-bar::after { opacity: 1; }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--wood-warm);
+            font-family: sans-serif;
+        }
+
+        /* 播放列表 */
+        .playlist-section {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .playlist-section h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--wood-dark);
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            border-left: 4px solid var(--accent-poppy);
+            padding-left: 10px;
+        }
+        
+        .track-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .track-item {
+            background: #ffffff;
+            border: 1px solid #e0dacf;
+            border-radius: 8px;
+            padding: 14px 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.25s ease;
+        }
+        
+        .track-item:hover { 
+            transform: translateX(5px); 
+            border-color: var(--wood-warm); 
+            background-color: #faf8f5; 
+        }
+        
+        .track-item.active { 
+            border-color: var(--accent-poppy); 
+            background-color: var(--lavender-soft); 
+            box-shadow: 0 4px 12px rgba(183,28,28,0.08); 
+        }
+        
+        .track-meta { 
+            font-family: 'Cinzel', serif; 
+            font-size: 0.75rem; 
+            color: var(--wood-warm); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            min-width: 70px; 
+        }
+        
+        .track-title { font-size: 1rem; font-weight: 600; color: var(--wood-dark); }
+
+        /* 右側：沉浸式歌詞區 */
+        .right-panel {
+            background: #ffffff;
+            border: 1px solid #e0dacf;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            height: 85vh; /* 佔據大部分視口高度 */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: sticky;
+            top: 30px;
+        }
+
+        .lyrics-header {
+            padding: 24px 40px;
+            border-bottom: 1px solid #f0e9dd;
+            font-family: 'Cinzel', serif;
+            color: var(--wood-warm);
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            text-align: center;
+            background: #fcfbf9;
+        }
+
+        .lyrics-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 50px 15%;
+            font-family: 'Playfair Display', 'Noto Serif TC', serif;
+            font-size: 1.25rem;
+            line-height: 2.2;
+            color: #3e2723;
+            text-align: center;
+            scroll-behavior: smooth;
+        }
+
+        .lyrics-box::-webkit-scrollbar { width: 6px; }
+        .lyrics-box::-webkit-scrollbar-track { background: transparent; }
+        .lyrics-box::-webkit-scrollbar-thumb { background: #d1c7b8; border-radius: 4px; }
+        .lyrics-box::-webkit-scrollbar-thumb:hover { background: var(--wood-warm); }
+
+        .verse-tag {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: var(--accent-poppy);
+            margin-top: 30px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            display: block;
+            text-transform: uppercase;
+        }
+        
+        .verse-tag:first-child { margin-top: 0; }
+
+        .empty-state { 
+            color: var(--wood-warm); 
+            font-style: italic; 
+            padding: 40px 0; 
+            font-size: 1.1rem; 
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1024px) {
+            .main-layout { grid-template-columns: 1fr; gap: 40px; }
+            .right-panel { height: 60vh; position: static; }
+            .lyrics-box { padding: 40px 10%; font-size: 1.15rem; }
+            .cover-and-info { max-width: 320px; }
+        }
+        
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .lyrics-box { padding: 30px 20px; font-size: 1.05rem; line-height: 2; }
+            .play-pause-btn { width: 60px; height: 60px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>THE PEW</h1>
+        <p>Official Book Soundtrack — 伴隨長椅記憶流轉的四季樂章</p>
+    </header>
+
+    <div class="main-layout">
+        <!-- 左側：封面、控制、列表 -->
+        <section class="left-panel">
+            <div class="cover-and-info">
+                <div class="song-art-container" id="songArtView">
+                    <img src="" alt="Song Art" id="currentArt" />
+                    <div class="cover-overlay" id="coverOverlay">
+                        <button id="customPlayBtn" class="play-pause-btn">▶</button>
+                    </div>
+                </div>
+                <h2 class="current-title" id="currentTitle">My Haven (August Heat)</h2>
+                <p class="current-chapter" id="currentChapter">Chapter: August</p>
+            </div>
+            
+            <div class="custom-controls">
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:00</span>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <h3>Chapters & Soundtracks</h3>
+                <div class="track-list" id="playlist"></div>
+            </div>
+        </section>
+
+        <!-- 右側：沉浸式歌詞 -->
+        <section class="right-panel">
+            <div class="lyrics-header">
+                <span>Lyrics & Poetry</span>
+            </div>
+            <div class="lyrics-box" id="lyricsView">
+                <span class="empty-state">✨ 點選左側曲目，展開歌詞與音樂</span>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- 隱藏的 SoundCloud Iframe (已加入隱私保護參數) -->
+<iframe id="scPlayer" allow="autoplay; encrypted-media" src=""></iframe>
+
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
     // ============================================================
-    //  1. 歌曲数据（保持不變）
+    //  1. 歌曲数据（已更新隱私參數：隱藏用戶、隱藏分享、隱藏推薦）
     // ============================================================
     const soundtracksData = [{
         chapter: "August",
         title: "My Haven (August Heat)",
         art: "https://picsum.photos/seed/MyHavenAugust/400/400",
-        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2350660724%3Fsecret_token%3Ds-gZCHGuR302K&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2350660724%3Fsecret_token%3Ds-gZCHGuR302K&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nThe August sun is burning hot outside\nBut under the stairs, I've got a place to hide\nMy little haven, cool and soft and green\nLooking through the glass at a garden scene\nLavender blooming, lilacs in the breeze\nStarlings hopping up and down the trees\nI used to belong to a church down the lane\nBefore the world changed, before the music became...\n\n[Chorus]\nOh, nature is kind, keeping me still\nIn the quiet light on the windowsill\nBut a heavy step just crossed my floor\nA sudden storm walked through the door\nYou dumped your bags right on my knee\nHey, mind your manners, whoever you can be!\n\n[Verse 2]\nThe house was empty for a long, long while\nNow a tiny baby looks up with a smile\nBlack bean eyes and a giant grin\nHitting my wood, letting the life crawl in\nThey want to move me to the kitchen space\nTurn this old pew to their dining place\n\n[Outro]\nA piano arrives as the sun goes down\nA brand new story in this old town\nMy quiet days are fading fast away...\nWelcome to my world. Here we stay.`
     }, {
         chapter: "October",
         title: "Crimson Leaves and Poppies",
         art: "https://picsum.photos/seed/CrimsonLeavesPoppies/400/400",
-        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351951084%3Fsecret_token%3Ds-s1xCHZprPWz&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351951084%3Fsecret_token%3Ds-s1xCHZprPWz&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nOctober's here, the days are getting cold\nThe garden changes into red and gold\nI hear the chattering leaves under their feet\nAnd sit through dinner in the kitchen heat\nLittle Nancy bouncing like a rocking boat\nSpilling her soup upon my wooden coat\nIt's messy and it's loud, a beautiful noise\nWith dirty fingernails and plastic toys\n\n[Chorus]\nBut outside the window, the autumn wind blows\nAnd into the kitchen, a dark shadow grows\nYou're knitting red poppies, row after row\nStirring up ghosts from a century ago\nFor our tomorrow, they gave their today\nLest we forget the price they had to pay\n\n[Verse 2]\nI remember the mud, the ice, and the rain\nThe smell of the trenches, the shivering pain\nJust eighteen years old, facing the fire\nHolding our breath behind the barbed wire\nWe fought the good fight, we survived the blast\nNow a black button holds the flower tight at last\nOver a hundred poppies, stitched in a line\nA heavy red harvest of your time and mine\n\n[Bridge]\nThe air feels heavy, the room becomes still\nAs the red woolen balls roll over the sill\nOra whispers softly by the kitchen door\n"Can I take these flowers to the grand memoir?"\n\n[Outro]\nThe war brought no glory, but I'm standing tall\nThe kitchen is warm, the autumn leaves fall\nKnit your red flowers, tell the stories you know...\nGod bless the brave ones\nFrom a lifetime ago.`
     }, {
         chapter: "December",
         title: "A Cupcake for Alice",
         art: "https://picsum.photos/seed/CupcakeForAlice/400/400",
-        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351953088%3Fsecret_token%3Ds-xcBEvNCML9P&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351953088%3Fsecret_token%3Ds-xcBEvNCML9P&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nThe frost is on the window, the winter trees are bare\nAnd wild geese are fighting by the garden pond out there\nGrandma waved her mop around, a wet and crazy mess\nLosing all the golden fish but laughing at the stress\nWorkmen came and filled the pond, the chilly season passed\nBut inside the kitchen door, the chaos settles fast\n\n[Chorus]\nOh, happy birthday, sweet girl, you're turning five today\nYou cannot speak a word, but your smile tells what to say\nThrough the seizures and the tears, through the heavy night\nI'll give a pat upon your shoulder, hold you in the light\nYou're the prettiest Cinderella on the winter stage\nA beautiful, brave angel on a messy seasonal page\n\n[Verse 2]\nThe therapists are coming in, the training is so long\nGrandma pushes hard, but she only wants you strong\nI watch you in your wheelchair, so quiet and so still\nAs the children make their noise and the snow sheets coat the hill\nSlip into my wooden arms, you don't have to carry the weight\nWe're safe inside our little home, before the night gets late\n\n[Outro]\nThe term is finally over, the house is loud and bright\nA chocolate cake from daddy, a warm December night\nSleep tight, little Alice, the world is full of grace...\nYou've got a home\nIn this old pew's embrace.`
     }, {
         chapter: "February",
         title: "The Code of Chivalry",
         art: "https://picsum.photos/seed/CodeOfChivalry/400/400",
-        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351965142%3Fsecret_token%3Ds-Nohi3J0EacD&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351965142%3Fsecret_token%3Ds-Nohi3J0EacD&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nWinter drags on, the branches are bleak\nThe freezing rain is coating the street\nOra is crying, she slaps down the sheet\nTired of missing the notes on the beat\n"I'm backing out, I can't play it tomorrow"\nSitting on the stairs in her winter sorrow\nBut Grandma comes over, her hands covered in dough\nSaying, "Conquer the dark force, don't let the fear grow."\n\n[Chorus]\nBe a brave knight! Stand tall in the storm\nYou've got a shining armor to keep your heart warm\nMove forward with trouble, don't sweep it away\nYou've got the courage to face a dark day\nDon't run from the fight, don't live like a slave\nOh, Ora, look inside, you're meant to be brave!\n\n[Verse 2]\nMy father drove engines through grease and the smoke\nSupporting a family, he never once broke\nHe told us old stories by the light of the moon\nOf heroes and honor, an ancient sweet tune\nFaith and protection, mercy and grace\nThe armor that shields us in every hard place\nAnd I howled from my wood, across the kitchen floor:\n"Live out the code, you're a knight in your core!"\n\n[Bridge]\nAnd all of a sudden, she turned round her head\nDid she hear the wood whisper? Or what Grandma said?\nA spark in the darkness, a dead end is gone\nThe wheel keeps on turning, the music plays on!\n\n[Outro]\nThe winter trees shiver, the lawn is still white\nBut inside our kitchen, a fire burns bright\nPlay your song, little knight, let the notes softly ring...\nWe'll march through the shadow\nStraight into the spring.`
     }, {
         chapter: "April",
         title: "I have got a family",
         art: "https://picsum.photos/seed/IGotAFamily/400/400",
-        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351967101%3Fsecret_token%3Ds-hv4kmG9D7bn&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351967101%3Fsecret_token%3Ds-hv4kmG9D7bn&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nApril is here, there's a taste in the air\nOf fresh blooming flowers and sun over there\nThe kitchen is flooded with beautiful light\nAnd everyone's packing the baskets so tight\nWe squeezed in the car on a warm Saturday\nThrough motorway traffic, we made our own way\nTo a magnificent villa with woodland so green\nThe loveliest nature that I've ever seen\n\n[Chorus]\nOh, walking the tracks where the wild fireflies gleam\nListening to birds by a clear running stream\nThe world is so big and the countryside shrinks\nBut we find our peace in the tea Grandma drinks\nOut in the garden, or under the dome\nI look at your faces and feel I am home\n\n[Verse 2]\nLittle Nancy was digging her hand in the clay\nAnd swallowed a big piece of mud in her play!\nDaddy dropped his cell phone and dashed to her side\nWhile Grandma just smiled with her tea-drinking pride\nThen we walked through the mansion of history and art\nAnd I ran into an old friend of my heart\nHe said, "Stay in this palace, it's grand and it's free"\nBut I looked at sweet Alice and said, "Not for me..."\n\n[Bridge]\nYes, this grand ancient villa is splendid and high\nBut I miss my staircase where shadows walk by\nI love my cozy corner, the noise in the hall\nAnd the afternoon sun leaning soft on the wall\n\n[Outro]\nWe bought some ice cream on an old flinty street\nA beautiful day that was simple and sweet\nKeep driving us home, through the sun and the shade...\nI'm a part of this family\nThat love neatly made.`
     }, {
         chapter: "June",
         title: "God bless last June",
         art: "https://picsum.photos/seed/GodBlessLastJune/400/400",
-        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2352077012%3Fsecret_token%3Ds-zxudXzpMZZ6&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2352077012%3Fsecret_token%3Ds-zxudXzpMZZ6&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nThe summer breeze brought in the garden scent\nA hail storm passed, and the heavy showers went\nSmoke over the hedges, a sudden fire scare\nGrandma saved the day with her heroic air!\nThen a tiny mole was trapped inside a cage\nOra shed her tears on the kitchen stage\n"Please don't kill him, mister, take him far away"\nSo the sun came out on a kind and gentle day\n\n[Chorus]\nBut the year has turned, and the boxes are in line\nWe ran out of space, and we ran out of time\nI thought you would stay, oh, I hoped you'd stay on\nBut the truck is outside, and the piano is gone\nThe house is getting quiet, the hall is stripped bare\nAnd they pushed me right back, underneath the stair\n\n[Verse 2]\nI remember the noise, the chaos, and the heat\nThe grease on my wood, and the tiny dancing feet\nI remember the war that I fought long ago\nAnd the brave little knights that I came to know\nYou waxed me so clean, you made me feel new\nI was more than a bench, I was a part of you\n\n[Bridge]\nThen a heavy step walked slow down the floor\nGrandma stood by me, before she reached the door\nShe put her gentle hand right upon my frame\nAnd whispered to the quietness, calling my name:\n"Sorry for the hustle, thank you for your grace...\nTake care, old friend, in your lonely place."\n\n[Outro]\nI heard the door close, the car drove away\nMy wooden legs are heavy, so here I will stay\nTo watch the quiet seasons come and go\nThankful for the sweetest year I'll ever know\nGod bless you, my family, on the road you find...\nYou left your love\nIn the pew you left behind.`
     }];
 
     // ============================================================
-    //  2. 核心 DOM 操作与逻辑（已彻底重构修复）
+    //  2. 核心 DOM 操作与逻辑
     // ============================================================
     const playlistContainer = document.getElementById('playlist');
     const currentArt = document.getElementById('currentArt');
     const scPlayer = document.getElementById('scPlayer');
     const lyricsView = document.getElementById('lyricsView');
     const songArtContainer = document.getElementById('songArtView');
+    const coverOverlay = document.getElementById('coverOverlay');
+    const customPlayBtn = document.getElementById('customPlayBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl = document.getElementById('totalTime');
+    const currentTitleEl = document.getElementById('currentTitle');
+    const currentChapterEl = document.getElementById('currentChapter');
 
     let currentIndex = 0;
     let scWidget = null;
-    let shouldAutoPlay = false; // 记录用户点击列表后的自动播放意图
+    let shouldAutoPlay = false;
+    let isPlaying = false;
+
+    function formatTime(ms) {
+        if (isNaN(ms) || !isFinite(ms)) return "0:00";
+        let seconds = Math.floor(ms / 1000);
+        let min = Math.floor(seconds / 60);
+        let sec = Math.floor(seconds % 60);
+        if (sec < 10) sec = "0" + sec;
+        return `${min}:${sec}`;
+    }
 
     function initPlaylist() {
         soundtracksData.forEach((track, index) => {
@@ -74,13 +472,12 @@
         const items = document.querySelectorAll('.track-item');
         items.forEach((el, i) => el.classList.toggle('active', i === index));
         
-        // UI 淡出淡入效果
         songArtContainer.style.transition = 'opacity 0.28s';
         lyricsView.style.transition = 'opacity 0.28s';
         songArtContainer.style.opacity = '0';
         lyricsView.style.opacity = '0';
         
-        shouldAutoPlay = true; // 标记：用户主动点击了，加载完后请自动播放
+        shouldAutoPlay = true; 
         
         setTimeout(() => {
             loadTrack(index);
@@ -94,74 +491,115 @@
         const track = soundtracksData[index];
         if (!track) return;
         
-        // 1. 更新封面与歌词
         currentArt.src = track.art;
         currentArt.alt = track.title;
+        currentTitleEl.textContent = track.title;
+        currentChapterEl.textContent = `Chapter: ${track.chapter}`;
+        
         let formatted = track.lyrics.replace(/(\[.*?\])/g, '<span class="verse-tag">$1</span>');
         lyricsView.innerHTML = formatted;
         lyricsView.scrollTop = 0;
         
-        // 2. 核心修复：重置播放器状态
-        scPlayer.onload = null; // 清除旧的 onload 监听，防止重复触发
-        scWidget = null;        // 废弃旧的 Widget 实例（不要调用不存在的 unbind）
+        // 重置 UI
+        progressBar.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+        totalTimeEl.textContent = '0:00';
+        updatePlayButton(false);
         
-        // 3. 赋予新的 SoundCloud 链接
+        scPlayer.onload = null; 
+        scWidget = null; 
+        
         scPlayer.src = track.scLink;
         
-        // 4. 终极修复：必须等待 iframe 彻底加载完毕 (onload)，才能绑定 API
         scPlayer.onload = function() {
-            // 给 iframe 内部的 SoundCloud 脚本预留 500ms 的执行时间
             setTimeout(bindWidget, 500); 
         };
     }
 
-    function bindWidget() {
-        // 防御性检查：确保 SC API 已就绪
-        if (!window.SC || !SC.Widget) {
-            console.warn('⚠️ SoundCloud API 尚未加载完成');
-            return;
+    function updatePlayButton(playing) {
+        isPlaying = playing;
+        if (playing) {
+            customPlayBtn.innerHTML = "❚❚";
+            customPlayBtn.classList.add('playing');
+            coverOverlay.classList.add('active');
+        } else {
+            customPlayBtn.innerHTML = "▶";
+            customPlayBtn.classList.remove('playing');
+            coverOverlay.classList.remove('active');
         }
+    }
+
+    function bindWidget() {
+        if (!window.SC || !SC.Widget) return;
         
         try {
             scWidget = SC.Widget(scPlayer);
             
             scWidget.bind(SC.Widget.Events.READY, () => {
-                console.log('✅ 播放器就绪：', soundtracksData[currentIndex].title);
-                // 如果用户刚才点击了列表，这里自动触发播放
+                scWidget.getDuration((duration) => {
+                    totalTimeEl.textContent = formatTime(duration);
+                });
                 if (shouldAutoPlay) {
                     try {
                         scWidget.play();
                     } catch(e) {
-                        console.warn('⚠️ 自动播放被浏览器策略拦截，请手动点击播放器');
+                        console.warn('⚠️ 自動播放被瀏覽器策略攔截，請手動點擊封面');
                     }
                     shouldAutoPlay = false;
                 }
             });
             
-            scWidget.bind(SC.Widget.Events.PLAY, () => console.log('▶️ 播放中'));
-            scWidget.bind(SC.Widget.Events.ERROR, (e) => console.error('❌ 播放错误:', e));
+            scWidget.bind(SC.Widget.Events.PLAY, () => updatePlayButton(true));
+            scWidget.bind(SC.Widget.Events.PAUSE, () => updatePlayButton(false));
+            scWidget.bind(SC.Widget.Events.FINISH, () => {
+                updatePlayButton(false);
+                progressBar.style.width = '0%';
+                currentTimeEl.textContent = '0:00';
+            });
+            
+            scWidget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
+                progressBar.style.width = (data.relativePosition * 100) + "%";
+                currentTimeEl.textContent = formatTime(data.currentPosition);
+            });
+            
+            scWidget.bind(SC.Widget.Events.ERROR, (e) => console.error('❌ 播放錯誤:', e));
         } catch (e) {
-            console.warn('Widget 绑定失败:', e);
+            console.warn('Widget 綁定失敗:', e);
         }
     }
 
-    // 辅助手势触发（应对 Safari/Chrome 严格的跨域 iframe 自动播放拦截）
-    document.addEventListener('click', function(e) {
-        if (shouldAutoPlay && scWidget) {
-            try {
-                scWidget.play();
-                shouldAutoPlay = false;
-                console.log('🎯 用户手势触发播放成功');
-            } catch(err) {}
+    // 自訂播放/暫停按鈕與封面點擊事件
+    function togglePlay() {
+        if (!scWidget) return;
+        if (isPlaying) {
+            scWidget.pause();
+        } else {
+            scWidget.play();
         }
+    }
+
+    customPlayBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlay();
+    });
+    
+    songArtContainer.addEventListener('click', togglePlay);
+
+    // 進度條點擊跳轉
+    progressContainer.addEventListener('click', (e) => {
+        if (!scWidget) return;
+        const rect = progressContainer.getBoundingClientRect();
+        const ratio = (e.clientX - rect.left) / rect.width;
+        scWidget.getDuration((duration) => {
+            if (duration) scWidget.seekTo(duration * ratio);
+        });
     });
 
-    // 确保 DOM 和 SC API 都准备好后再初始化
+    // 確保 API 載入後再初始化
     window.addEventListener('DOMContentLoaded', () => {
         if (typeof SC !== 'undefined') {
             initPlaylist();
         } else {
-            // 轮询等待 api.js 下载完毕
             const checkSC = setInterval(() => {
                 if (typeof SC !== 'undefined') {
                     clearInterval(checkSC);
@@ -171,3 +609,5 @@
         }
     });
 </script>
+</body>
+</html>
