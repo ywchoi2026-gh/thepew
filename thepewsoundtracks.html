@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Pew - Book Soundtrack Official Player</title>
-    <!-- 引入復古優雅的 Google 字體 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
     <style>
+        /* 样式保持不变 */
         :root {
-            --bg-color: #f7f4ef;         /* 復古羊皮紙象牙白 */
-            --wood-dark: #3e2723;        /* 老教堂橡木深褐 */
-            --wood-warm: #8d6e63;        /* 暖陽木紋橡木色 */
-            --accent-poppy: #b71c1c;     /* 一戰紀念罌粟紅 */
-            --text-main: #2d2421;        /* 深炭褐讀物字體 */
-            --lavender-soft: #eae4f2;    /* 八月薰衣草淡紫 */
+            --bg-color: #f7f4ef;
+            --wood-dark: #3e2723;
+            --wood-warm: #8d6e63;
+            --accent-poppy: #b71c1c;
+            --text-main: #2d2421;
+            --lavender-soft: #eae4f2;
+            --card-shadow: 0 8px 24px rgba(0,0,0,0.06);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Playfair Display', 'Noto Serif TC', serif;
             background-color: var(--bg-color);
@@ -33,49 +27,15 @@
             padding: 20px;
             background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0);
             background-size: 24px 24px;
+            min-height: 100vh;
         }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px dashed var(--wood-warm); }
+        header h1 { font-family: 'Cinzel', serif; font-size: 2.8rem; color: var(--wood-dark); letter-spacing: 2px; }
+        header p { font-style: italic; color: var(--wood-warm); font-size: 1.1rem; }
+        .main-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } .player-section { position: static !important; } }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed var(--wood-warm);
-        }
-
-        header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
-            color: var(--wood-dark);
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-style: italic;
-            color: var(--wood-warm);
-            font-size: 1.1rem;
-        }
-
-        /* 主區塊版面配置 */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 40px;
-        }
-
-        @media (max-width: 900px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 左側：曲目清單 */
         .playlist-section h2 {
             font-family: 'Cinzel', serif;
             color: var(--wood-dark);
@@ -84,128 +44,88 @@
             border-left: 4px solid var(--accent-poppy);
             padding-left: 10px;
         }
-
-        .track-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
+        .track-list { display: flex; flex-direction: column; gap: 14px; }
         .track-item {
             background: #ffffff;
             border: 1px solid #e0dacf;
             border-radius: 8px;
-            padding: 15px 20px;
+            padding: 16px 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
+        .track-item:hover { transform: translateY(-2px); border-color: var(--wood-warm); background-color: #faf8f5; box-shadow: var(--card-shadow); }
+        .track-item.active { border-color: var(--accent-poppy); background-color: var(--lavender-soft); box-shadow: 0 4px 16px rgba(183,28,28,0.10); }
+        .track-meta { font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--wood-warm); font-weight: 700; text-transform: uppercase; min-width: 80px; }
+        .track-title { font-size: 1.1rem; font-weight: 600; color: var(--wood-dark); }
 
-        .track-item:hover {
-            transform: translateY(-2px);
-            border-color: var(--wood-warm);
-            background-color: #faf8f5;
-        }
-
-        .track-item.active {
-            border-color: var(--accent-poppy);
-            background-color: var(--lavender-soft);
-            box-shadow: 0 4px 12px rgba(183, 28, 28, 0.08);
-        }
-
-        .track-meta {
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            color: var(--wood-warm);
-            font-weight: bold;
-            text-transform: uppercase;
-            width: 90px;
-        }
-
-        .track-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--wood-dark);
-        }
-
-        /* 右側：動態播放器與歌詞 */
         .player-section {
             background: #ffffff;
             border: 1px solid #e0dacf;
             border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            padding: 28px 24px 24px;
+            box-shadow: var(--card-shadow);
             position: sticky;
             top: 20px;
             text-align: center;
         }
-
         .song-art-container {
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto 25px auto;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border: 4px solid #ffffff;
-            transition: opacity 0.3s ease;
+            width: 100%; max-width: 320px; margin: 0 auto 22px;
+            border-radius: 8px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border: 3px solid #ffffff; background: #f0ebe4;
+            aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; /* 提示可點擊 */
         }
+        .song-art-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .sc-player-wrapper { margin-bottom: 24px; background: #fcfcfc; border-radius: 8px; overflow: hidden; min-height: 166px; position: relative; }
+        .sc-player-wrapper iframe { display: block; width: 100%; height: 166px; border: none; }
 
-        .song-art-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* SoundCloud 嵌入樣式 */
-        .sc-player-wrapper {
-            margin-bottom: 30px;
-            background: #fcfcfc;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        /* 歌詞滾動區域 */
         .lyrics-box {
-            max-height: 350px;
+            max-height: 360px;
             overflow-y: auto;
             text-align: center;
-            padding: 10px 20px;
+            padding: 12px 16px 8px;
             border-top: 1px solid #f0e9dd;
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             white-space: pre-line;
             color: #4a3f3b;
             scroll-behavior: smooth;
-            transition: opacity 0.3s ease;
+            line-height: 1.8;
+            cursor: pointer; /* 提示可點擊 */
         }
-
-        /* 歌詞美化滾動條 */
-        .lyrics-box::-webkit-scrollbar {
-            width: 6px;
-        }
-        .lyrics-box::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-        .lyrics-box::-webkit-scrollbar-thumb {
-            background: var(--wood-warm);
-            border-radius: 4px;
-        }
-        
+        .lyrics-box::-webkit-scrollbar { width: 5px; }
+        .lyrics-box::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .lyrics-box::-webkit-scrollbar-thumb { background: var(--wood-warm); border-radius: 4px; }
         .verse-tag {
             font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--accent-poppy);
-            margin-top: 15px;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-            font-weight: bold;
+            margin-top: 16px;
+            margin-bottom: 4px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
             display: block;
+            text-transform: uppercase;
         }
+        .empty-state { color: var(--wood-warm); font-style: italic; padding: 20px 0; font-size: 0.95rem; }
+        
+        /* 載入中的遮罩提示 */
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.8);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Cinzel', serif; color: var(--wood-warm);
+            font-size: 0.9rem; z-index: 10;
+            transition: opacity 0.3s;
+        }
+        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+        @media (max-width: 600px) { header h1 { font-size: 2rem; } .track-item { padding: 12px 14px; gap: 10px; flex-wrap: wrap; } .track-meta { min-width: 60px; font-size: 0.7rem; } .track-title { font-size: 0.95rem; } .player-section { padding: 18px 14px 16px; } .lyrics-box { font-size: 0.95rem; max-height: 280px; } .song-art-container { max-width: 220px; } }
     </style>
 </head>
 <body>
@@ -213,144 +133,217 @@
 <div class="container">
     <header>
         <h1>THE PEW</h1>
-        <p>Official Book Soundtrack - 伴隨長椅記憶流轉的四季樂章</p>
+        <p>Official Book Soundtrack — 伴隨長椅記憶流轉的四季樂章</p>
     </header>
 
     <div class="main-layout">
-        <!-- 左側：六首插曲清單 -->
         <section class="playlist-section">
-            <h2>Chapters & Soundtracks</h2>
-            <div class="track-list" id="playlist">
-                <!-- 透過 JS 動態渲染插曲清單 -->
-            </div>
+            <h2>Chapters &amp; Soundtracks</h2>
+            <div class="track-list" id="playlist"></div>
         </section>
 
-        <!-- 右側：連動播放器、封面與動態歌詞 -->
         <section class="player-section">
             <div class="song-art-container" id="songArtView">
-                <img src="" alt="Song Art" id="currentArt">
+                <img src="" alt="Song Art" id="currentArt" />
             </div>
-
-            <!-- SoundCloud 內置播放器載體 -->
             <div class="sc-player-wrapper">
-                <iframe id="scPlayer" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src=""></iframe>
+                <!-- 載入中提示 -->
+                <div id="loadingOverlay" class="loading-overlay hidden">Loading SoundCloud...</div>
+                <iframe id="scPlayer" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src=""></iframe>
             </div>
-
-            <!-- 動態歌詞區 -->
             <div class="lyrics-box" id="lyricsView">
-                <!-- 歌詞會在此處動態更新 -->
+                <span class="empty-state">✨ 點選左側曲目，展開歌詞與音樂</span>
             </div>
         </section>
     </div>
 </div>
 
-<!-- 引入 SoundCloud Widget API 讓切換更順暢 -->
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
-    // 完整書稿原聲帶插曲數據（已更新穩定的圖片網址與標準 SoundCloud 嵌入連結）
-    const sounstracksData = [
-        {
-            chapter: "August",
-            title: "My Haven (August Heat)",
-            art: "https://images.unsplash.com/photo-1546484475-7f7bd55792da?q=80&w=600&auto=format&fit=crop", // 優雅薰衣草與花園意象
-            scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2065842105%3Fsecret_token%3Ds-gZCHGuR302K&color=%238d6e63&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-            lyrics: `[Verse 1]\nThe August sun is burning hot outside\nBut under the stairs, I’ve got a place to hide\nMy little haven, cool and soft and green\nLooking through the glass at a garden scene\nLavender blooming, lilacs in the breeze\nStarlings hopping up and down the trees\nI used to belong to a church down the lane\nBefore the world changed, before the music became...\n\n[Chorus]\nOh, nature is kind, keeping me still\nIn the quiet light on the windowsill\nBut a heavy step just crossed my floor\nA sudden storm walked through the door\nYou dumped your bags right on my knee\nHey, mind your manners, whoever you can be!\n\n[Verse 2]\nThe house was empty for a long, long while\nNow a tiny baby looks up with a smile\nBlack bean eyes and a giant grin\nHitting my wood, letting the life crawl in\nThey want to move me to the kitchen space\nTurn this old pew to their dining place\n\n[Outro]\nA piano arrives as the sun goes down\nA brand new story in this old town\nMy quiet days are fading fast away...\nWelcome to my world. Here we stay.`
-        },
-        {
-            chapter: "October",
-            title: "Crimson Leaves and Poppies",
-            art: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=600&auto=format&fit=crop", // 紅葉與秋意意象
-            scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2065842111%3Fsecret_token%3Ds-s1xCHZprPWz&color=%23b71c1c&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-            lyrics: `[Verse 1]\nOctober's here, the days are getting cold\nThe garden changes into red and gold\nI hear the chattering leaves under their feet\nAnd sit through dinner in the kitchen heat\nLittle Nancy bouncing like a rocking boat\nSpilling her soup upon my wooden coat\nIt’s messy and it’s loud, a beautiful noise\nWith dirty fingernails and plastic toys\n\n[Chorus]\nBut outside the window, the autumn wind blows\nAnd into the kitchen, a dark shadow grows\nYou’re knitting red poppies, row after row\nStirring up ghosts from a century ago\nFor our tomorrow, they gave their today\nLest we forget the price they had to pay\n\n[Verse 2]\nI remember the mud, the ice, and the rain\nThe smell of the trenches, the shivering pain\nJust eighteen years old, facing the fire\nHolding our breath behind the barbed wire\nWe fought the good fight, we survived the blast\nNow a black button holds the flower tight at last\nOver a hundred poppies, stitched in a line\nA heavy red harvest of your time and mine\n\n[Bridge]\nThe air feels heavy, the room becomes still\nAs the red woolen balls roll over the sill\nOra whispers softly by the kitchen door\n"Can I take these flowers to the grand memoir?"\n\n[Outro]\nThe war brought no glory, but I’m standing tall\nThe kitchen is warm, the autumn leaves fall\nKnit your red flowers, tell the stories you know...\nGod bless the brave ones\nFrom a lifetime ago.`
-        },
-        {
-            chapter: "December",
-            title: "A Cupcake for Alice",
-            art: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=600&auto=format&fit=crop", // 冬季聖誕與溫馨燈光意象
-            scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2065842114%3Fsecret_token%3Ds-xcBEvNCML9P&color=%238d6e63&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-            lyrics: `[Verse 1]\nThe frost is on the window, the winter trees are bare\nAnd wild geese are fighting by the garden pond out there\nGrandma waved her mop around, a wet and crazy mess\nLosing all the golden fish but laughing at the stress\nWorkmen came and filled the pond, the chilly season passed\nBut inside the kitchen door, the chaos settles fast\n\n[Chorus]\nOh, happy birthday, sweet girl, you’re turning five today\nYou cannot speak a word, but your smile tells what to say\nThrough the seizures and the tears, through the heavy night\nI’ll give a pat upon your shoulder, hold you in the light\nYou’re the prettiest Cinderella on the winter stage\nA beautiful, brave angel on a messy seasonal page\n\n[Verse 2]\nThe therapists are coming in, the training is so long\nGrandma pushes hard, but she only wants you strong\nI watch you in your wheelchair, so quiet and so still\nAs the children make their noise and the snow sheets coat the hill\nSlip into my wooden arms, you don't have to carry the weight\nWe’re safe inside our little home, before the night gets late\n\n[Outro]\nThe term is finally over, the house is loud and bright\nA chocolate cake from daddy, a warm December night\nSleep tight, little Alice, the world is full of grace...\nYou’ve got a home\nIn this old pew’s embrace.`
-        },
-        {
-            chapter: "February",
-            title: "The Code of Chivalry",
-            art: "https://images.unsplash.com/photo-1482862549707-f63cb32c5fd9?q=80&w=600&auto=format&fit=crop", // 深冬寒冷與室內微光意象
-            scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2065842102%3Fsecret_token%3Ds-Nohi3J0EacD&color=%233e2723&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-            lyrics: `[Verse 1]\nWinter drags on, the branches are bleak\nThe freezing rain is coating the street\nOra is crying, she slaps down the sheet\nTired of missing the notes on the beat\n"I’m backing out, I can’t play it tomorrow"\nSitting on the stairs in her winter sorrow\nBut Grandma comes over, her hands covered in dough\nSaying, "Conquer the dark force, don't let the fear grow."\n\n[Chorus]\nBe a brave knight! Stand tall in the storm\nYou’ve got a shining armor to keep your heart warm\nMove forward with trouble, don't sweep it away\nYou’ve got the courage to face a dark day\nDon't run from the fight, don't live like a slave\nOh, Ora, look inside, you’re meant to be brave!\n\n[Verse 2]\nMy father drove engines through grease and the smoke\nSupporting a family, he never once broke\nHe told us old stories by the light of the moon\nOf heroes and honor, an ancient sweet tune\nFaith and protection, mercy and grace\nThe armor that shields us in every hard place\nAnd I howled from my wood, across the kitchen floor:\n"Live out the code, you’re a knight in your core!"\n\n[Bridge]\nAnd all of a sudden, she turned round her head\nDid she hear the wood whisper? Or what Grandma said?\nA spark in the darkness, a dead end is gone\nThe wheel keeps on turning, the music plays on!\n\n[Outro]\nThe winter trees shiver, the lawn is still white\nBut inside our kitchen, a fire burns bright\nPlay your song, little knight, let the notes softly ring...\nWe’ll march through the shadow\nStraight into the spring.`
-        },
-        {
-            chapter: "April",
-            title: "I have got a family",
-            art: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=600&auto=format&fit=crop", // 暖春森林與陽光意象
-            scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2065842123%3Fsecret_token%3Ds-rjlOofkZbFs&color=%238d6e63&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-            lyrics: `[Verse 1]\nApril is here, there’s a taste in the air\nOf fresh blooming flowers and sun over there\nThe kitchen is flooded with beautiful light\nAnd everyone’s packing the baskets so tight\nWe squeezed in the car on a warm Saturday\nThrough motorway traffic, we made our own way\nTo a magnificent villa with woodland so green\nThe loveliest nature that I’ve ever seen\n\n[Chorus]\nOh, walking the tracks where the wild fireflies gleam\nListening to birds by a clear running stream\nThe world is so big and the countryside shrinks\nBut we find our peace in the tea Grandma drinks\nOut in the garden, or under the dome\nI look at your faces and feel I am home\n\n[Verse 2]\nLittle Nancy was digging her hand in the clay\nAnd swallowed a big piece of mud in her play!\nDaddy dropped his cell phone and dashed to her side\nWhile Grandma just smiled with her tea-drinking pride\nThen we walked through the mansion of history and art\nAnd I ran into an old friend of my heart\nHe said, "Stay in this palace, it’s grand and it’s free"\nBut I looked at sweet Alice and said, "Not for me..."\n\n[Bridge]\nYes, this grand ancient villa is splendid and high\nBut I miss my staircase where shadows walk by\nI love my cozy corner, the noise in the hall\nAnd the afternoon sun leaning soft on the wall\n\n[Outro]\nWe bought some ice cream on an old flinty street\nA beautiful day that was simple and sweet\nKeep driving us home, through the sun and the shade...\nI’m a part of this family\nThat love neatly made.`
-        },
-        {
-            chapter: "June",
-            title: "God bless last June",
-            art: "https://images.unsplash.com/photo-1500627869374-13ad993b0116?q=80&w=600&auto=format&fit=crop", // 初夏溫馨田園與離別意象
-            scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2065842129%3Fsecret_token%3Ds-zxudXzpMZZ6&color=%23b71c1c&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-            lyrics: `[Verse 1]\nThe summer breeze brought in the garden scent\nA hail storm passed, and the heavy showers went\nSmoke over the hedges, a sudden fire scare\nGrandma saved the day with her heroic air!\nThen a tiny mole was trapped inside a cage\nOra shed her tears on the kitchen stage\n"Please don't kill him, mister, take him far away"\nSo the sun came out on a kind and gentle day\n\n[Chorus]\nBut the year has turned, and the boxes are in line\nWe ran out of space, and we ran out of time\nI thought you would stay, oh, I hoped you’d stay on\nBut the truck is outside, and the piano is gone\nThe house is getting quiet, the hall is stripped bare\nAnd they pushed me right back, underneath the stair\n\n[Verse 2]\nI remember the noise, the chaos, and the heat\nThe grease on my wood, and the tiny dancing feet\nI remember the war that I fought long ago\nAnd the brave little knights that I came to know\nYou waxed me so clean, you made me feel new\nI was more than a bench, I was a part of you\n\n[Bridge]\nThen a heavy step walked slow down the floor\nGrandma stood by me, before she reached the door\nShe put her gentle hand right upon my frame\nAnd whispered to the quietness, calling my name:\n"Sorry for the hustle, thank you for your grace...\nTake care, old friend, in your lonely place."\n\n[Outro]\nI heard the door close, the car drove away\nMy wooden legs are heavy, so here I will stay\nTo watch the quiet seasons come and go\nThankful for the sweetest year I'll ever know\nGod bless you, my family, on the road you find...\nYou left your love\nIn the pew you left behind.`
-        }
-    ];
+    // ============================================================
+    //  1. 歌曲数据
+    // ============================================================
+    const soundtracksData = [{
+        chapter: "August",
+        title: "My Haven (August Heat)",
+        art: "https://picsum.photos/seed/MyHavenAugust/400/400",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2350660724%3Fsecret_token%3Ds-gZCHGuR302K&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        lyrics: `[Verse 1]\nThe August sun is burning hot outside\nBut under the stairs, I’ve got a place to hide\nMy little haven, cool and soft and green\nLooking through the glass at a garden scene\nLavender blooming, lilacs in the breeze\nStarlings hopping up and down the trees\nI used to belong to a church down the lane\nBefore the world changed, before the music became...\n\n[Chorus]\nOh, nature is kind, keeping me still\nIn the quiet light on the windowsill\nBut a heavy step just crossed my floor\nA sudden storm walked through the door\nYou dumped your bags right on my knee\nHey, mind your manners, whoever you can be!\n\n[Verse 2]\nThe house was empty for a long, long while\nNow a tiny baby looks up with a smile\nBlack bean eyes and a giant grin\nHitting my wood, letting the life crawl in\nThey want to move me to the kitchen space\nTurn this old pew to their dining place\n\n[Outro]\nA piano arrives as the sun goes down\nA brand new story in this old town\nMy quiet days are fading fast away...\nWelcome to my world. Here we stay.`
+    }, {
+        chapter: "October",
+        title: "Crimson Leaves and Poppies",
+        art: "https://picsum.photos/seed/CrimsonLeavesPoppies/400/400",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351951084%3Fsecret_token%3Ds-s1xCHZprPWz&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        lyrics: `[Verse 1]\nOctober's here, the days are getting cold\nThe garden changes into red and gold\nI hear the chattering leaves under their feet\nAnd sit through dinner in the kitchen heat\nLittle Nancy bouncing like a rocking boat\nSpilling her soup upon my wooden coat\nIt’s messy and it’s loud, a beautiful noise\nWith dirty fingernails and plastic toys\n\n[Chorus]\nBut outside the window, the autumn wind blows\nAnd into the kitchen, a dark shadow grows\nYou’re knitting red poppies, row after row\nStirring up ghosts from a century ago\nFor our tomorrow, they gave their today\nLest we forget the price they had to pay\n\n[Verse 2]\nI remember the mud, the ice, and the rain\nThe smell of the trenches, the shivering pain\nJust eighteen years old, facing the fire\nHolding our breath behind the barbed wire\nWe fought the good fight, we survived the blast\nNow a black button holds the flower tight at last\nOver a hundred poppies, stitched in a line\nA heavy red harvest of your time and mine\n\n[Bridge]\nThe air feels heavy, the room becomes still\nAs the red woolen balls roll over the sill\nOra whispers softly by the kitchen door\n"Can I take these flowers to the grand memoir?"\n\n[Outro]\nThe war brought no glory, but I’m standing tall\nThe kitchen is warm, the autumn leaves fall\nKnit your red flowers, tell the stories you know...\nGod bless the brave ones\nFrom a lifetime ago.`
+    }, {
+        chapter: "December",
+        title: "A Cupcake for Alice",
+        art: "https://picsum.photos/seed/CupcakeForAlice/400/400",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351953088%3Fsecret_token%3Ds-xcBEvNCML9P&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        lyrics: `[Verse 1]\nThe frost is on the window, the winter trees are bare\nAnd wild geese are fighting by the garden pond out there\nGrandma waved her mop around, a wet and crazy mess\nLosing all the golden fish but laughing at the stress\nWorkmen came and filled the pond, the chilly season passed\nBut inside the kitchen door, the chaos settles fast\n\n[Chorus]\nOh, happy birthday, sweet girl, you’re turning five today\nYou cannot speak a word, but your smile tells what to say\nThrough the seizures and the tears, through the heavy night\nI’ll give a pat upon your shoulder, hold you in the light\nYou’re the prettiest Cinderella on the winter stage\nA beautiful, brave angel on a messy seasonal page\n\n[Verse 2]\nThe therapists are coming in, the training is so long\nGrandma pushes hard, but she only wants you strong\nI watch you in your wheelchair, so quiet and so still\nAs the children make their noise and the snow sheets coat the hill\nSlip into my wooden arms, you don't have to carry the weight\nWe’re safe inside our little home, before the night gets late\n\n[Outro]\nThe term is finally over, the house is loud and bright\nA chocolate cake from daddy, a warm December night\nSleep tight, little Alice, the world is full of grace...\nYou’ve got a home\nIn this old pew’s embrace.`
+    }, {
+        chapter: "February",
+        title: "The Code of Chivalry",
+        art: "https://picsum.photos/seed/CodeOfChivalry/400/400",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351965142%3Fsecret_token%3Ds-Nohi3J0EacD&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        lyrics: `[Verse 1]\nWinter drags on, the branches are bleak\nThe freezing rain is coating the street\nOra is crying, she slaps down the sheet\nTired of missing the notes on the beat\n"I’m backing out, I can’t play it tomorrow"\nSitting on the stairs in her winter sorrow\nBut Grandma comes over, her hands covered in dough\nSaying, "Conquer the dark force, don't let the fear grow."\n\n[Chorus]\nBe a brave knight! Stand tall in the storm\nYou’ve got a shining armor to keep your heart warm\nMove forward with trouble, don't sweep it away\nYou’ve got the courage to face a dark day\nDon't run from the fight, don't live like a slave\nOh, Ora, look inside, you’re meant to be brave!\n\n[Verse 2]\nMy father drove engines through grease and the smoke\nSupporting a family, he never once broke\nHe told us old stories by the light of the moon\nOf heroes and honor, an ancient sweet tune\nFaith and protection, mercy and grace\nThe armor that shields us in every hard place\nAnd I howled from my wood, across the kitchen floor:\n"Live out the code, you’re a knight in your core!"\n\n[Bridge]\nAnd all of a sudden, she turned round her head\nDid she hear the wood whisper? Or what Grandma said?\nA spark in the darkness, a dead end is gone\nThe wheel keeps on turning, the music plays on!\n\n[Outro]\nThe winter trees shiver, the lawn is still white\nBut inside our kitchen, a fire burns bright\nPlay your song, little knight, let the notes softly ring...\nWe’ll march through the shadow\nStraight into the spring.`
+    }, {
+        chapter: "April",
+        title: "I have got a family",
+        art: "https://picsum.photos/seed/IGotAFamily/400/400",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351967101%3Fsecret_token%3Ds-hv4kmG9D7bn&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        lyrics: `[Verse 1]\nApril is here, there’s a taste in the air\nOf fresh blooming flowers and sun over there\nThe kitchen is flooded with beautiful light\nAnd everyone’s packing the baskets so tight\nWe squeezed in the car on a warm Saturday\nThrough motorway traffic, we made our own way\nTo a magnificent villa with woodland so green\nThe loveliest nature that I’ve ever seen\n\n[Chorus]\nOh, walking the tracks where the wild fireflies gleam\nListening to birds by a clear running stream\nThe world is so big and the countryside shrinks\nBut we find our peace in the tea Grandma drinks\nOut in the garden, or under the dome\nI look at your faces and feel I am home\n\n[Verse 2]\nLittle Nancy was digging her hand in the clay\nAnd swallowed a big piece of mud in her play!\nDaddy dropped his cell phone and dashed to her side\nWhile Grandma just smiled with her tea-drinking pride\nThen we walked through the mansion of history and art\nAnd I ran into an old friend of my heart\nHe said, "Stay in this palace, it’s grand and it’s free"\nBut I looked at sweet Alice and said, "Not for me..."\n\n[Bridge]\nYes, this grand ancient villa is splendid and high\nBut I miss my staircase where shadows walk by\nI love my cozy corner, the noise in the hall\nAnd the afternoon sun leaning soft on the wall\n\n[Outro]\nWe bought some ice cream on an old flinty street\nA beautiful day that was simple and sweet\nKeep driving us home, through the sun and the shade...\nI’m a part of this family\nThat love neatly made.`
+    }, {
+        chapter: "June",
+        title: "God bless last June",
+        art: "https://picsum.photos/seed/GodBlessLastJune/400/400",
+        scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2352077012%3Fsecret_token%3Ds-zxudXzpMZZ6&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+        lyrics: `[Verse 1]\nThe summer breeze brought in the garden scent\nA hail storm passed, and the heavy showers went\nSmoke over the hedges, a sudden fire scare\nGrandma saved the day with her heroic air!\nThen a tiny mole was trapped inside a cage\nOra shed her tears on the kitchen stage\n"Please don't kill him, mister, take him far away"\nSo the sun came out on a kind and gentle day\n\n[Chorus]\nBut the year has turned, and the boxes are in line\nWe ran out of space, and we ran out of time\nI thought you would stay, oh, I hoped you’d stay on\nBut the truck is outside, and the piano is gone\nThe house is getting quiet, the hall is stripped bare\nAnd they pushed me right back, underneath the stair\n\n[Verse 2]\nI remember the noise, the chaos, and the heat\nThe grease on my wood, and the tiny dancing feet\nI remember the war that I fought long ago\nAnd the brave little knights that I came to know\nYou waxed me so clean, you made me feel new\nI was more than a bench, I was a part of you\n\n[Bridge]\nThen a heavy step walked slow down the floor\nGrandma stood by me, before she reached the door\nShe put her gentle hand right upon my frame\nAnd whispered to the quietness, calling my name:\n"Sorry for the hustle, thank you for your grace...\nTake care, old friend, in your lonely place."\n\n[Outro]\nI heard the door close, the car drove away\nMy wooden legs are heavy, so here I will stay\nTo watch the quiet seasons come and go\nThankful for the sweetest year I'll ever know\nGod bless you, my family, on the road you find...\nYou left your love\nIn the pew you left behind.`
+    }];
 
+    // ============================================================
+    //  2. 核心 DOM 與 API 控制邏輯 (已徹底重構以修復失效問題)
+    // ============================================================
     const playlistContainer = document.getElementById('playlist');
     const currentArt = document.getElementById('currentArt');
-    const scPlayer = document.getElementById('scPlayer');
     const lyricsView = document.getElementById('lyricsView');
+    const songArtContainer = document.getElementById('songArtView');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const scPlayerWrapper = document.querySelector('.sc-player-wrapper');
 
-    // 初始化：動態渲染插曲列表
+    let currentIndex = 0;
+    let scWidget = null;
+    let scPlayer = document.getElementById('scPlayer'); // 初始引用
+    let isWidgetReady = false; // 關鍵狀態旗標
+
     function initPlaylist() {
-        playlistContainer.innerHTML = ''; // 清空可能存在的舊節點
-        sounstracksData.forEach((track, index) => {
+        soundtracksData.forEach((track, index) => {
             const item = document.createElement('div');
             item.className = `track-item ${index === 0 ? 'active' : ''}`;
-            item.onclick = () => selectTrack(index);
-
+            item.setAttribute('data-index', index);
+            item.addEventListener('click', () => selectTrack(index));
             item.innerHTML = `
-                <div class="track-meta">${track.chapter}</div>
-                <div class="track-title">${track.title}</div>
+                <span class="track-meta">${track.chapter}</span>
+                <span class="track-title">${track.title}</span>
             `;
             playlistContainer.appendChild(item);
         });
-
-        // 預設加載第一首歌曲
         loadTrack(0);
     }
 
-    // 切換選中歌曲
     function selectTrack(index) {
+        if (index === currentIndex) return;
         const items = document.querySelectorAll('.track-item');
-        items.forEach((item, i) => {
-            if (i === index) item.classList.add('active');
-            else item.classList.remove('active');
-        });
-
-        // 動態淡入淡出切換內容
-        document.getElementById('songArtView').style.opacity = 0;
-        lyricsView.style.opacity = 0;
-
+        items.forEach((el, i) => el.classList.toggle('active', i === index));
+        songArtContainer.style.opacity = '0';
+        lyricsView.style.opacity = '0';
         setTimeout(() => {
             loadTrack(index);
-            document.getElementById('songArtView').style.opacity = 1;
-            lyricsView.style.opacity = 1;
-        }, 300);
+            songArtContainer.style.opacity = '1';
+            lyricsView.style.opacity = '1';
+        }, 280);
+        currentIndex = index;
     }
 
-    // 加載歌曲數據到視窗
     function loadTrack(index) {
-        const track = sounstracksData[index];
+        const track = soundtracksData[index];
+        if (!track) return;
+        
+        // 重置狀態
+        isWidgetReady = false;
+        if (scWidget) {
+            scWidget.unbind();
+            scWidget = null;
+        }
+
+        // 封面與歌詞更新
         currentArt.src = track.art;
         currentArt.alt = track.title;
-        scPlayer.src = track.scLink;
-
-        // 格式化歌詞中的標籤
-        let formattedLyrics = track.lyrics.replace(/(\[.*?\])/g, '<span class="verse-tag">$1</span>');
-        lyricsView.innerHTML = formattedLyrics;
+        let formatted = track.lyrics.replace(/(\[.*?\])/g, '<span class="verse-tag">$1</span>');
+        lyricsView.innerHTML = formatted;
         lyricsView.scrollTop = 0;
+
+        // 顯示載入中遮罩
+        loadingOverlay.classList.remove('hidden');
+
+        // ✅ 核心修正：銷毀舊的 iframe，創建全新的 iframe 以確保 API 通訊通道乾淨
+        if (scPlayer) {
+            scPlayer.remove();
+        }
+
+        const newIframe = document.createElement('iframe');
+        newIframe.id = 'scPlayer';
+        newIframe.width = '100%';
+        newIframe.height = '166';
+        newIframe.scrolling = 'no';
+        newIframe.frameBorder = 'no';
+        newIframe.allow = 'autoplay; encrypted-media';
+        newIframe.src = track.scLink;
+
+        scPlayerWrapper.appendChild(newIframe);
+        scPlayer = newIframe; // 更新全域引用
+
+        // ✅ 監聽 iframe 的 onload 事件，確保 SoundCloud 頁面結構載入完成
+        newIframe.onload = () => {
+            // SoundCloud 內部的 JS 需要一點時間初始化 postMessage 通道
+            setTimeout(() => {
+                bindWidget();
+            }, 800); 
+        };
+
+        // 備用方案：防止某些瀏覽器 onload 觸發異常
+        setTimeout(() => {
+            if (!isWidgetReady) bindWidget();
+        }, 2500);
     }
 
-    window.onload = initPlaylist;
-</script>
+    function bindWidget() {
+        if (isWidgetReady) return; // 避免重複綁定
 
+        try {
+            scWidget = SC.Widget(scPlayer);
+            
+            // 綁定最關鍵的 READY 事件
+            scWidget.bind(SC.Widget.Events.READY, () => {
+                isWidgetReady = true;
+                loadingOverlay.classList.add('hidden'); // 隱藏載入中遮罩
+                console.log('✅ 播放器就緒 (READY)');
+            });
+
+            scWidget.bind(SC.Widget.Events.PLAY, () => console.log('▶️ 播放中'));
+            scWidget.bind(SC.Widget.Events.PAUSE, () => console.log('⏸️ 暫停'));
+            scWidget.bind(SC.Widget.Events.ERROR, (e) => console.error('❌ 播放錯誤:', e));
+            
+        } catch (e) {
+            console.warn('Widget 綁定失敗:', e);
+            loadingOverlay.classList.add('hidden');
+        }
+    }
+
+    // ✅ 優化：用戶點擊封面或歌詞區觸發播放/暫停 (繞過 Autoplay 限制)
+    document.addEventListener('click', function(e) {
+        // 僅針對封面和歌詞區，不包含 iframe 本身 (iframe 內部已有按鈕)
+        const triggerArea = e.target.closest('.song-art-container, .lyrics-box');
+        
+        if (triggerArea && isWidgetReady && scWidget) {
+            scWidget.isPaused((paused) => {
+                if (paused) {
+                    scWidget.play();
+                    console.log('🎯 用户手势触发播放');
+                } else {
+                    scWidget.pause();
+                }
+            });
+        }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.location.protocol === 'file:') {
+            alert("📢 注意：SoundCloud API 無法在 file:// 本地環境下運作。\n請務必將網頁上傳至伺服器或使用 Live Server 開啟！");
+        }
+        initPlaylist();
+    });
+    console.log('🎵 The Pew 播放器已更新為 DOM 重建模式，確保 API 穩定運作');
+</script>
 </body>
 </html>
