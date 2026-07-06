@@ -16,6 +16,15 @@
             --text-main: #2d2421;
             --lavender-soft: #eae4f2;
             --card-shadow: 0 12px 32px rgba(0,0,0,0.06);
+            --dot-color: rgba(0,0,0,0.02);
+            --card-bg: #ffffff;
+            --card-border: #e0dacf;
+            --track-bg: #fcfbf9;
+            --lyrics-bg: #fcfbf9;
+            --lyrics-text: #3e2723;
+            --header-border: #f0e9dd;
+            --progress-track: #e0dacf;
+            --scrollbar-thumb: #d1c7b8;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,12 +35,13 @@
             color: var(--text-main);
             line-height: 1.7;
             padding: 20px 30px;
-            background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0);
+            background-image: radial-gradient(var(--dot-color) 1px, transparent 0);
             background-size: 24px 24px;
             height: 100vh;
             overflow: hidden; 
             display: flex;
             flex-direction: column;
+            transition: background-color 1.2s ease, color 1.2s ease;
         }
         
         .container { 
@@ -49,9 +59,10 @@
             padding: 10px 0 20px; 
             border-bottom: 1px dashed var(--wood-warm); 
             flex-shrink: 0;
+            transition: border-color 1.2s ease;
         }
-        header h1 { font-family: 'Cinzel', serif; font-size: 2.4rem; color: var(--wood-dark); letter-spacing: 3px; }
-        header p { font-style: italic; color: var(--wood-warm); font-size: 1rem; margin-top: 5px; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 2.4rem; color: var(--wood-dark); letter-spacing: 3px; transition: color 1.2s ease; }
+        header p { font-style: italic; color: var(--wood-warm); font-size: 1rem; margin-top: 5px; transition: color 1.2s ease; }
 
         .main-layout { 
             display: grid; 
@@ -63,14 +74,15 @@
         }
 
         .sidebar {
-            background: #ffffff;
-            border: 1px solid #e0dacf;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 24px;
             box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            transition: background 1.2s ease, border-color 1.2s ease;
         }
         
         .sidebar h3 {
@@ -81,6 +93,7 @@
             border-left: 4px solid var(--accent-poppy);
             padding-left: 10px;
             flex-shrink: 0;
+            transition: color 1.2s ease, border-color 1.2s ease;
         }
         
         .track-list { 
@@ -93,18 +106,18 @@
         
         .track-list::-webkit-scrollbar { width: 6px; }
         .track-list::-webkit-scrollbar-track { background: transparent; }
-        .track-list::-webkit-scrollbar-thumb { background: #d1c7b8; border-radius: 4px; }
+        .track-list::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; transition: background 1.2s ease; }
         
         .track-item {
-            background: #fcfbf9;
-            border: 1px solid #e0dacf;
+            background: var(--track-bg);
+            border: 1px solid var(--card-border);
             border-radius: 10px;
             padding: 14px 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 15px;
-            transition: all 0.25s ease;
+            transition: all 0.25s ease, background 1.2s ease, border-color 1.2s ease;
             flex-shrink: 0;
         }
         
@@ -127,9 +140,10 @@
             font-weight: 700; 
             text-transform: uppercase; 
             min-width: 65px; 
+            transition: color 1.2s ease;
         }
         
-        .track-title { font-size: 0.95rem; font-weight: 600; color: var(--wood-dark); }
+        .track-title { font-size: 0.95rem; font-weight: 600; color: var(--wood-dark); transition: color 1.2s ease; }
 
         .main-content {
             display: flex;
@@ -139,8 +153,8 @@
         }
 
         .player-console {
-            background: #ffffff;
-            border: 1px solid #e0dacf;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 24px;
             box-shadow: var(--card-shadow);
@@ -148,6 +162,7 @@
             align-items: center;
             gap: 30px;
             flex-shrink: 0;
+            transition: background 1.2s ease, border-color 1.2s ease;
         }
 
         .song-art-container {
@@ -277,6 +292,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: color 1.2s ease;
         }
 
         .current-chapter {
@@ -285,6 +301,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 600;
+            transition: color 1.2s ease;
         }
 
         .custom-controls {
@@ -294,11 +311,12 @@
         .progress-container {
             width: 100%;
             height: 6px;
-            background: #e0dacf;
+            background: var(--progress-track);
             border-radius: 3px;
             cursor: pointer;
             position: relative;
             margin-bottom: 8px;
+            transition: background 1.2s ease;
         }
 
         .progress-bar {
@@ -307,7 +325,7 @@
             border-radius: 3px;
             width: 0%;
             position: relative;
-            transition: width 0.1s linear;
+            transition: width 0.1s linear, background 1.2s ease;
         }
 
         .progress-bar::after {
@@ -321,7 +339,7 @@
             background: var(--accent-poppy);
             border-radius: 50%;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, background 1.2s ease;
             box-shadow: 0 2px 6px rgba(183,28,28,0.3);
         }
 
@@ -337,26 +355,28 @@
 
         .lyrics-panel {
             flex: 1;
-            background: #ffffff;
-            border: 1px solid #e0dacf;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            transition: background 1.2s ease, border-color 1.2s ease;
         }
 
         .lyrics-header {
             padding: 16px 40px;
-            border-bottom: 1px solid #f0e9dd;
+            border-bottom: 1px solid var(--header-border);
             font-family: 'Cinzel', serif;
             color: var(--wood-warm);
             letter-spacing: 3px;
             font-size: 0.85rem;
             text-transform: uppercase;
             text-align: center;
-            background: #fcfbf9;
+            background: var(--lyrics-bg);
             flex-shrink: 0;
+            transition: color 1.2s ease, border-color 1.2s ease, background 1.2s ease;
         }
 
         .lyrics-box {
@@ -366,14 +386,15 @@
             font-family: 'Playfair Display', 'Noto Serif TC', serif;
             font-size: 1.2rem;
             line-height: 2.2;
-            color: #3e2723;
+            color: var(--lyrics-text);
             text-align: center;
             scroll-behavior: smooth;
+            transition: color 1.2s ease;
         }
 
         .lyrics-box::-webkit-scrollbar { width: 6px; }
         .lyrics-box::-webkit-scrollbar-track { background: transparent; }
-        .lyrics-box::-webkit-scrollbar-thumb { background: #d1c7b8; border-radius: 4px; }
+        .lyrics-box::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; transition: background 1.2s ease; }
 
         .verse-tag {
             font-family: 'Cinzel', serif;
@@ -385,9 +406,145 @@
             font-weight: 700;
             display: block;
             text-transform: uppercase;
+            transition: color 1.2s ease;
         }
         
         .verse-tag:first-child { margin-top: 0; }
+
+        body.theme-august {
+            --bg-color: #fdf6e3;
+            --wood-dark: #5d4037;
+            --wood-warm: #a1887f;
+            --accent-poppy: #e65100;
+            --text-main: #3e2723;
+            --lavender-soft: #fff3e0;
+            --card-shadow: 0 12px 32px rgba(230,81,0,0.06);
+            --dot-color: rgba(230,81,0,0.02);
+            --card-bg: #fffdf7;
+            --card-border: #f0e4cc;
+            --track-bg: #fffef9;
+            --lyrics-bg: #fffef9;
+            --lyrics-text: #4e342e;
+            --header-border: #f5e6cc;
+            --progress-track: #f0e4cc;
+            --scrollbar-thumb: #e0c9a6;
+        }
+
+        body.theme-october {
+            --bg-color: #fbe9e7;
+            --wood-dark: #3e2723;
+            --wood-warm: #8d6e63;
+            --accent-poppy: #c62828;
+            --text-main: #2d2421;
+            --lavender-soft: #ffcdd2;
+            --card-shadow: 0 12px 32px rgba(198,40,40,0.06);
+            --dot-color: rgba(198,40,40,0.02);
+            --card-bg: #fff8f6;
+            --card-border: #f0d5cc;
+            --track-bg: #fffbf9;
+            --lyrics-bg: #fffbf9;
+            --lyrics-text: #3e2723;
+            --header-border: #f5e0d6;
+            --progress-track: #f0d5cc;
+            --scrollbar-thumb: #d7b8a8;
+        }
+
+        body.theme-december {
+            --bg-color: #e8eaf6;
+            --wood-dark: #1a237e;
+            --wood-warm: #5c6bc0;
+            --accent-poppy: #0d47a1;
+            --text-main: #1a237e;
+            --lavender-soft: #c5cae9;
+            --card-shadow: 0 12px 32px rgba(13,71,161,0.06);
+            --dot-color: rgba(13,71,161,0.02);
+            --card-bg: #f5f7ff;
+            --card-border: #c5cae9;
+            --track-bg: #f8f9ff;
+            --lyrics-bg: #f8f9ff;
+            --lyrics-text: #283593;
+            --header-border: #d1d9f0;
+            --progress-track: #c5cae9;
+            --scrollbar-thumb: #9fa8da;
+        }
+
+        body.theme-february {
+            --bg-color: #ede7f6;
+            --wood-dark: #1a1a2e;
+            --wood-warm: #5e35b1;
+            --accent-poppy: #e64a19;
+            --text-main: #1a1a2e;
+            --lavender-soft: #d1c4e9;
+            --card-shadow: 0 12px 32px rgba(94,53,177,0.08);
+            --dot-color: rgba(94,53,177,0.02);
+            --card-bg: #f8f5ff;
+            --card-border: #d1c4e9;
+            --track-bg: #faf8ff;
+            --lyrics-bg: #faf8ff;
+            --lyrics-text: #311b92;
+            --header-border: #e0d6f0;
+            --progress-track: #d1c4e9;
+            --scrollbar-thumb: #b39ddb;
+        }
+
+        body.theme-april {
+            --bg-color: #e8f5e9;
+            --wood-dark: #1b5e20;
+            --wood-warm: #66bb6a;
+            --accent-poppy: #c2185b;
+            --text-main: #1b5e20;
+            --lavender-soft: #c8e6c9;
+            --card-shadow: 0 12px 32px rgba(27,94,32,0.06);
+            --dot-color: rgba(27,94,32,0.02);
+            --card-bg: #f6fff7;
+            --card-border: #c8e6c9;
+            --track-bg: #f9fff9;
+            --lyrics-bg: #f9fff9;
+            --lyrics-text: #2e7d32;
+            --header-border: #d6f0d8;
+            --progress-track: #c8e6c9;
+            --scrollbar-thumb: #a5d6a7;
+        }
+
+        body.theme-june {
+            --bg-color: #fff8e1;
+            --wood-dark: #4e342e;
+            --wood-warm: #a1887f;
+            --accent-poppy: #e65100;
+            --text-main: #3e2723;
+            --lavender-soft: #ffe0b2;
+            --card-shadow: 0 12px 32px rgba(230,81,0,0.06);
+            --dot-color: rgba(230,81,0,0.02);
+            --card-bg: #fffdf5;
+            --card-border: #ffe0b2;
+            --track-bg: #fffef8;
+            --lyrics-bg: #fffef8;
+            --lyrics-text: #4e342e;
+            --header-border: #f5e6c8;
+            --progress-track: #ffe0b2;
+            --scrollbar-thumb: #ffcc80;
+        }
+
+        #moodCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #moodCanvas.active {
+            opacity: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
 
         @media (max-width: 900px) {
             body { padding: 15px; overflow-y: auto; height: auto; }
@@ -407,6 +564,8 @@
     </style>
 </head>
 <body>
+
+<canvas id="moodCanvas"></canvas>
 
 <div class="container">
     <header>
@@ -544,6 +703,11 @@
         return `${min}:${sec}`;
     }
 
+    function setTheme(chapter) {
+        const themeClass = 'theme-' + chapter.toLowerCase();
+        document.body.className = themeClass;
+    }
+
     function initPlaylist() {
         soundtracksData.forEach((track, index) => {
             const item = document.createElement('div');
@@ -577,6 +741,9 @@
         currentArt.alt = track.title;
         currentTitleEl.textContent = track.title;
         currentChapterEl.textContent = `Chapter: ${track.chapter}`;
+        
+        setMoodEffect(track.chapter);
+        setTheme(track.chapter);
         
         let formatted = track.lyrics.replace(/(\[.*?\])/g, '<span class="verse-tag">$1</span>');
         lyricsView.innerHTML = formatted;
@@ -705,6 +872,264 @@
                     initPlaylist();
                 }
             }, 100);
+        }
+    });
+
+    // ============================================================
+    //  3. 動態氛圍效果引擎
+    // ============================================================
+    const moodCanvas = document.getElementById('moodCanvas');
+    const moodCtx = moodCanvas.getContext('2d');
+    let moodParticles = [];
+    let moodAnimationId = null;
+    let currentMood = null;
+
+    const moodConfigs = {
+        'August': {
+            bgGradient: ['rgba(255, 223, 140, 0.08)', 'rgba(255, 183, 77, 0.04)'],
+            particles: {
+                count: 50,
+                colors: ['rgba(255, 213, 79, 0.6)', 'rgba(255, 183, 77, 0.4)', 'rgba(255, 241, 118, 0.5)'],
+                sizeRange: [2, 6],
+                speedRange: [0.2, 0.5],
+                type: 'float',
+                glow: true
+            }
+        },
+        'October': {
+            bgGradient: ['rgba(183, 28, 28, 0.06)', 'rgba(141, 110, 99, 0.04)'],
+            particles: {
+                count: 35,
+                colors: ['rgba(183, 28, 28, 0.7)', 'rgba(211, 47, 47, 0.6)', 'rgba(255, 138, 101, 0.5)', 'rgba(141, 110, 99, 0.4)'],
+                sizeRange: [4, 10],
+                speedRange: [0.5, 1.2],
+                type: 'fall',
+                rotation: true
+            }
+        },
+        'December': {
+            bgGradient: ['rgba(227, 242, 253, 0.1)', 'rgba(187, 222, 251, 0.06)'],
+            particles: {
+                count: 60,
+                colors: ['rgba(255, 255, 255, 0.8)', 'rgba(227, 242, 253, 0.6)', 'rgba(187, 222, 251, 0.5)'],
+                sizeRange: [2, 5],
+                speedRange: [0.3, 0.8],
+                type: 'snow',
+                sparkle: true
+            }
+        },
+        'February': {
+            bgGradient: ['rgba(26, 35, 126, 0.08)', 'rgba(69, 39, 111, 0.05)'],
+            particles: {
+                count: 40,
+                colors: ['rgba(255, 138, 101, 0.7)', 'rgba(255, 183, 77, 0.6)', 'rgba(239, 108, 0, 0.5)'],
+                sizeRange: [2, 5],
+                speedRange: [0.4, 1.0],
+                type: 'rise',
+                glow: true
+            }
+        },
+        'April': {
+            bgGradient: ['rgba(248, 187, 208, 0.08)', 'rgba(200, 230, 201, 0.05)'],
+            particles: {
+                count: 45,
+                colors: ['rgba(248, 187, 208, 0.6)', 'rgba(255, 209, 220, 0.5)', 'rgba(200, 230, 201, 0.4)', 'rgba(255, 245, 157, 0.3)'],
+                sizeRange: [3, 8],
+                speedRange: [0.3, 0.7],
+                type: 'float',
+                sway: true
+            }
+        },
+        'June': {
+            bgGradient: ['rgba(255, 183, 77, 0.07)', 'rgba(255, 213, 79, 0.04)'],
+            particles: {
+                count: 30,
+                colors: ['rgba(255, 213, 79, 0.8)', 'rgba(255, 241, 118, 0.6)', 'rgba(255, 183, 77, 0.5)'],
+                sizeRange: [3, 7],
+                speedRange: [0.2, 0.4],
+                type: 'firefly',
+                glow: true,
+                pulse: true
+            }
+        }
+    };
+
+    function resizeMoodCanvas() {
+        moodCanvas.width = window.innerWidth;
+        moodCanvas.height = window.innerHeight;
+    }
+
+    function createParticle(config) {
+        const pConfig = config.particles;
+        const particle = {
+            x: Math.random() * moodCanvas.width,
+            y: pConfig.type === 'rise' ? moodCanvas.height + 20 : Math.random() * moodCanvas.height,
+            size: pConfig.sizeRange[0] + Math.random() * (pConfig.sizeRange[1] - pConfig.sizeRange[0]),
+            color: pConfig.colors[Math.floor(Math.random() * pConfig.colors.length)],
+            speed: pConfig.speedRange[0] + Math.random() * (pConfig.speedRange[1] - pConfig.speedRange[0]),
+            opacity: 0.3 + Math.random() * 0.7,
+            angle: Math.random() * Math.PI * 2,
+            rotation: pConfig.rotation ? Math.random() * Math.PI * 2 : 0,
+            rotationSpeed: pConfig.rotation ? (Math.random() - 0.5) * 0.02 : 0,
+            pulsePhase: Math.random() * Math.PI * 2,
+            swayOffset: Math.random() * Math.PI * 2
+        };
+        return particle;
+    }
+
+    function initMoodParticles(chapter) {
+        const config = moodConfigs[chapter];
+        if (!config) return;
+
+        moodParticles = [];
+        for (let i = 0; i < config.particles.count; i++) {
+            moodParticles.push(createParticle(config));
+        }
+    }
+
+    function updateMoodParticles(chapter) {
+        const config = moodConfigs[chapter];
+        if (!config) return;
+
+        const pConfig = config.particles;
+
+        moodParticles.forEach(p => {
+            switch (pConfig.type) {
+                case 'float':
+                    p.y -= p.speed * 0.3;
+                    p.x += Math.sin(p.angle) * p.speed * 0.5;
+                    p.angle += 0.01;
+                    if (pConfig.sway) {
+                        p.x += Math.sin(Date.now() * 0.001 + p.swayOffset) * 0.3;
+                    }
+                    if (p.y < -20) {
+                        p.y = moodCanvas.height + 20;
+                        p.x = Math.random() * moodCanvas.width;
+                    }
+                    break;
+
+                case 'fall':
+                    p.y += p.speed;
+                    p.x += Math.sin(p.angle) * p.speed * 0.3;
+                    p.angle += 0.02;
+                    if (pConfig.rotation) {
+                        p.rotation += p.rotationSpeed;
+                    }
+                    if (p.y > moodCanvas.height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * moodCanvas.width;
+                    }
+                    break;
+
+                case 'snow':
+                    p.y += p.speed * 0.5;
+                    p.x += Math.sin(p.angle) * p.speed * 0.3;
+                    p.angle += 0.01;
+                    if (p.y > moodCanvas.height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * moodCanvas.width;
+                    }
+                    break;
+
+                case 'rise':
+                    p.y -= p.speed;
+                    p.x += Math.sin(p.angle) * p.speed * 0.4;
+                    p.angle += 0.015;
+                    if (p.y < -20) {
+                        p.y = moodCanvas.height + 20;
+                        p.x = Math.random() * moodCanvas.width;
+                    }
+                    break;
+
+                case 'firefly':
+                    p.x += Math.sin(p.angle) * p.speed;
+                    p.y += Math.cos(p.angle) * p.speed * 0.5;
+                    p.angle += 0.02;
+                    if (pConfig.pulse) {
+                        p.pulsePhase += 0.03;
+                        p.opacity = 0.3 + Math.sin(p.pulsePhase) * 0.4;
+                    }
+                    if (p.x < -20 || p.x > moodCanvas.width + 20 || p.y < -20 || p.y > moodCanvas.height + 20) {
+                        p.x = Math.random() * moodCanvas.width;
+                        p.y = Math.random() * moodCanvas.height;
+                    }
+                    break;
+            }
+        });
+    }
+
+    function drawMoodParticles(chapter) {
+        const config = moodConfigs[chapter];
+        if (!config) return;
+
+        const pConfig = config.particles;
+
+        moodParticles.forEach(p => {
+            moodCtx.save();
+            moodCtx.globalAlpha = p.opacity;
+
+            if (pConfig.glow) {
+                moodCtx.shadowBlur = 15;
+                moodCtx.shadowColor = p.color;
+            }
+
+            moodCtx.fillStyle = p.color;
+
+            if (pConfig.rotation) {
+                moodCtx.translate(p.x, p.y);
+                moodCtx.rotate(p.rotation);
+                moodCtx.beginPath();
+                moodCtx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+                moodCtx.fill();
+            } else {
+                moodCtx.beginPath();
+                moodCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                moodCtx.fill();
+            }
+
+            moodCtx.restore();
+        });
+    }
+
+    function animateMood() {
+        if (!currentMood) return;
+
+        const config = moodConfigs[currentMood];
+        if (!config) return;
+
+        moodCtx.clearRect(0, 0, moodCanvas.width, moodCanvas.height);
+
+        const gradient = moodCtx.createLinearGradient(0, 0, 0, moodCanvas.height);
+        gradient.addColorStop(0, config.bgGradient[0]);
+        gradient.addColorStop(1, config.bgGradient[1]);
+        moodCtx.fillStyle = gradient;
+        moodCtx.fillRect(0, 0, moodCanvas.width, moodCanvas.height);
+
+        updateMoodParticles(currentMood);
+        drawMoodParticles(currentMood);
+
+        moodAnimationId = requestAnimationFrame(animateMood);
+    }
+
+    function setMoodEffect(chapter) {
+        if (currentMood === chapter) return;
+
+        currentMood = chapter;
+        resizeMoodCanvas();
+        initMoodParticles(chapter);
+
+        if (moodAnimationId) {
+            cancelAnimationFrame(moodAnimationId);
+        }
+
+        moodCanvas.classList.add('active');
+        animateMood();
+    }
+
+    window.addEventListener('resize', () => {
+        resizeMoodCanvas();
+        if (currentMood) {
+            initMoodParticles(currentMood);
         }
     });
 </script>
