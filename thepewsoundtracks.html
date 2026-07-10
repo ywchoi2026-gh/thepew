@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Pew - Official Book Soundtrack</title>
+    <title>The Pew - Official Immersive Experience & Soundtrack</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
     <style>
         :root {
             --bg-color: #f7f4ef;
@@ -15,16 +15,18 @@
             --accent-poppy: #b71c1c;
             --text-main: #2d2421;
             --lavender-soft: #eae4f2;
-            --card-shadow: 0 12px 32px rgba(0,0,0,0.06);
+            --card-shadow: 0 16px 40px rgba(0,0,0,0.05);
             --dot-color: rgba(0,0,0,0.02);
             --card-bg: #ffffff;
-            --card-border: #e0dacf;
-            --track-bg: #fcfbf9;
-            --lyrics-bg: #fcfbf9;
+            --card-border: #e2dacd;
+            --track-bg: #fdfcfe;
+            --lyrics-bg: #ffffff;
             --lyrics-text: #3e2723;
-            --header-border: #f0e9dd;
-            --progress-track: #e0dacf;
-            --scrollbar-thumb: #d1c7b8;
+            --header-border: #f2ebd9;
+            --progress-track: #e8e0d5;
+            --scrollbar-thumb: #dcd2c1;
+            --amazon-color: #e47911;
+            --amazon-hover: #c4650c;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,103 +36,213 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.7;
-            padding: 20px 30px;
+            padding: 24px 40px;
             background-image: radial-gradient(var(--dot-color) 1px, transparent 0);
             background-size: 24px 24px;
-            height: 100vh;
-            overflow: hidden; 
+            min-height: 100vh;
+            overflow-y: auto; 
             display: flex;
             flex-direction: column;
-            transition: background-color 1.2s ease, color 1.2s ease;
+            transition: background-color 1.5s cubic-bezier(0.25, 1, 0.5, 1), color 1.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
         .container { 
-            max-width: 1400px; 
+            max-width: 1500px; 
             margin: 0 auto; 
             width: 100%;
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
         
         header { 
             text-align: center; 
-            padding: 10px 0 20px; 
-            border-bottom: 1px dashed var(--wood-warm); 
+            padding: 35px 0 35px; 
+            border-bottom: 1px solid var(--card-border); 
+            position: relative;
             flex-shrink: 0;
-            transition: border-color 1.2s ease;
+            transition: border-color 1.5s ease;
+            animation: fadeInHeader 1.8s cubic-bezier(0.25, 1, 0.5, 1) both; 
         }
-        header h1 { font-family: 'Cinzel', serif; font-size: 2.4rem; color: var(--wood-dark); letter-spacing: 3px; transition: color 1.2s ease; }
-        header p { font-style: italic; color: var(--wood-warm); font-size: 1rem; margin-top: 5px; transition: color 1.2s ease; }
+
+        @keyframes fadeInHeader {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        header::before {
+            content: "❦"; 
+            display: block;
+            font-size: 1.2rem;
+            color: var(--accent-poppy);
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        header h1 { 
+            font-family: 'Cinzel', serif; 
+            font-size: 3.2rem; 
+            color: var(--wood-dark); 
+            letter-spacing: 10px; 
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: color 1.5s ease; 
+        }
+
+        header .tagline {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px; 
+            color: var(--accent-poppy);
+            margin-top: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        header p.desc { 
+            font-family: 'Playfair Display', 'Noto Serif TC', serif;
+            font-style: italic; 
+            color: var(--wood-warm); 
+            font-size: 1.1rem; 
+            margin-top: 18px; 
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            position: relative;
+            padding: 0 20px;
+            transition: color 1.5s ease; 
+        }
 
         .main-layout { 
             display: grid; 
-            grid-template-columns: 320px 1fr; 
-            gap: 30px; 
-            flex: 1;
-            margin-top: 20px;
-            overflow: hidden;
+            grid-template-columns: 350px 1fr; 
+            gap: 32px; 
+            margin-top: 24px;
         }
 
         .sidebar {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 24px;
             box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            transition: background 1.2s ease, border-color 1.2s ease;
+            height: calc(100vh - 180px);
+            min-height: 550px;
+            position: sticky;
+            top: 24px;
+            transition: background 1.5s ease, border-color 1.5s ease;
+        }
+
+        .book-showcase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 1px dashed var(--card-border);
+            padding-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        /* ✅ 修改 2：真實書本封面圖片樣式 */
+        .book-cover-img {
+            width: 120px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px 12px 12px 4px;
+            box-shadow: 4px 8px 20px rgba(0,0,0,0.15), inset -3px 0 5px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+            border-left: 4px solid rgba(255,255,255,0.2);
+        }
+
+        .book-meta-mini h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--wood-dark);
+        }
+        .book-meta-mini p {
+            font-size: 0.8rem;
+            color: var(--wood-warm);
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+        .amazon-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--amazon-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(228,121,17,0.2);
+            transition: background-color 0.2s, transform 0.2s;
+            width: 100%;
+        }
+        .amazon-cta:hover {
+            background-color: var(--amazon-hover);
+            transform: translateY(-1px);
         }
         
-        .sidebar h3 {
+        .sidebar h3.section-title {
             font-family: 'Cinzel', serif;
             color: var(--wood-dark);
-            margin-bottom: 20px;
-            font-size: 1.1rem;
+            margin-bottom: 14px;
+            font-size: 1rem;
+            letter-spacing: 1px;
             border-left: 4px solid var(--accent-poppy);
             padding-left: 10px;
             flex-shrink: 0;
-            transition: color 1.2s ease, border-color 1.2s ease;
+            transition: color 1.5s ease, border-color 1.5s ease;
         }
         
         .track-list { 
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
+            gap: 10px; 
             overflow-y: auto;
-            padding-right: 10px;
+            padding-right: 6px;
+            flex: 1;
         }
         
-        .track-list::-webkit-scrollbar { width: 6px; }
+        .track-list::-webkit-scrollbar { width: 5px; }
         .track-list::-webkit-scrollbar-track { background: transparent; }
-        .track-list::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; transition: background 1.2s ease; }
+        .track-list::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
         
         .track-item {
             background: var(--track-bg);
             border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 14px 16px;
+            border-radius: 12px;
+            padding: 12px 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: all 0.25s ease, background 1.2s ease, border-color 1.2s ease;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             flex-shrink: 0;
         }
         
         .track-item:hover { 
-            transform: translateX(5px); 
+            transform: translateX(4px); 
             border-color: var(--wood-warm); 
-            background-color: #fff; 
+            background-color: #ffffff; 
         }
         
         .track-item.active { 
             border-color: var(--accent-poppy); 
             background-color: var(--lavender-soft); 
-            box-shadow: 0 4px 12px rgba(183,28,28,0.08); 
+            box-shadow: 0 4px 16px rgba(183,28,28,0.06); 
         }
         
         .track-meta { 
@@ -138,43 +250,42 @@
             font-size: 0.75rem; 
             color: var(--accent-poppy); 
             font-weight: 700; 
-            text-transform: uppercase; 
-            min-width: 65px; 
-            transition: color 1.2s ease;
+            letter-spacing: 1px;
+            min-width: 80px; 
+            transition: color 1.5s ease;
         }
         
-        .track-title { font-size: 0.95rem; font-weight: 600; color: var(--wood-dark); transition: color 1.2s ease; }
+        .track-title { font-size: 0.95rem; font-weight: 600; color: var(--wood-dark); transition: color 1.5s ease; }
 
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            overflow: hidden;
+            gap: 24px;
         }
 
         .player-console {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 28px;
             box-shadow: var(--card-shadow);
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 32px;
             flex-shrink: 0;
-            transition: background 1.2s ease, border-color 1.2s ease;
+            transition: background 1.5s ease, border-color 1.5s ease;
         }
 
         .song-art-container {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 200px;
+            height: 200px;
             flex-shrink: 0;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
             cursor: pointer;
-            background: #f0ebe4;
+            background: #f2ece4;
         }
 
         .song-art-container img {
@@ -182,29 +293,34 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .song-art-container:hover img { transform: scale(1.05); }
+        .song-art-container:hover img { transform: scale(1.04); }
 
-        /* ✅ 優化 1：載入中的遮罩與動畫 */
+        @keyframes breathingFloat {
+            0% { transform: translateY(0px) scale(1); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+            50% { transform: translateY(-4px) scale(1.015); box-shadow: 0 18px 36px rgba(0,0,0,0.16); }
+            100% { transform: translateY(0px) scale(1); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+        }
+        .song-art-container.breathing {
+            animation: breathingFloat 6s ease-in-out infinite;
+        }
+
         .loading-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            pointer-events: none; /* 預設不阻擋點擊 */
+            pointer-events: none;
             transition: opacity 0.3s ease;
-            z-index: 10; /* 確保在最上層 */
+            z-index: 10;
         }
 
-        .loading-overlay.active {
-            opacity: 1;
-            pointer-events: all; /* 載入時鎖住點擊，防止用戶亂按 */
-        }
+        .loading-overlay.active { opacity: 1; pointer-events: all; }
 
         .loading-content {
             display: flex;
@@ -214,9 +330,9 @@
         }
 
         .spinner {
-            width: 36px;
-            height: 36px;
-            border: 3px solid #e0dacf;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e8e0d5;
             border-top: 3px solid var(--accent-poppy);
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -226,7 +342,7 @@
             font-family: 'Cinzel', serif;
             font-size: 0.75rem;
             color: var(--wood-warm);
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
@@ -235,78 +351,72 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ✅ 優化 2：播放按鈕僅在 Hover 時顯示 */
         .cover-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.25);
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s ease;
-            z-index: 5; /* 在 loading 之下 */
+            z-index: 5;
         }
 
-        /* 移除原本的 .active 強制顯示，僅保留 hover 觸發 */
         .song-art-container:hover .cover-overlay { opacity: 1; }
 
         .play-pause-btn {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.95);
             border: none;
             color: var(--wood-dark);
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
             transition: transform 0.2s, background 0.2s;
             padding-left: 4px;
         }
 
         .play-pause-btn.playing { padding-left: 0; }
-        .play-pause-btn:hover { transform: scale(1.1); background: #fff; }
+        .play-pause-btn:hover { transform: scale(1.08); background: #ffffff; }
 
         .console-info {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
             min-width: 0;
         }
 
-        .info-text {
-            display: flex;
-            flex-direction: column;
-        }
+        .info-text { display: flex; flex-direction: column; }
 
         .current-title {
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
             color: var(--wood-dark);
             margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            transition: color 1.2s ease;
+            transition: color 1.5s ease;
         }
 
         .current-chapter {
             font-size: 0.85rem;
             color: var(--accent-poppy);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-            transition: color 1.2s ease;
+            letter-spacing: 3px;
+            font-weight: 700;
+            transition: color 1.5s ease;
         }
 
-        .custom-controls {
-            width: 100%;
-        }
+        .custom-controls { width: 100%; }
 
         .progress-container {
             width: 100%;
@@ -315,8 +425,8 @@
             border-radius: 3px;
             cursor: pointer;
             position: relative;
-            margin-bottom: 8px;
-            transition: background 1.2s ease;
+            margin-bottom: 10px;
+            transition: background 1.5s ease;
         }
 
         .progress-bar {
@@ -325,7 +435,7 @@
             border-radius: 3px;
             width: 0%;
             position: relative;
-            transition: width 0.1s linear, background 1.2s ease;
+            transition: width 0.1s linear, background 1.5s ease;
         }
 
         .progress-bar::after {
@@ -339,8 +449,8 @@
             background: var(--accent-poppy);
             border-radius: 50%;
             opacity: 0;
-            transition: opacity 0.2s, background 1.2s ease;
-            box-shadow: 0 2px 6px rgba(183,28,28,0.3);
+            transition: opacity 0.2s, background 1.5s ease;
+            box-shadow: 0 2px 8px rgba(183,28,28,0.3);
         }
 
         .progress-container:hover .progress-bar::after { opacity: 1; }
@@ -351,32 +461,34 @@
             font-size: 0.8rem;
             color: var(--wood-warm);
             font-family: sans-serif;
+            font-weight: 500;
         }
 
         .lyrics-panel {
-            flex: 1;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
+            height: calc(100vh - 410px);
+            min-height: 340px;
             overflow: hidden;
-            transition: background 1.2s ease, border-color 1.2s ease;
+            transition: background 1.5s ease, border-color 1.5s ease;
         }
 
         .lyrics-header {
-            padding: 16px 40px;
+            padding: 18px 40px;
             border-bottom: 1px solid var(--header-border);
             font-family: 'Cinzel', serif;
             color: var(--wood-warm);
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             font-size: 0.85rem;
             text-transform: uppercase;
             text-align: center;
-            background: var(--lyrics-bg);
+            background: var(--track-bg);
             flex-shrink: 0;
-            transition: color 1.2s ease, border-color 1.2s ease, background 1.2s ease;
+            transition: color 1.5s ease, border-color 1.5s ease, background 1.5s ease;
         }
 
         .lyrics-box {
@@ -384,182 +496,117 @@
             overflow-y: auto;
             padding: 40px 15%;
             font-family: 'Playfair Display', 'Noto Serif TC', serif;
-            font-size: 1.2rem;
-            line-height: 2.2;
+            font-size: 1.15rem;
+            line-height: 2.3;
             color: var(--lyrics-text);
             text-align: center;
             scroll-behavior: smooth;
-            transition: color 1.2s ease;
+            transition: color 1.5s ease;
         }
 
-        .lyrics-box::-webkit-scrollbar { width: 6px; }
+        .lyrics-box::-webkit-scrollbar { width: 5px; }
         .lyrics-box::-webkit-scrollbar-track { background: transparent; }
-        .lyrics-box::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; transition: background 1.2s ease; }
+        .lyrics-box::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+        .story-intro-container {
+            background-color: var(--track-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 35px;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--wood-dark);
+            font-style: italic;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.01);
+            position: relative;
+        }
+        .story-intro-container::before {
+            content: "❦ Story Echo";
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-style: normal;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-poppy);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .lyrics-text-content {
+            white-space: pre-wrap;
+        }
 
         .verse-tag {
             font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--accent-poppy);
-            margin-top: 30px;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+            margin-top: 35px;
+            margin-bottom: 12px;
+            letter-spacing: 3px;
             font-weight: 700;
             display: block;
             text-transform: uppercase;
-            transition: color 1.2s ease;
+            transition: color 1.5s ease;
         }
-        
         .verse-tag:first-child { margin-top: 0; }
+        
+        .ornament {
+            margin: 25px 0;
+            color: var(--card-border);
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            transition: color 1.5s ease;
+        }
 
         body.theme-august {
-            --bg-color: #fdf6e3;
-            --wood-dark: #5d4037;
-            --wood-warm: #a1887f;
-            --accent-poppy: #e65100;
-            --text-main: #3e2723;
-            --lavender-soft: #fff3e0;
-            --card-shadow: 0 12px 32px rgba(230,81,0,0.06);
-            --dot-color: rgba(230,81,0,0.02);
-            --card-bg: #fffdf7;
-            --card-border: #f0e4cc;
-            --track-bg: #fffef9;
-            --lyrics-bg: #fffef9;
-            --lyrics-text: #4e342e;
-            --header-border: #f5e6cc;
-            --progress-track: #f0e4cc;
-            --scrollbar-thumb: #e0c9a6;
+            --bg-color: #fcf7eb; --wood-dark: #52382e; --wood-warm: #967d72; --accent-poppy: #d85d15; --text-main: #3a2a24; --lavender-soft: #fbf2e3; --card-shadow: 0 16px 40px rgba(216,93,21,0.04); --dot-color: rgba(216,93,21,0.015); --card-bg: #fffefe; --card-border: #ebdcb9; --track-bg: #fffdf9; --lyrics-bg: #fffefe; --lyrics-text: #44322a; --header-border: #f5e4c3; --progress-track: #ebdcb9; --scrollbar-thumb: #decba0;
         }
-
         body.theme-october {
-            --bg-color: #fbe9e7;
-            --wood-dark: #3e2723;
-            --wood-warm: #8d6e63;
-            --accent-poppy: #c62828;
-            --text-main: #2d2421;
-            --lavender-soft: #ffcdd2;
-            --card-shadow: 0 12px 32px rgba(198,40,40,0.06);
-            --dot-color: rgba(198,40,40,0.02);
-            --card-bg: #fff8f6;
-            --card-border: #f0d5cc;
-            --track-bg: #fffbf9;
-            --lyrics-bg: #fffbf9;
-            --lyrics-text: #3e2723;
-            --header-border: #f5e0d6;
-            --progress-track: #f0d5cc;
-            --scrollbar-thumb: #d7b8a8;
+            --bg-color: #faf0ed; --wood-dark: #42251b; --wood-warm: #917164; --accent-poppy: #b02525; --text-main: #301f1a; --lavender-soft: #f7e4e0; --card-shadow: 0 16px 40px rgba(176,37,37,0.04); --dot-color: rgba(176,37,37,0.015); --card-bg: #fffefe; --card-border: #ebd1c8; --track-bg: #fffbf9; --lyrics-bg: #fffefe; --lyrics-text: #3d241c; --header-border: #f5ddd4; --progress-track: #ebd1c8; --scrollbar-thumb: #deb5a8;
         }
-
         body.theme-december {
-            --bg-color: #e8eaf6;
-            --wood-dark: #1a237e;
-            --wood-warm: #5c6bc0;
-            --accent-poppy: #0d47a1;
-            --text-main: #1a237e;
-            --lavender-soft: #c5cae9;
-            --card-shadow: 0 12px 32px rgba(13,71,161,0.06);
-            --dot-color: rgba(13,71,161,0.02);
-            --card-bg: #f5f7ff;
-            --card-border: #c5cae9;
-            --track-bg: #f8f9ff;
-            --lyrics-bg: #f8f9ff;
-            --lyrics-text: #283593;
-            --header-border: #d1d9f0;
-            --progress-track: #c5cae9;
-            --scrollbar-thumb: #9fa8da;
+            --bg-color: #eff2f7; --wood-dark: #1f295c; --wood-warm: #6675b8; --accent-poppy: #1652ad; --text-main: #1b2247; --lavender-soft: #e2e6f3; --card-shadow: 0 16px 40px rgba(22,82,173,0.04); --dot-color: rgba(22,82,173,0.015); --card-bg: #ffffff; --card-border: #cbd3eb; --track-bg: #f8faff; --lyrics-bg: #ffffff; --lyrics-text: #232c59; --header-border: #dde3f4; --progress-track: #cbd3eb; --scrollbar-thumb: #abb7db;
         }
-
         body.theme-february {
-            --bg-color: #ede7f6;
-            --wood-dark: #1a1a2e;
-            --wood-warm: #5e35b1;
-            --accent-poppy: #e64a19;
-            --text-main: #1a1a2e;
-            --lavender-soft: #d1c4e9;
-            --card-shadow: 0 12px 32px rgba(94,53,177,0.08);
-            --dot-color: rgba(94,53,177,0.02);
-            --card-bg: #f8f5ff;
-            --card-border: #d1c4e9;
-            --track-bg: #faf8ff;
-            --lyrics-bg: #faf8ff;
-            --lyrics-text: #311b92;
-            --header-border: #e0d6f0;
-            --progress-track: #d1c4e9;
-            --scrollbar-thumb: #b39ddb;
+            --bg-color: #f1edf7; --wood-dark: #221c38; --wood-warm: #6a49ad; --accent-poppy: #d4491c; --text-main: #201a30; --lavender-soft: #e5def2; --card-shadow: 0 16px 40px rgba(106,73,173,0.05); --dot-color: rgba(106,73,173,0.015); --card-bg: #ffffff; --card-border: #dacfed; --track-bg: #faf9ff; --lyrics-bg: #ffffff; --lyrics-text: #2f2547; --header-border: #e6dff5; --progress-track: #dacfed; --scrollbar-thumb: #beaddb;
         }
-
         body.theme-april {
-            --bg-color: #e8f5e9;
-            --wood-dark: #1b5e20;
-            --wood-warm: #66bb6a;
-            --accent-poppy: #c2185b;
-            --text-main: #1b5e20;
-            --lavender-soft: #c8e6c9;
-            --card-shadow: 0 12px 32px rgba(27,94,32,0.06);
-            --dot-color: rgba(27,94,32,0.02);
-            --card-bg: #f6fff7;
-            --card-border: #c8e6c9;
-            --track-bg: #f9fff9;
-            --lyrics-bg: #f9fff9;
-            --lyrics-text: #2e7d32;
-            --header-border: #d6f0d8;
-            --progress-track: #c8e6c9;
-            --scrollbar-thumb: #a5d6a7;
+            --bg-color: #edf5ee; --wood-dark: #1c4a21; --wood-warm: #6bb370; --accent-poppy: #b31d59; --text-main: #1a3d1e; --lavender-soft: #e0f0e2; --card-shadow: 0 16px 40px rgba(28,74,33,0.04); --dot-color: rgba(28,74,33,0.015); --card-bg: #ffffff; --card-border: #cadece; --track-bg: #f9fff9; --lyrics-bg: #ffffff; --lyrics-text: #224225; --header-border: #d7edd9; --progress-track: #cadece; --scrollbar-thumb: #add6b3;
         }
-
         body.theme-june {
-            --bg-color: #fff8e1;
-            --wood-dark: #4e342e;
-            --wood-warm: #a1887f;
-            --accent-poppy: #e65100;
-            --text-main: #3e2723;
-            --lavender-soft: #ffe0b2;
-            --card-shadow: 0 12px 32px rgba(230,81,0,0.06);
-            --dot-color: rgba(230,81,0,0.02);
-            --card-bg: #fffdf5;
-            --card-border: #ffe0b2;
-            --track-bg: #fffef8;
-            --lyrics-bg: #fffef8;
-            --lyrics-text: #4e342e;
-            --header-border: #f5e6c8;
-            --progress-track: #ffe0b2;
-            --scrollbar-thumb: #ffcc80;
+            --bg-color: #faf6eb; --wood-dark: #47332b; --wood-warm: #947e75; --accent-poppy: #d4550c; --text-main: #3b2b24; --lavender-soft: #f7edd7; --card-shadow: 0 16px 40px rgba(212,85,12,0.04); --dot-color: rgba(212,85,12,0.015); --card-bg: #ffffff; --card-border: #ebdcb9; --track-bg: #fffefb; --lyrics-bg: #ffffff; --lyrics-text: #42322a; --header-border: #f5e6c4; --progress-track: #ebdcb9; --scrollbar-thumb: #dfcca0;
         }
 
         #moodCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 0;
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transition: opacity 2s ease;
         }
+        #moodCanvas.active { opacity: 1; }
 
-        #moodCanvas.active {
-            opacity: 1;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        @media (max-width: 900px) {
-            body { padding: 15px; overflow-y: auto; height: auto; }
-            .container { height: auto; overflow: visible; }
-            .main-layout { 
-                grid-template-columns: 1fr; 
-                height: auto;
-                overflow: visible;
-            }
-            .sidebar { height: 300px; } 
-            .player-console { flex-direction: column; text-align: center; }
-            .song-art-container { width: 200px; height: 200px; }
-            .console-info { align-items: center; width: 100%; }
-            .lyrics-panel { height: 60vh; }
-            .lyrics-box { padding: 30px 20px; font-size: 1.05rem; }
+        /* ✅ 手機版響應式設計 (包含關閉 Canvas 與調整書本封面) */
+        @media (max-width: 1100px) {
+            body { padding: 16px 20px; }
+            #moodCanvas { display: none; } /* 關閉背景粒子，確保手機流暢度 */
+            
+            .main-layout { grid-template-columns: 1fr; gap: 24px; }
+            .sidebar { height: auto; min-height: auto; position: relative; top: 0; }
+            
+            .book-showcase { flex-direction: row; text-align: left; gap: 20px; align-items: center; justify-content: center; }
+            .book-cover-img { margin-bottom: 0; width: 80px; height: 120px; } /* 手機版縮小書本圖片 */
+            
+            .amazon-cta { width: auto; min-width: 200px; }
+            .player-console { flex-direction: column; text-align: center; padding: 20px; gap: 20px; }
+            .song-art-container { width: 230px; height: 230px; }
+            .console-info { align-items: center; width: 100%; gap: 14px; }
+            .lyrics-panel { height: auto; min-height: 400px; overflow: visible; }
+            .lyrics-box { padding: 30px 24px; font-size: 1.1rem; overflow: visible; }
         }
     </style>
 </head>
@@ -570,12 +617,23 @@
 <div class="container">
     <header>
         <h1>THE PEW</h1>
-        <p>Official Book Soundtrack — 伴隨長椅記憶流轉的四季樂章</p>
+        <div class="tagline">Where Memories Stay, and Seasons Pass</div>
+        <p class="desc">“Every chapter has its own song. Every song remembers someone.” — 伴隨長椅記憶流轉的四季樂章</p>
     </header>
 
     <div class="main-layout">
         <aside class="sidebar">
-            <h3>Chapters & Soundtracks</h3>
+            <div class="book-showcase">
+                <!-- ✅ 修改 2：替換為真實圖片路徑 -->
+                <img src="book-cover.jpg" alt="The Pew Book Cover" class="book-cover-img">
+                <div class="book-meta-mini">
+                    <h4>The Pew</h4>
+                    <p>A Novel by K C CHARIS</p> <!-- 順便更新了作者名 -->
+                    <!-- ✅ 修改 3：替換為您的專屬 Amazon 連結 -->
+                    <a href="https://a.co/d/05r2wJ2j" target="_blank" rel="noopener noreferrer" class="amazon-cta">🛒 Read on Amazon</a>
+                </div>
+            </div>
+            <h3 class="section-title">Chapters & Soundtracks</h3>
             <div class="track-list" id="playlist"></div>
         </aside>
 
@@ -584,7 +642,6 @@
                 <div class="song-art-container" id="songArtView">
                     <img src="" alt="Song Art" id="currentArt" />
                     
-                    <!-- ✅ 新增：載入中提示 UI -->
                     <div class="loading-overlay" id="loadingOverlay">
                         <div class="loading-content">
                             <div class="spinner"></div>
@@ -617,11 +674,11 @@
 
             <section class="lyrics-panel">
                 <div class="lyrics-header">
-                    <span>Lyrics & Poetry</span>
+                    <span>Story & Lyrics Reading</span>
                 </div>
                 <div class="lyrics-box" id="lyricsView">
                     <span class="verse-tag">✨ Welcome</span>
-                    點選左側章節，展開歌詞與音樂...
+                    點選左側章節，展開原著故事背景與音樂詩篇...
                 </div>
             </section>
         </main>
@@ -631,54 +688,53 @@
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
     // ============================================================
-    //  1. 歌曲数据
+    //  數據陣列 
     // ============================================================
     const soundtracksData = [{
-        chapter: "August",
-        title: "My Haven (August Heat)",
-        art: "myhaven1.jpg", 
+        chapter: "August", icon: "🌿",
+        storyIntro: "Late Summer. A forgotten church pew, rescued and placed beneath the quiet staircase, begins to notice a vibrant family arriving at the countryside house. The quiet days are fading, giving way to a messy, beautiful life.",
+        title: "My Haven (August Heat)", art: "myhaven1.jpg", 
         scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2350660724%3Fsecret_token%3Ds-gZCHGuR302K&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nThe August sun is burning hot outside,\nBut under the stairs, I've got a place to hide.\nMy little haven, cool and soft and green,\nLooking through the glass at a garden scene.\nLavender blooming, lilacs in the breeze,\nStarlings hopping up and down the trees.\nI used to belong to a church down the lane,\nBefore the world changed, before the music became...\n\n[Chorus]\nOh, nature is kind, keeping me still,\nIn the quiet light on the windowsill.\nBut a heavy step just crossed my floor,\nA sudden storm walked through the door.\nYou dumped your bags right on my knee,\nHey, mind your manners, whoever you can be!\n\n[Verse 2]\nThe house was empty for a long, long while,\nNow a tiny baby looks up with a smile.\nBlack bean eyes and a giant grin,\nHitting my wood, letting the life crawl in.\nThey want to move me to the kitchen space,\nTurn this old pew to their dining place.\n\n[Outro]\nA piano arrives as the sun goes down,\nA brand new story in this old town.\nMy quiet days are fading fast away...\nWelcome to my world. Here we stay.`
     }, {
-        chapter: "October",
-        title: "Crimson Leaves and Poppies",
-        art: "crimsonleavesandpoppies1.png", 
+        chapter: "October", icon: "🍂",
+        storyIntro: "Autumn Chill. As crimson leaves coat the English garden, the grandmother sits by the kitchen heat knitting rows of remembrance poppies. The sight stirs up the old pew's long-buried memories of the mud, rain, and courage from the First World War.",
+        title: "Crimson Leaves and Poppies", art: "crimsonleavesandpoppies1.png", 
         scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351951084%3Fsecret_token%3Ds-s1xCHZprPWz&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nOctober's here, the days are getting cold,\nThe garden changes into red and gold.\nI hear the chattering leaves under their feet,\nAnd sit through dinner in the kitchen heat.\nLittle Nancy bouncing like a rocking boat,\nSpilling her soup upon my wooden coat.\nIt’s messy and it’s loud, a beautiful noise,\nWith dirty fingernails and plastic toys.\n\n[Chorus]\nBut outside the window, the autumn wind blows,\nAnd into the kitchen, a dark shadow grows.\nYou’re knitting red poppies, row after row,\nStirring up ghosts from a century ago.\nFor our tomorrow, they gave their today,\nLest we forget the price they had to pay.\n\n[Verse 2]\nI remember the mud, the ice, and the rain,\nThe smell of the trenches, the shivering pain.\nJust eighteen years old, facing the fire,\nHolding our breath behind the barbed wire.\nWe fought the good fight, we survived the blast,\nNow a black button holds the flower tight at last.\nOver a hundred poppies, stitched in a line,\nA heavy red harvest of your time and mine.\n\n[Bridge]\nThe air feels heavy, the room becomes still,\nAs the red woolen balls roll over the sill.\nOra whispers softly by the kitchen door,\n"Can I take these flowers to the grand memoir?"\n\n[Outro]\nThe war brought no glory, but I’m standing tall,\nThe kitchen is warm, the autumn leaves fall.\nKnit your red flowers, tell the stories you know...\nGod bless the brave ones,\nFrom a lifetime ago.`
     }, {
-        chapter: "December",
-        title: "A Cupcake for Alice",
-        art: "acupcakeforalice1.png", 
+        chapter: "December", icon: "❄",
+        storyIntro: "Deep Winter. Little Alice turns five years old. Though her fragile health brings endless worry and heavy nights of seizures, her silent, brave angel smile fills the warm, chaotic kitchen with an enduring light of grace.",
+        title: "A Cupcake for Alice", art: "acupcakeforalice1.png", 
         scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351953088%3Fsecret_token%3Ds-xcBEvNCML9P&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
         lyrics: `[Verse 1]\nThe frost is on the window, the winter trees are bare,\nAnd wild geese are fighting by the garden pond out there.\nGrandma waved her mop around, a wet and crazy mess,\nLosing all the golden fish but laughing at the stress.\nWorkmen came and filled the pond, the chilly season passed,\nBut inside the kitchen door, the chaos settles fast.\n\n[Chorus]\nOh, happy birthday, sweet girl, you’re turning five today,\nYou cannot speak a word, but your smile tells what to say.\nThrough the seizures and the tears, through the heavy night,\nI’ll give a pat upon your shoulder, hold you in the light.\nYou’re the prettiest Cinderella on the winter stage,\nA beautiful, brave angel on a messy seasonal page.\n\n[Verse 2]\nThe therapists are coming in, the training is so long,\nGrandma pushes hard, but she only wants you strong.\nI watch you in your wheelchair, so quiet and so still,\nAs the children make their noise and the snow sheets coat the hill.\nSlip into my wooden arms, you don't have to carry the weight,\nWe’re safe inside our little home, before the night gets late.\n\n[Outro]\nThe term is finally over, the house is loud and bright,\nA chocolate cake from daddy, a warm December night.\nSleep tight, little Alice, the world is full of grace...\nYou’ve got a home,\nIn this old pew’s embrace.`
     }, {
-        chapter: "February",
-        title: "The Code of Chivalry",
-        art: "thecodeofchivalry1.png", 
+        chapter: "February", icon: "🕊",
+        storyIntro: "Winter Sorrow. Frustrated by missing the rhythm, Ora breaks down in tears by the piano. Grandma, hands covered in dough, steps in to pass down the Code of Chivalry: 'Move forward with trouble, don't sweep it away. You are meant to be brave.'",
+        title: "The Code of Chivalry", art: "thecodeofchivalry1.png", 
         scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351965142%3Fsecret_token%3Ds-Nohi3J0EacD&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
-        lyrics: `[Verse 1]\nWinter drags on, the branches are bleak,\nThe freezing rain is coating the street.\nOra is crying, she slaps down the sheet,\nTired of missing the notes on the beat.\n"I’m backing out, I can’t play it tomorrow,"\nSitting on the stairs in her winter sorrow.\nBut Grandma comes over, her hands covered in dough,\nSaying, "Conquer the dark force, don't let the fear grow."\n\n[Chorus]\nBe a brave knight! Stand tall in the storm,\nYou’ve got a shining armor to keep your heart warm.\nMove forward with trouble, don't sweep it away,\nYou’ve got the courage to face a dark day.\nDon't run from the fight, don't live like a slave,\nOh, Ora, look inside, you’re meant to be brave!\n\n[Verse 2]\nMy father drove engines through grease and the smoke,\nSupporting a family, he never once broke.\nHe told us old stories by the light of the moon,\nOf heroes and honor, an ancient sweet tune.\nFaith and protection, mercy and grace,\nThe armor that shields us in every hard place.\nAnd I howled from my wood, across the kitchen floor:\n"Live out the code, you’re a knight in your core!"\n\n[Bridge]\nAnd all of a sudden, she turned round her head,\nDid she hear the wood whisper? Or what Grandma said?\nA spark in the darkness, a dead end is gone,\nThe wheel keeps on turning, the music plays on!\n\n[Outro]\nThe winter trees shiver, the lawn is still white,\nBut inside our kitchen, a fire burns bright.\nPlay your song, little knight, let the notes softly ring...\nWe’ll march through the shadow,\nStraight into the spring.`
+        lyrics: `[Verse 1]\nWinter drags on, the branches are bleak,\nThe freezing rain is coating the street.\nOra is crying, she slaps down the sheet,\nTired of missing the notes on the beat.\n"I’m backing out, I can’t play it tomorrow",\nSitting on the stairs in her winter sorrow.\nBut Grandma comes over, her hands covered in dough,\nSaying, "Conquer the dark force, don't let the fear grow."\n\n[Chorus]\nBe a brave knight! Stand tall in the storm,\nYou’ve got a shining armor to keep your heart warm.\nMove forward with trouble, don't sweep it away,\nYou’ve got the courage to face a dark day.\nDon't run from the fight, don't live like a slave,\nOh, Ora, look inside, you’re meant to be brave!\n\n[Verse 2]\nMy father drove engines through grease and the smoke,\nSupporting a family, he never once broke.\nHe told us old stories by the light of the moon,\nOf heroes and honor, an ancient sweet tune.\nFaith and protection, mercy and grace,\nThe armor that shields us in every hard place.\nAnd I howled from my wood, across the kitchen floor:\n"Live out the code, you’re a knight in your core!"\n\n[Bridge]\nAnd all of a sudden, she turned round her head,\nDid she hear the wood whisper? Or what Grandma said?\nA spark in the darkness, a dead end is gone,\nThe wheel keeps on turning, the music plays on!\n\n[Outro]\nThe winter trees shiver, the lawn is still white,\nBut inside our kitchen, a fire burns bright.\nPlay your song, little knight, let the notes softly ring...\nWe’ll march through the shadow,\nStraight into the spring.`
     }, {
-        chapter: "April",
-        title: "I have got a family",
-        art: "igotafamily1.png", 
+        chapter: "April", icon: "🌸",
+        storyIntro: "Spring Awakening. A beautiful family Saturday trip to a magnificent countryside villa. While visiting the grand historic mansion, the old pew encounters an old aristocratic friend, yet proudly chooses its cozy staircase corner over palace grandeur.",
+        title: "I have got a family", art: "igotafamily1.png", 
         scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2351967101%3Fsecret_token%3Ds-hv4kmG9D7bn&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
-        lyrics: `[Verse 1]\nApril is here, there’s a taste in the air,\nOf fresh blooming flowers and sun over there.\nThe kitchen is flooded with beautiful light,\nAnd everyone’s packing the baskets so tight.\nWe squeezed in the car on a warm Saturday,\nThrough motorway traffic, we made our own way.\nTo a magnificent villa with woodland so green,\nThe loveliest nature that I’ve ever seen.\n\n[Chorus]\nOh, walking the tracks where the wild fireflies gleam,\nListening to birds by a clear running stream.\nThe world is so big and the countryside shrinks,\nBut we find our peace in the tea Grandma drinks.\nOut in the garden, or under the dome,\nI look at your faces and feel I am home.\n\n[Verse 2]\nLittle Nancy was digging her hand in the clay,\nAnd swallowed a big piece of mud in her play!\nDaddy dropped his cell phone and dashed to her side,\nWhile Grandma just smiled with her tea-drinking pride.\nThen we walked through the mansion of history and art,\nAnd I ran into an old friend of my heart.\nHe said, "Stay in this palace, it’s grand and it’s free,"\nBut I looked at sweet Alice and said, "Not for me..."\n\n[Bridge]\nYes, this grand ancient villa is splendid and high,\nBut I miss my staircase where shadows walk by.\nI love my cozy corner, the noise in the hall,\nAnd the afternoon sun leaning soft on the wall.\n\n[Outro]\nWe bought some ice cream on an old flinty street,\nA beautiful day that was simple and sweet.\nKeep driving us home, through the sun and the shade...\nI’m a part of this family,\nThat love neatly made.`
+        lyrics: `[Verse 1]\nApril is here, there’s a taste in the air,\nOf fresh blooming flowers and sun over there.\nThe kitchen is flooded with beautiful light,\nAnd everyone’s packing the baskets so tight.\nWe squeezed in the car on a warm Saturday,\nThrough motorway traffic, we made our own way.\nTo a magnificent villa with woodland so green,\nThe loveliest nature that I’ve ever seen.\n\n[Chorus]\nOh, walking the tracks where the wild fireflies gleam,\nListening to birds by a clear running stream.\nThe world is so big and the countryside shrinks,\nBut we find our peace in the tea Grandma drinks.\nOut in the garden, or under the dome,\nI look at your faces and feel I am home.\n\n[Verse 2]\nLittle Nancy was digging her hand in the clay,\nAnd swallowed a big piece of mud in her play!\nDaddy dropped his cell phone and dashed to her side,\nWhile Grandma just smiled with her tea-drinking pride.\nThen we walked through the mansion of history and art,\nAnd I ran into an old friend of my heart.\nHe said, "Stay in this palace, it’s grand and it’s free",\nBut I looked at sweet Alice and said, "Not for me..."\n\n[Bridge]\nYes, this grand ancient villa is splendid and high,\nBut I miss my staircase where shadows walk by.\nI love my cozy corner, the noise in the hall,\nAnd the afternoon sun leaning soft on the wall.\n\n[Outro]\nWe bought some ice cream on an old flinty street,\nA beautiful day that was simple and sweet.\nKeep driving us home, through the sun and the shade...\nI’m a part of this family,\nThat love neatly made.`
     }, {
-        chapter: "June",
-        title: "God bless last June",
-        art: "godbless1.png", 
+        chapter: "June", icon: "☀️",
+        storyIntro: "Farewell Summer. The year has turned, the moving boxes are lined up, and the house is stripped bare. Before leaving, Grandma places her hand gently on the frame, whispering a tender thank you, leaving an eternal mark of love behind.",
+        title: "God bless last June", art: "godbless1.png", 
         scLink: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2352077012%3Fsecret_token%3Ds-zxudXzpMZZ6&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&sharing=false&download=false",
-        lyrics: `[Verse 1]\nThe summer breeze brought in the garden scent,\nA hail storm passed, and the heavy showers went.\nSmoke over the hedges, a sudden fire scare,\nGrandma saved the day with her heroic air!\nThen a tiny mole was trapped inside a cage,\nOra shed her tears on the kitchen stage.\n"Please don't kill him, mister, take him far away,"\nSo the sun came out on a kind and gentle day.\n\n[Chorus]\nBut the year has turned, and the boxes are in line,\nWe ran out of space, and we ran out of time.\nI thought you would stay, oh, I hoped you’d stay on,\nBut the truck is outside, and the piano is gone.\nThe house is getting quiet, the hall is stripped bare,\nAnd they pushed me right back, underneath the stair.\n\n[Verse 2]\nI remember the noise, the chaos, and the heat,\nThe grease on my wood, and the tiny dancing feet.\nI remember the war that I fought long ago,\nAnd the brave little knights that I came to know.\nYou waxed me so clean, you made me feel new,\nI was more than a bench, I was a part of you.\n\n[Bridge]\nThen a heavy step walked slow down the floor,\nGrandma stood by me, before she reached the door.\nShe put her gentle hand right upon my frame,\nAnd whispered to the quietness, calling my name:\n"Sorry for the hustle, thank you for your grace...\nTake care, old friend, in your lonely place."\n\n[Outro]\nI heard the door close, the car drove away,\nMy wooden legs are heavy, so here I will stay.\nTo watch the quiet seasons come and go,\nThankful for the sweetest year I'll ever know.\nGod bless you, my family, on the road you find...\nYou left your love,\nIn the pew you left behind.`
+        lyrics: `[Verse 1]\nThe summer breeze brought in the garden scent,\nA hail storm passed, and the heavy showers went.\nSmoke over the hedges, a sudden fire scare,\nGrandma saved the day with her heroic air!\nThen a tiny mole was trapped inside a cage,\nOra shed her tears on the kitchen stage.\n"Please don't kill him, mister, take him far away",\nSo the sun came out on a kind and gentle day.\n\n[Chorus]\nBut the year has turned, and the boxes are in line,\nWe ran out of space, and we ran out of time.\nI thought you would stay, oh, I hoped you’d stay on,\nBut the truck is outside, and the piano is gone.\nThe house is getting quiet, the hall is stripped bare,\nAnd they pushed me right back, underneath the stair.\n\n[Verse 2]\nI remember the noise, the chaos, and the heat,\nThe grease on my wood, and the tiny dancing feet.\nI remember the war that I fought long ago,\nAnd the brave little knights that I came to know.\nYou waxed me so clean, you made me feel new,\nI was more than a bench, I was a part of you.\n\n[Bridge]\nThen a heavy step walked slow down the floor,\nGrandma stood by me, before she reached the door.\nShe put her gentle hand right upon my frame,\nAnd whispered to the quietness, calling my name:\n"Sorry for the hustle, thank you for your grace...\nTake care, old friend, in your lonely place."\n\n[Outro]\nI heard the door close, the car drove away,\nMy wooden legs are heavy, so here I will stay.\nTo watch the quiet seasons come and go,\nThankful for the sweetest year I'll ever know.\nGod bless you, my family, on the road you find...\nYou left your love,\nIn the pew you left behind.`
     }];
 
     // ============================================================
-    //  2. 核心 DOM 操作与逻辑
+    //  播放控制與 Widget 核心邏輯
     // ============================================================
     const playlistContainer = document.getElementById('playlist');
     const currentArt = document.getElementById('currentArt');
     const lyricsView = document.getElementById('lyricsView');
     const songArtContainer = document.getElementById('songArtView');
-    const coverOverlay = document.getElementById('coverOverlay');
     const customPlayBtn = document.getElementById('customPlayBtn');
     const progressContainer = document.getElementById('progressContainer');
     const progressBar = document.getElementById('progressBar');
@@ -686,7 +742,7 @@
     const totalTimeEl = document.getElementById('totalTime');
     const currentTitleEl = document.getElementById('currentTitle');
     const currentChapterEl = document.getElementById('currentChapter');
-    const loadingOverlay = document.getElementById('loadingOverlay'); // ✅ 獲取 Loading UI
+    const loadingOverlay = document.getElementById('loadingOverlay'); 
 
     let currentIndex = 0;
     let scWidget = null;
@@ -704,18 +760,18 @@
     }
 
     function setTheme(chapter) {
-        const themeClass = 'theme-' + chapter.toLowerCase();
-        document.body.className = themeClass;
+        document.body.className = 'theme-' + chapter.toLowerCase();
     }
 
     function initPlaylist() {
+        playlistContainer.innerHTML = ''; 
         soundtracksData.forEach((track, index) => {
             const item = document.createElement('div');
             item.className = `track-item ${index === 0 ? 'active' : ''}`;
             item.setAttribute('data-index', index);
             item.addEventListener('click', () => selectTrack(index));
             item.innerHTML = `
-                <span class="track-meta">${track.chapter}</span>
+                <span class="track-meta">${track.icon} ${track.chapter}</span>
                 <span class="track-title">${track.title}</span>
             `;
             playlistContainer.appendChild(item);
@@ -745,8 +801,13 @@
         setMoodEffect(track.chapter);
         setTheme(track.chapter);
         
-        let formatted = track.lyrics.replace(/(\[.*?\])/g, '<span class="verse-tag">$1</span>');
-        lyricsView.innerHTML = formatted;
+        let formattedLyrics = track.lyrics.replace(/\[(.*?)\]/g, '<span class="verse-tag">✨ $1</span>');
+        
+        lyricsView.innerHTML = `
+            <div class="story-intro-container">${track.storyIntro}</div>
+            <div class="ornament">❦  ❦  ❦</div>
+            <div class="lyrics-text-content">${formattedLyrics}</div>
+        `;
         lyricsView.scrollTop = 0;
         
         progressBar.style.width = '0%';
@@ -754,12 +815,9 @@
         totalTimeEl.textContent = '0:00';
         updatePlayButton(false);
         
-        // ✅ 開啟 Loading 提示，並鎖住點擊
         loadingOverlay.classList.add('active'); 
         
-        if (scPlayer) {
-            scPlayer.remove();
-        }
+        if (scPlayer) scPlayer.remove();
         
         const newPlayer = document.createElement('iframe');
         newPlayer.id = 'scPlayer';
@@ -786,32 +844,25 @@
         if (playing) {
             customPlayBtn.innerHTML = "❚❚";
             customPlayBtn.classList.add('playing');
-            // ✅ 移除了 coverOverlay.classList.add('active')，讓按鈕僅靠 CSS hover 觸發
+            songArtContainer.classList.add('breathing');
         } else {
             customPlayBtn.innerHTML = "▶";
             customPlayBtn.classList.remove('playing');
+            songArtContainer.classList.remove('breathing');
         }
     }
 
     function bindWidget() {
         if (!window.SC || !SC.Widget) return;
-        
         try {
             scWidget = SC.Widget(scPlayer);
-            
             scWidget.bind(SC.Widget.Events.READY, () => {
-                // ✅ 音樂準備就緒，關閉 Loading 提示
                 loadingOverlay.classList.remove('active'); 
-                
                 scWidget.getDuration((duration) => {
                     totalTimeEl.textContent = formatTime(duration);
                 });
                 if (shouldAutoPlay) {
-                    try {
-                        scWidget.play();
-                    } catch(e) {
-                        console.warn('⚠️ 自動播放被瀏覽器策略攔截，請手動點擊封面');
-                    }
+                    try { scWidget.play(); } catch(e) {}
                     shouldAutoPlay = false;
                 }
             });
@@ -823,34 +874,21 @@
                 progressBar.style.width = '0%';
                 currentTimeEl.textContent = '0:00';
             });
-            
             scWidget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
                 progressBar.style.width = (data.relativePosition * 100) + "%";
                 currentTimeEl.textContent = formatTime(data.currentPosition);
             });
-            
         } catch (e) {
-            console.warn('Widget 綁定失敗:', e);
-            loadingOverlay.classList.remove('active'); // 失敗時也要關閉 Loading
+            loadingOverlay.classList.remove('active'); 
         }
     }
 
     function togglePlay() {
-        // ✅ 如果正在載入中或 Widget 還沒好，直接忽略點擊，防止用戶亂按
         if (!scWidget || loadingOverlay.classList.contains('active')) return; 
-        
-        if (isPlaying) {
-            scWidget.pause();
-        } else {
-            scWidget.play();
-        }
+        if (isPlaying) scWidget.pause(); else scWidget.play();
     }
 
-    customPlayBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        togglePlay();
-    });
-    
+    customPlayBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); });
     songArtContainer.addEventListener('click', togglePlay);
 
     progressContainer.addEventListener('click', (e) => {
@@ -863,20 +901,15 @@
     });
 
     window.addEventListener('DOMContentLoaded', () => {
-        if (typeof SC !== 'undefined') {
-            initPlaylist();
-        } else {
+        if (typeof SC !== 'undefined') { initPlaylist(); } else {
             const checkSC = setInterval(() => {
-                if (typeof SC !== 'undefined') {
-                    clearInterval(checkSC);
-                    initPlaylist();
-                }
+                if (typeof SC !== 'undefined') { clearInterval(checkSC); initPlaylist(); }
             }, 100);
         }
     });
 
     // ============================================================
-    //  3. 動態氛圍效果引擎
+    //  動態氛圍效果引擎
     // ============================================================
     const moodCanvas = document.getElementById('moodCanvas');
     const moodCtx = moodCanvas.getContext('2d');
@@ -885,73 +918,12 @@
     let currentMood = null;
 
     const moodConfigs = {
-        'August': {
-            bgGradient: ['rgba(255, 223, 140, 0.08)', 'rgba(255, 183, 77, 0.04)'],
-            particles: {
-                count: 50,
-                colors: ['rgba(255, 213, 79, 0.6)', 'rgba(255, 183, 77, 0.4)', 'rgba(255, 241, 118, 0.5)'],
-                sizeRange: [2, 6],
-                speedRange: [0.2, 0.5],
-                type: 'float',
-                glow: true
-            }
-        },
-        'October': {
-            bgGradient: ['rgba(183, 28, 28, 0.06)', 'rgba(141, 110, 99, 0.04)'],
-            particles: {
-                count: 35,
-                colors: ['rgba(183, 28, 28, 0.7)', 'rgba(211, 47, 47, 0.6)', 'rgba(255, 138, 101, 0.5)', 'rgba(141, 110, 99, 0.4)'],
-                sizeRange: [4, 10],
-                speedRange: [0.5, 1.2],
-                type: 'fall',
-                rotation: true
-            }
-        },
-        'December': {
-            bgGradient: ['rgba(227, 242, 253, 0.1)', 'rgba(187, 222, 251, 0.06)'],
-            particles: {
-                count: 60,
-                colors: ['rgba(255, 255, 255, 0.8)', 'rgba(227, 242, 253, 0.6)', 'rgba(187, 222, 251, 0.5)'],
-                sizeRange: [2, 5],
-                speedRange: [0.3, 0.8],
-                type: 'snow',
-                sparkle: true
-            }
-        },
-        'February': {
-            bgGradient: ['rgba(26, 35, 126, 0.08)', 'rgba(69, 39, 111, 0.05)'],
-            particles: {
-                count: 40,
-                colors: ['rgba(255, 138, 101, 0.7)', 'rgba(255, 183, 77, 0.6)', 'rgba(239, 108, 0, 0.5)'],
-                sizeRange: [2, 5],
-                speedRange: [0.4, 1.0],
-                type: 'rise',
-                glow: true
-            }
-        },
-        'April': {
-            bgGradient: ['rgba(248, 187, 208, 0.08)', 'rgba(200, 230, 201, 0.05)'],
-            particles: {
-                count: 45,
-                colors: ['rgba(248, 187, 208, 0.6)', 'rgba(255, 209, 220, 0.5)', 'rgba(200, 230, 201, 0.4)', 'rgba(255, 245, 157, 0.3)'],
-                sizeRange: [3, 8],
-                speedRange: [0.3, 0.7],
-                type: 'float',
-                sway: true
-            }
-        },
-        'June': {
-            bgGradient: ['rgba(255, 183, 77, 0.07)', 'rgba(255, 213, 79, 0.04)'],
-            particles: {
-                count: 30,
-                colors: ['rgba(255, 213, 79, 0.8)', 'rgba(255, 241, 118, 0.6)', 'rgba(255, 183, 77, 0.5)'],
-                sizeRange: [3, 7],
-                speedRange: [0.2, 0.4],
-                type: 'firefly',
-                glow: true,
-                pulse: true
-            }
-        }
+        'August': { bgGradient: ['rgba(255, 248, 230, 0.08)', 'rgba(255, 224, 178, 0.04)'], particles: { count: 45, colors: ['rgba(255, 213, 79, 0.45)', 'rgba(255, 183, 77, 0.35)'], sizeRange: [2, 5], speedRange: [0.15, 0.4], type: 'float', glow: true } },
+        'October': { bgGradient: ['rgba(176, 37, 37, 0.05)', 'rgba(141, 110, 99, 0.03)'], particles: { count: 35, colors: ['rgba(176, 37, 37, 0.5)', 'rgba(255, 138, 101, 0.4)'], sizeRange: [3, 8], speedRange: [0.4, 0.9], type: 'fall', rotation: true } },
+        'December': { bgGradient: ['rgba(224, 231, 245, 0.1)', 'rgba(171, 183, 219, 0.05)'], particles: { count: 55, colors: ['rgba(255, 255, 255, 0.75)', 'rgba(187, 222, 251, 0.4)'], sizeRange: [1.5, 4], speedRange: [0.25, 0.6], type: 'snow' } },
+        'February': { bgGradient: ['rgba(32, 26, 48, 0.06)', 'rgba(106, 73, 173, 0.04)'], particles: { count: 35, colors: ['rgba(255, 110, 64, 0.55)', 'rgba(212, 85, 28, 0.4)'], sizeRange: [2, 4.5], speedRange: [0.3, 0.8], type: 'rise', glow: true } },
+        'April': { bgGradient: ['rgba(244, 204, 215, 0.06)', 'rgba(202, 222, 206, 0.04)'], particles: { count: 40, colors: ['rgba(244, 204, 215, 0.5)', 'rgba(202, 222, 206, 0.4)'], sizeRange: [2.5, 6.5], speedRange: [0.2, 0.5], type: 'float', sway: true } },
+        'June': { bgGradient: ['rgba(255, 224, 178, 0.06)', 'rgba(255, 236, 179, 0.03)'], particles: { count: 28, colors: ['rgba(255, 213, 79, 0.6)', 'rgba(255, 167, 38, 0.4)'], sizeRange: [2.5, 5.5], speedRange: [0.15, 0.35], type: 'firefly', glow: true, pulse: true } }
     };
 
     function resizeMoodCanvas() {
@@ -961,99 +933,48 @@
 
     function createParticle(config) {
         const pConfig = config.particles;
-        const particle = {
+        return {
             x: Math.random() * moodCanvas.width,
             y: pConfig.type === 'rise' ? moodCanvas.height + 20 : Math.random() * moodCanvas.height,
             size: pConfig.sizeRange[0] + Math.random() * (pConfig.sizeRange[1] - pConfig.sizeRange[0]),
             color: pConfig.colors[Math.floor(Math.random() * pConfig.colors.length)],
             speed: pConfig.speedRange[0] + Math.random() * (pConfig.speedRange[1] - pConfig.speedRange[0]),
-            opacity: 0.3 + Math.random() * 0.7,
+            opacity: 0.25 + Math.random() * 0.65,
             angle: Math.random() * Math.PI * 2,
             rotation: pConfig.rotation ? Math.random() * Math.PI * 2 : 0,
-            rotationSpeed: pConfig.rotation ? (Math.random() - 0.5) * 0.02 : 0,
+            rotationSpeed: pConfig.rotation ? (Math.random() - 0.5) * 0.015 : 0,
             pulsePhase: Math.random() * Math.PI * 2,
             swayOffset: Math.random() * Math.PI * 2
         };
-        return particle;
     }
 
     function initMoodParticles(chapter) {
         const config = moodConfigs[chapter];
         if (!config) return;
-
         moodParticles = [];
-        for (let i = 0; i < config.particles.count; i++) {
-            moodParticles.push(createParticle(config));
-        }
+        for (let i = 0; i < config.particles.count; i++) moodParticles.push(createParticle(config));
     }
 
     function updateMoodParticles(chapter) {
         const config = moodConfigs[chapter];
         if (!config) return;
-
-        const pConfig = config.particles;
-
         moodParticles.forEach(p => {
-            switch (pConfig.type) {
-                case 'float':
-                    p.y -= p.speed * 0.3;
-                    p.x += Math.sin(p.angle) * p.speed * 0.5;
-                    p.angle += 0.01;
-                    if (pConfig.sway) {
-                        p.x += Math.sin(Date.now() * 0.001 + p.swayOffset) * 0.3;
-                    }
-                    if (p.y < -20) {
-                        p.y = moodCanvas.height + 20;
-                        p.x = Math.random() * moodCanvas.width;
-                    }
-                    break;
-
-                case 'fall':
-                    p.y += p.speed;
-                    p.x += Math.sin(p.angle) * p.speed * 0.3;
-                    p.angle += 0.02;
-                    if (pConfig.rotation) {
-                        p.rotation += p.rotationSpeed;
-                    }
-                    if (p.y > moodCanvas.height + 20) {
-                        p.y = -20;
-                        p.x = Math.random() * moodCanvas.width;
-                    }
-                    break;
-
-                case 'snow':
-                    p.y += p.speed * 0.5;
-                    p.x += Math.sin(p.angle) * p.speed * 0.3;
-                    p.angle += 0.01;
-                    if (p.y > moodCanvas.height + 20) {
-                        p.y = -20;
-                        p.x = Math.random() * moodCanvas.width;
-                    }
-                    break;
-
-                case 'rise':
-                    p.y -= p.speed;
-                    p.x += Math.sin(p.angle) * p.speed * 0.4;
-                    p.angle += 0.015;
-                    if (p.y < -20) {
-                        p.y = moodCanvas.height + 20;
-                        p.x = Math.random() * moodCanvas.width;
-                    }
-                    break;
-
-                case 'firefly':
-                    p.x += Math.sin(p.angle) * p.speed;
-                    p.y += Math.cos(p.angle) * p.speed * 0.5;
-                    p.angle += 0.02;
-                    if (pConfig.pulse) {
-                        p.pulsePhase += 0.03;
-                        p.opacity = 0.3 + Math.sin(p.pulsePhase) * 0.4;
-                    }
-                    if (p.x < -20 || p.x > moodCanvas.width + 20 || p.y < -20 || p.y > moodCanvas.height + 20) {
-                        p.x = Math.random() * moodCanvas.width;
-                        p.y = Math.random() * moodCanvas.height;
-                    }
-                    break;
+            if (config.particles.type === 'float') {
+                p.y -= p.speed * 0.3; p.x += Math.sin(p.angle) * p.speed * 0.5; p.angle += 0.008;
+                if (p.y < -20) { p.y = moodCanvas.height + 20; p.x = Math.random() * moodCanvas.width; }
+            } else if (config.particles.type === 'fall') {
+                p.y += p.speed; p.x += Math.sin(p.angle) * p.speed * 0.3; if (config.particles.rotation) p.rotation += p.rotationSpeed;
+                if (p.y > moodCanvas.height + 20) { p.y = -20; p.x = Math.random() * moodCanvas.width; }
+            } else if (config.particles.type === 'snow') {
+                p.y += p.speed * 0.4; p.x += Math.sin(p.angle) * p.speed * 0.25;
+                if (p.y > moodCanvas.height + 20) { p.y = -20; p.x = Math.random() * moodCanvas.width; }
+            } else if (config.particles.type === 'rise') {
+                p.y -= p.speed; p.x += Math.sin(p.angle) * p.speed * 0.35;
+                if (p.y < -20) { p.y = moodCanvas.height + 20; p.x = Math.random() * moodCanvas.width; }
+            } else if (config.particles.type === 'firefly') {
+                p.x += Math.sin(p.angle) * p.speed; p.y += Math.cos(p.angle) * p.speed * 0.5; p.angle += 0.015;
+                if (config.particles.pulse) { p.pulsePhase += 0.025; p.opacity = 0.25 + Math.sin(p.pulsePhase) * 0.35; }
+                if (p.x < -20 || p.x > moodCanvas.width + 20 || p.y < -20 || p.y > moodCanvas.height + 20) { p.x = Math.random() * moodCanvas.width; p.y = Math.random() * moodCanvas.height; }
             }
         });
     }
@@ -1061,76 +982,40 @@
     function drawMoodParticles(chapter) {
         const config = moodConfigs[chapter];
         if (!config) return;
-
-        const pConfig = config.particles;
-
         moodParticles.forEach(p => {
-            moodCtx.save();
-            moodCtx.globalAlpha = p.opacity;
-
-            if (pConfig.glow) {
-                moodCtx.shadowBlur = 15;
-                moodCtx.shadowColor = p.color;
-            }
-
+            moodCtx.save(); moodCtx.globalAlpha = p.opacity;
+            if (config.particles.glow) { moodCtx.shadowBlur = 12; moodCtx.shadowColor = p.color; }
             moodCtx.fillStyle = p.color;
-
-            if (pConfig.rotation) {
-                moodCtx.translate(p.x, p.y);
-                moodCtx.rotate(p.rotation);
-                moodCtx.beginPath();
-                moodCtx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
-                moodCtx.fill();
+            if (config.particles.rotation) {
+                moodCtx.translate(p.x, p.y); moodCtx.rotate(p.rotation); moodCtx.beginPath(); moodCtx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2); moodCtx.fill();
             } else {
-                moodCtx.beginPath();
-                moodCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                moodCtx.fill();
+                moodCtx.beginPath(); moodCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2); moodCtx.fill();
             }
-
             moodCtx.restore();
         });
     }
 
     function animateMood() {
         if (!currentMood) return;
-
         const config = moodConfigs[currentMood];
         if (!config) return;
-
         moodCtx.clearRect(0, 0, moodCanvas.width, moodCanvas.height);
-
         const gradient = moodCtx.createLinearGradient(0, 0, 0, moodCanvas.height);
-        gradient.addColorStop(0, config.bgGradient[0]);
-        gradient.addColorStop(1, config.bgGradient[1]);
-        moodCtx.fillStyle = gradient;
-        moodCtx.fillRect(0, 0, moodCanvas.width, moodCanvas.height);
-
-        updateMoodParticles(currentMood);
-        drawMoodParticles(currentMood);
-
+        gradient.addColorStop(0, config.bgGradient[0]); gradient.addColorStop(1, config.bgGradient[1]);
+        moodCtx.fillStyle = gradient; moodCtx.fillRect(0, 0, moodCanvas.width, moodCanvas.height);
+        updateMoodParticles(currentMood); drawMoodParticles(currentMood);
         moodAnimationId = requestAnimationFrame(animateMood);
     }
 
     function setMoodEffect(chapter) {
         if (currentMood === chapter) return;
-
-        currentMood = chapter;
-        resizeMoodCanvas();
-        initMoodParticles(chapter);
-
-        if (moodAnimationId) {
-            cancelAnimationFrame(moodAnimationId);
-        }
-
-        moodCanvas.classList.add('active');
-        animateMood();
+        currentMood = chapter; resizeMoodCanvas(); initMoodParticles(chapter);
+        if (moodAnimationId) cancelAnimationFrame(moodAnimationId);
+        moodCanvas.classList.add('active'); animateMood();
     }
 
     window.addEventListener('resize', () => {
-        resizeMoodCanvas();
-        if (currentMood) {
-            initMoodParticles(currentMood);
-        }
+        resizeMoodCanvas(); if (currentMood) initMoodParticles(currentMood);
     });
 </script>
 </body>
