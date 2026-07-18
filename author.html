@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KC CHARIS | Stories That Feel Like Coming Home</title>
+  <meta name="description" content="KC Charis writes stories that feel like coming home. Discover The Pew — a pew, a home, a hundred years of stories — plus music, reader letters, and upcoming works of quiet, heartwarming fiction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8f4ed;
+      --bg-alt: #f0ebe1;
+      --text: #2b2118;
+      --text-muted: #6b5b4c;
+      --accent: #9e7b4b;
+      --accent-dark: #7a5c34;
+      --accent-light: #c4a876;
+      --border: #d6c8b4;
+      --shadow: rgba(43, 33, 24, 0.08);
+      --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --font-body: "Lato", "Segoe UI", sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--accent-dark);
+      border-bottom-color: var(--accent-light);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scroll-hint { animation: none; }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248, 244, 237, 0.92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 1.6rem;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      border: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a.nav-cta {
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent-light);
+      padding-bottom: 2px;
+    }
+
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 10rem 2rem 8rem;
+      text-align: center;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-rule {
+      width: 80px;
+      height: 1px;
+      background: var(--accent);
+      margin: 1.5rem auto;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-style: italic;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .scroll-hint {
+      margin-top: 3.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      animation: breathe 3s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.5; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(4px); }
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem 7rem;
+    }
+
+    section {
+      margin-bottom: 7rem;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+
+    .section-label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+    }
+
+    .lead {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .ornament {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 0 0 7rem;
+      color: var(--accent-light);
+      font-size: 1.2rem;
+    }
+
+    .ornament::before,
+    .ornament::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      padding: 0.9rem 1.8rem;
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      background: var(--accent);
+      color: #fdfbf7;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+      color: #fdfbf7;
+      border-bottom-color: var(--accent-dark);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-ghost:hover {
+      background: var(--accent);
+      color: #fdfbf7;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+
+    .book-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      border-radius: 4px;
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .book-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .book-subtitle {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .book-meta {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .book-card p {
+      font-size: 0.98rem;
+      line-height: 1.85;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .experience-item {
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+    }
+
+    .experience-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .experience-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .themes-line {
+      margin-top: 2.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .music-player {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      margin-top: 2rem;
+      padding: 1.6rem 1.8rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      box-shadow: 0 4px 14px var(--shadow);
+    }
+
+    .player-btn {
+      flex: 0 0 auto;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fdfbf7;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+    }
+
+    .player-btn:hover:not(:disabled) {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
+
+    .player-btn:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .player-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .player-btn .icon-play {
+      margin-left: 2px; /* optical centering */
+    }
+
+    /* ✅ 修復 2：使用 CSS class 控制圖標顯示，比 hidden 屬性 100% 更可靠 */
+    .player-btn .icon-play { display: block; }
+    .player-btn .icon-pause { display: none; }
+    
+    .player-btn.is-playing .icon-play { display: none; }
+    .player-btn.is-playing .icon-pause { display: block; }
+    
+    .player-btn.is-loading {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .player-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .player-track {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .player-time {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .player-progress {
+      position: relative;
+      height: 4px;
+      background: var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .player-progress::before {
+      content: "";
+      position: absolute;
+      inset: -8px 0; /* generous tap target */
+    }
+
+    .player-progress-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      background: var(--accent);
+      border-radius: 999px;
+      transition: width 0.1s linear;
+    }
+
+    .player-sub {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      color: var(--text-muted);
+    }
+
+    /* ✅ 修復 1：強化隱藏 iframe 的 CSS，確保瀏覽器不會暫停其內部腳本執行 */
+    .sc-hidden {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      border: 0;
+    }
+
+    .quote-block {
+      background: var(--bg-alt);
+      border-left: 3px solid var(--accent);
+      padding: 2rem 2.5rem;
+      margin: 0 0 7rem;
+    }
+
+    .quote-block blockquote {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .quote-block cite {
+      display: block;
+      margin-top: 1.2rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .review-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem;
+      box-shadow: 0 4px 14px var(--shadow);
+    }
+
+    .review-stars {
+      color: var(--accent-light);
+      letter-spacing: 0.2em;
+      font-size: 0.85rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .review-card blockquote {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .review-card cite {
+      font-size: 0.78rem;
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .newsletter-box {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .newsletter-box h2 {
+      margin-bottom: 1rem;
+    }
+
+    .newsletter-box p {
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 460px;
+      margin: 1.8rem auto 0;
+    }
+
+    .newsletter-form input[type="email"] {
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .newsletter-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--accent-light);
+    }
+
+    .form-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .upcoming-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .upcoming-card {
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+    }
+
+    .upcoming-status {
+      display: inline-block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      border: 1px solid var(--accent-light);
+      border-radius: 999px;
+      padding: 0.2rem 0.8rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .upcoming-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .upcoming-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    @media (max-width: 700px) {
+      .nav {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 1.1rem;
+      }
+
+      .hero {
+        padding: 6rem 1.5rem 4.5rem;
+      }
+
+      .hero-tagline {
+        font-size: 1.3rem;
+      }
+
+      main {
+        padding: 0 1.5rem 5rem;
+      }
+
+      section {
+        margin-bottom: 5rem;
+      }
+
+      .ornament,
+      .quote-block {
+        margin-bottom: 5rem;
+      }
+
+      .book-card,
+      .newsletter-box {
+        padding: 1.75rem;
+      }
+
+      .music-player {
+        padding: 1.2rem;
+        gap: 1rem;
+      }
+
+      .player-btn {
+        width: 46px;
+        height: 46px;
+      }
+
+      .quote-block {
+        padding: 1.5rem;
+      }
+
+      .quote-block blockquote {
+        font-size: 1.25rem;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="nav">
+      <div class="logo">KC CHARIS</div>
+      <div class="nav-links">
+        <a href="#the-pew">The Pew</a>
+        <a href="#experience">Experience</a>
+        <a href="#music">Music</a>
+        <a href="#about">About</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#newsletter" class="nav-cta">Newsletter</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1 class="hero-name">KC CHARIS</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Stories that feel like coming home.</p>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <main>
+
+    <section id="the-pew" class="reveal">
+      <span class="section-label">Featured Book</span>
+      <p class="lead">Some houses keep their memories. Some stories keep you.</p>
+      <div class="book-card">
+        <h3 class="book-title">The Pew</h3>
+        <p class="book-subtitle">A pew. A home. A hundred years of stories.</p>
+        <p class="book-meta">Kindle Edition &middot; June 2026</p>
+        <p>
+          A forgotten soul beneath a staircase. A family who never knew they were being watched. And an old church pew, rescued long ago, that has quietly kept a century of love.
+        </p>
+        <p>
+          As the seasons turn over one English country house, the unseen witness of it all begins to remember what it means to belong. <em>The Pew</em> is a gentle, heartwarming novel about family, memory, and the marks we leave on each other’s hearts.
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="https://www.amazon.com/dp/B0H5JRM5F9" target="_blank" rel="noopener">Read on Amazon</a>
+          <a class="btn btn-ghost" href="https://kccharis.com/thepew2026" target="_blank" rel="noopener">Enter the Book Page</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="quote-block reveal">
+      <blockquote>
+        “Home is not simply a place but the people who leave their mark upon our hearts.”
+      </blockquote>
+      <cite>— The Pew, KC Charis</cite>
+    </div>
+
+    <section id="experience" class="reveal">
+      <span class="section-label">The Reading Experience</span>
+      <h2>Not read. Lived in.</h2>
+      <p class="lead">
+        A KC Charis novel is not something you race through. It is a room with the lamps lit — a seat kept warm for you.
+      </p>
+      <div class="experience-grid">
+        <div class="experience-item">
+          <div class="experience-title">Quiet on the surface</div>
+          <div class="experience-desc">Still rooms, turning seasons, the English countryside in lamplight and rain. Beneath the quiet, everything that matters is happening.</div>
+        </div>
+        <div class="experience-item">
+          <div class="experience-title">Tender at the core</div>
+          <div class="experience-desc">Characters you come to love the way you love neighbors: slowly, then entirely. Grief is honored here — and so is joy.</div>
+        </div>
+        <div class="experience-item">
+          <div class="experience-title">Warm at the last page</div>
+          <div class="experience-desc">These stories end the way coming home feels: the door opens, the light is on, and someone is glad you arrived.</div>
+        </div>
+      </div>
+      <p class="themes-line">
+        Recurring emotional themes — memory &amp; time &middot; family &amp; belonging &middot; the turning seasons &middot; resilience &middot; the countryside &middot; the unseen witnesses among us
+      </p>
+    </section>
+
+    <div class="ornament">&#10022;</div>
+
+    <section id="music" class="reveal">
+      <span class="section-label">Music</span>
+      <h2>Every story has a sound.</h2>
+      <p class="lead">
+        The world of <em>The Pew</em> was written to music — and it can be read to music, too.
+      </p>
+      <p>
+        Original pieces and quiet reading playlists accompany the novel: piano for rainy afternoons, strings for the turning of the seasons, and melodies that linger like the last page.
+      </p>
+      
+      <div class="music-player">
+        <button type="button" class="player-btn" id="player-toggle" aria-label="Play music" aria-pressed="false" disabled>
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <div class="player-body">
+          <div class="player-top">
+            <span class="player-track">In the Kitchen</span>
+            <span class="player-time"><span id="player-current">0:00</span> / <span id="player-duration">--:--</span></span>
+          </div>
+          <div class="player-progress" id="player-progress">
+            <div class="player-progress-fill" id="player-progress-fill"></div>
+          </div>
+          <div class="player-sub">Original music from the world of <em>The Pew</em></div>
+        </div>
+      </div>
+      
+      <!-- ✅ 修復 1：iframe 保持隱藏，但使用絕對定位移出視窗，確保 API 能正常載入 -->
+      <iframe id="sc-widget" class="sc-hidden" title="SoundCloud audio source" tabindex="-1" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/d-choi-513586399/the-pew-in-the-kitchen&color=%239e7b4b&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"></iframe>
+        
+      <div class="cta-row">
+        <a class="btn btn-ghost" href="https://kccharis.com/thepew2026" target="_blank" rel="noopener">Listen with the Book &rarr;</a>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <span class="section-label">About the Author</span>
+      <h2>A Pen Lighter Than a Footstep</h2>
+      <p class="lead">
+        KC Charis writes stories that feel like coming home — quiet, character-driven fiction where memory and belonging meet.
+      </p>
+      <p>
+        Drawn to the invisible threads that bind generations — the rooms we inherit, the objects that outlive us, the ordinary moments in which love quietly takes root — Charis writes with a sensibility shaped by the English countryside, the turning of the seasons, and the hush of old houses.
+      </p>
+      <p>
+        <em>The Pew: A pew. A home. A hundred years of stories.</em> is Charis’s debut novel. It introduces a forgotten soul beneath a staircase and the family who, without ever knowing it, teach him that home is not a place, but the people who leave their mark upon our hearts.
+      </p>
+      <p>
+        Every book that follows will keep the same promise: a different house, perhaps; a different century, maybe — but always the same homecoming.
+      </p>
+    </section>
+
+    <div class="ornament">&#10022;</div>
+
+    <section id="reviews" class="reveal">
+      <span class="section-label">Reader Reviews</span>
+      <h2>What Readers Are Saying</h2>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>“I didn’t read this book so much as move into it. I didn’t want to leave.”</blockquote>
+          <cite>— Early reader</cite>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>“Gentle, devastating, and healing all at once. The quietest book that has ever made me cry.”</blockquote>
+          <cite>— Early reader</cite>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>“It felt like being handed a warm drink and told to stay a while. I finished it feeling less alone.”</blockquote>
+          <cite>— Early reader</cite>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="reveal">
+      <div class="newsletter-box">
+        <span class="section-label">Newsletter</span>
+        <h2>Letters from KC Charis</h2>
+        <p>
+          Occasional letters, written like the books: new stories first, pages from the journal, reading playlists, and early news of upcoming works. Never noise.
+        </p>
+        <form class="newsletter-form" id="newsletter-form" novalidate>
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input type="email" id="newsletter-email" name="email" placeholder="Your email address" required />
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+        <p class="form-note" id="form-note">One letter at a time — quiet, warm, and true.</p>
+      </div>
+    </section>
+
+    <section id="upcoming" class="reveal">
+      <span class="section-label">Upcoming Works</span>
+      <h2>The Story Continues</h2>
+      <p class="lead">
+        <em>The Pew</em> was the first door. It will not be the last.
+      </p>
+      <div class="upcoming-grid">
+        <div class="upcoming-card">
+          <span class="upcoming-status">Now Writing</span>
+          <div class="upcoming-title">A Second Novel</div>
+          <div class="upcoming-desc">Another house. Another century. Another heart learning to belong.</div>
+        </div>
+        <div class="upcoming-card">
+          <span class="upcoming-status">Ongoing</span>
+          <div class="upcoming-title">The Journal</div>
+          <div class="upcoming-desc">Reflections on quiet living, memory, and the making of <em>The Pew</em> — shared first with newsletter readers.</div>
+        </div>
+        <div class="upcoming-card">
+          <span class="upcoming-status">Gathering</span>
+          <div class="upcoming-title">Stories from the Pew</div>
+          <div class="upcoming-desc">Short fiction and reading playlists from the world of the novel, for the wait between books.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="footer-tagline">Stories that feel like coming home.</p>
+    <div class="footer-links">
+      <a href="https://www.amazon.com/dp/B0H5JRM5F9" target="_blank" rel="noopener">Amazon</a>
+      <a href="https://kccharis.com/thepew2026" target="_blank" rel="noopener">The Pew — Official Book Page</a>
+      <a href="#newsletter">Newsletter</a>
+    </div>
+    <p>&copy; 2026 KC Charis. All rights reserved.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.7;">
+      Author page crafted in the spirit of the stories: quiet, warm, and true.
+    </p>
+  </footer>
+
+  <script src="https://w.soundcloud.com/player/api.js"></script>
+  <script>
+    // Gentle reveal on scroll
+    (function () {
+      var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced || !("IntersectionObserver" in window)) {
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          el.classList.add("visible");
+        });
+        return;
+      }
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll(".reveal").forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+
+    // ✅ 修復 3：重構音樂播放器邏輯，確保 iframe 完全加載後再綁定 API
+    (function () {
+      var iframe = document.getElementById("sc-widget");
+      var btn = document.getElementById("player-toggle");
+      var player = document.querySelector(".music-player");
+      if (!iframe || !btn || !player) return;
+
+      var iconPlay = btn.querySelector(".icon-play");
+      var iconPause = btn.querySelector(".icon-pause");
+      var bar = document.getElementById("player-progress");
+      var fill = document.getElementById("player-progress-fill");
+      var cur = document.getElementById("player-current");
+      var dur = document.getElementById("player-duration");
+      
+      var widget = null;
+      var durationMs = 0;
+      var isPlaying = false;
+
+      function fmt(ms) {
+        if (isNaN(ms) || !isFinite(ms)) return "0:00";
+        var s = Math.floor(ms / 1000);
+        return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2);
+      }
+
+      function setPlayingState(state) {
+        isPlaying = state;
+        if (state) {
+          btn.classList.add("is-playing");
+          btn.classList.remove("is-loading");
+          btn.setAttribute("aria-pressed", "true");
+          btn.setAttribute("aria-label", "Pause the music");
+          btn.disabled = false;
+        } else {
+          btn.classList.remove("is-playing");
+          btn.classList.remove("is-loading");
+          btn.setAttribute("aria-pressed", "false");
+          btn.setAttribute("aria-label", "Play music");
+          btn.disabled = false;
+        }
+      }
+
+      function initWidget() {
+        // 輪詢等待 SC API 加載
+        if (typeof SC === "undefined" || !SC.Widget) {
+          setTimeout(initWidget, 100);
+          return;
+        }
+
+        try {
+          widget = SC.Widget(iframe);
+          
+          widget.bind(SC.Widget.Events.READY, function () {
+            widget.getDuration(function (ms) {
+              durationMs = ms;
+              dur.textContent = fmt(ms);
+              // 初始狀態：準備好，但未播放
+              setPlayingState(false);
+            });
+          });
+
+          widget.bind(SC.Widget.Events.PLAY, function () { 
+            setPlayingState(true); 
+          });
+          
+          widget.bind(SC.Widget.Events.PAUSE, function () { 
+            setPlayingState(false); 
+          });
+          
+          widget.bind(SC.Widget.Events.FINISH, function () {
+            setPlayingState(false);
+            fill.style.width = "0%";
+            cur.textContent = "0:00";
+          });
+
+          widget.bind(SC.Widget.Events.PLAY_PROGRESS, function (data) {
+            fill.style.width = (data.relativePosition * 100).toFixed(2) + "%";
+            cur.textContent = fmt(data.currentPosition);
+          });
+
+          widget.bind(SC.Widget.Events.ERROR, function(e) {
+            console.error("SoundCloud Error:", e);
+            btn.disabled = true;
+            btn.setAttribute("aria-label", "Playback error");
+          });
+
+        } catch (e) {
+          console.error("Failed to initialize SoundCloud Widget:", e);
+          btn.disabled = true;
+        }
+      }
+
+      // ✅ 關鍵修復：等待 iframe 真正加載完畢後再綁定
+      iframe.onload = function() {
+        setTimeout(initWidget, 500); // 給 iframe 內部腳本一點時間初始化
+      };
+
+      // 如果 iframe 已經在緩存中加載完畢，onload 可能不會觸發，所以也要檢查
+      if (iframe.contentWindow && iframe.contentWindow.document.readyState === 'complete') {
+         setTimeout(initWidget, 500);
+      }
+
+      btn.addEventListener("click", function () {
+        if (!widget) return;
+        // 切換播放狀態
+        if (isPlaying) {
+          widget.pause();
+        } else {
+          widget.play();
+        }
+      });
+
+      bar.addEventListener("click", function (e) {
+        if (!widget || !durationMs) return;
+        var rect = bar.getBoundingClientRect();
+        var ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+        widget.seekTo(durationMs * ratio);
+        fill.style.width = (ratio * 100).toFixed(2) + "%";
+        cur.textContent = fmt(durationMs * ratio);
+      });
+
+      // ✅ 修復 4：本地文件協議提示 (防止「繞過服務器」的錯覺)
+      if (window.location.protocol === 'file:') {
+        console.warn("⚠️ 檢測到本地文件協議 (file://)。SoundCloud API 可能會因 CORS 策略被瀏覽器阻止。請使用本地開發服務器 (如 VS Code Live Server) 或部署到網頁主機上測試。");
+        dur.textContent = "Local";
+        btn.disabled = true;
+        btn.setAttribute("aria-label", "Requires local server");
+      }
+    })();
+
+    // Newsletter form
+    (function () {
+      var form = document.getElementById("newsletter-form");
+      var note = document.getElementById("form-note");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var input = document.getElementById("newsletter-email");
+        if (!input.value || input.validity.typeMismatch) {
+          note.textContent = "Please enter a valid email address.";
+          input.focus();
+          return;
+        }
+        note.textContent = "Thank you — the next letter will find its way to you.";
+        form.reset();
+      });
+    })();
+  </script>
+
+</body>
+</html>
